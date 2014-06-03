@@ -3,10 +3,10 @@
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "com.phonegap.imwarsztaty"
+        id        = "com.phonegap.imwarsztatyZEPTOJS"
         version   = "1.0.0">
 
-    <name>Inter Cars sieć warsztatów Q-Service, Perfect Service, Q-Service Premium</name>
+    <name>ZEPTOJS Inter Cars sieć warsztatów Q-Service, Perfect Service, Q-Service Premium</name>
 
     <description>
         Inter Cars sieć warsztatów Q-Service, Perfect Service, Q-Service Premium.

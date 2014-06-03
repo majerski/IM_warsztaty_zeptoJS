@@ -5,7 +5,6 @@
 	<meta name="format-detection" content="telephone=no" />
 	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, target-densitydpi=medium-dpi" />
 	<title>Inter Cars sieć warsztatów Q-Service, Perfect Service, Q-Service Premium</title>
-	<link rel="stylesheet" type="text/css" href="css/index.css" />
 	<link rel="stylesheet" type="text/css" href="css/transition.min.css" />
 	<script type="text/javascript" src="phonegap.js"></script>
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places,geometry&sensor=true"></script>
@@ -15,12 +14,13 @@
 	<div id="app">
 		<div id="page1" data-role="page">
 			<header>
-				<a href="#page1" transition="flip">
+				<a href="#page1" data-transition="spin">
 					<img src="img/logo.png" alt="Inter Cars" />
 				</a>
 			</header>
 			<div class="content">
-				#page1 .content
+				#page1 .content<br />
+				<a href="#page2">next page</a>
 			</div>
 			<footer>
 				footer
@@ -28,32 +28,35 @@
 		</div>
 		<div id="page2" data-role="page">
 			<header>
-				<a href="#page1" transition="flip">
+				<a href="#page1" data-transition="slide">
 					<img src="img/logo.png" alt="Inter Cars" />
 				</a>
 			</header>
 			<div class="content">
-				#page2 .content
+				#page2 .content<br />
+				<a href="#page1">previus page</a> <a href="#page3">next page</a>
 			</div>
 		</div>
 		<div id="page3" data-role="page">
 			<header>
-				<a href="#page1" transition="flip">
+				<a href="#page1" data-transition="slideup">
 					<img src="img/logo.png" alt="Inter Cars" />
 				</a>
 			</header>
 			<div class="content">
-				#page3 .content
+				#page3 .content<br />
+				<a href="#page2">previus page</a> <a href="#page4">next page</a>
 			</div>
 		</div>
 		<div id="page4" data-role="page">
 			<header>
-				<a href="#page1" transition="flip">
+				<a href="#page1" data-transition="slidedown">
 					<img src="img/logo.png" alt="Inter Cars" />
 				</a>
 			</header>
 			<div class="content">
-				#page4 .content
+				#page4 .content<br />
+				<a href="#page3">previus page</a>
 			</div>
 		</div>
 	</div>
@@ -63,6 +66,7 @@
 	<script type="text/javascript" src="js/transition.min.js"></script>
 	<script type="text/javascript">
 		app.initialize();
+		$(document.body).transition('options', {defaultPageTransition : 'slide', domCache : true});
 	</script>
 </body>
 </html>

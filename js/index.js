@@ -1,18 +1,28 @@
 $(document.body).transition('options', {defaultPageTransition : 'fade', domCache : true});
 
 var	warsztaty = [],
+	warsztaty_filtered = warsztaty,
 	artykuly = [],
+	warsztaty_file_exists = false,
 	warsztaty_loaded = false,
 	artykuly_loaded = false,
 	fi_path = 'installed.dat',
-	//artykulyUrl = 'http://www.q-service.com.pl/rss/',
-	artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
+	warsztaty_path = 'warsztaty.dat',
+	artykulyUrl = 'http://www.q-service.com.pl/rss/',
+	//artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
 	warsztatyUrl = 'http://arcontact.pl/warsztaty_inter_cars/feed.php',
 	form_email = 'mifdetal@intercars.eu',
 	map,
 	startingLatitude = 52.069347,
 	startingLongitude = 19.480204;
 
+function supports_html5_storage() {
+  try {
+    return 'localStorage' in window && window['localStorage'] !== null;
+  } catch (e) {
+    return false;
+  }
+}
 function checkConnection() {
 	//
 	return 'ok';
@@ -87,22 +97,86 @@ function renderArtykuly(){
 		artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności. <a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
 	}
 }
+function checkVersion(){
+	if(gotConnection()){
+		$.ajax({
+			url: warsztatyUrl,
+			type: 'GET',
+			async: false,
+			cache: false,
+			data: {type:"version"},
+			dataType: 'json',
+			success: function(response){
+				if(supports_html5_storage()){
+					if(typeof localStorage["version"] != 'undefined' ){
+						var _local_version = JSON.parse(localStorage["version"]);
+						if( parseInt(_local_version.version) != parseInt(response.version) ) {
+							localStorage["version"] = JSON.stringify(response);
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+		});
+	}
+	return false;
+}
+function feedWarsztaty(){
+	if(gotConnection()){
+		$.ajax({
+			url: warsztatyUrl,
+			type: 'GET',
+			async: false,
+			cache: false,
+			data: {type:"list"},
+			dataType: 'json',
+			success: function(response){
+				if(typeof response != 'undefined'){
+					warsztaty = response;
+					warsztaty_loaded = true;
+				} else {
+					warsztaty_loaded = false;
+				}
+			},
+			error: function(){
+				warsztaty_loaded = false;
+			}
+		});
+	} else {
+		warsztaty_loaded = false;
+	}
+}
+function renderWarsztaty(){
+	console.log(warsztaty);
+}
 $(document).ready(function() {
+	$("header ul li a").removeClass("active");
+	var targetID = $(".ui-page-active").attr('id');
+	$('header ul li a[href="'+targetID+'"]').addClass("active");
 	$("header .logo").on("click",function(){
 		$("header ul li a").removeClass("active");
 	});
 	$(document).on("pagebeforechange",function(e,eventData){
 		$("header ul li a").removeClass("active");
-		var targetID = eventData.toPage;
+		targetID = eventData.toPage;
 		$('header ul li a[href="'+targetID+'"]').addClass("active");
 	});
+	
 	$(".loader").animate({"opacity":0},500,function(){this.remove();});
 	$("footer").animate({"bottom":0},500);
 	
 	if(gotConnection()){
 		feedArtykuly();
+		
+		if(checkVersion()) {
+			feedWarsztaty();
+		} else {
+			console.log('obsługa odczytu z pliku');
+		}
 	} else {
 		artykuly_loaded = false;
+		warsztaty_loaded = false;
 	}
 	
 	if(artykuly_loaded){
@@ -113,6 +187,16 @@ $(document).ready(function() {
 			artykulyDiv.innerHTML = '<div class="panel text-center">Nie udało się wgrać aktualności.</div>';
 		} else {
 			artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności. <a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
+		}
+	}
+	if(warsztaty_loaded){
+		renderWarsztaty();
+	} else {
+		var warsztatyDiv = document.getElementById("warsztaty");
+		if(gotConnection()) {
+			warsztatyDiv.innerHTML = '<div class="panel text-center">Nie udało się wgrać listy warsztatów.</div>';
+		} else {
+			warsztatyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać listę warsztatów. <a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
 		}
 	}
 });	

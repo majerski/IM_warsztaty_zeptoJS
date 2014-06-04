@@ -25,7 +25,7 @@ function supports_html5_storage() {
 }
 function checkConnection() {
 	//
-	return 'ok';
+	//return 'fail';
 	//
 	if(typeof navigator.connection == 'undefined' || typeof navigator.connection.type == 'undefined') {
 		return 'fail';

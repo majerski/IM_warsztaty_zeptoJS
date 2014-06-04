@@ -29,11 +29,8 @@ function checkConnection() {
     return states[networkState];
 }
 function gotConnection(){
-	//
-	return true;
-	//
-	var checkConnection = checkConnection();
-	if(checkConnection == 'No network connection'){return false;}
+	var a = checkConnection();
+	if(a == 'No network connection'){return false;}
 	return true;
 }
 function feedArtykuly(){
@@ -63,28 +60,19 @@ function feedArtykuly(){
 	}
 }
 function renderArtykuly(){
-	$("#artykuly").html('<div class="panel callout radius">załadowano artykuły</div>');
+	$("#artykuly").html('<div class="panel radius">załadowano artykuły</div>');
 }
 $(document).ready(function() {
 	$("header .logo").on("click",function(){
 		$("header ul li a").removeClass("active");
 	});
-	$(document).on("pagechange",function(e,eventData){
+	$(document).on("pagebeforechange",function(e,eventData){
 		$("header ul li a").removeClass("active");
 		var targetID = eventData.toPage;
 		$('header ul li a[href="'+targetID+'"]').addClass("active");
 	});
-	$(".loader").animate({
-		"opacity":0
-	},300,function(){
-		this.remove();
-	});
-	$("footer").animate({
-		"bottom":0
-	},{
-		duration:300,
-		easing:"ease"
-	});
+	$(".loader").animate({"opacity":0},500,function(){this.remove();});
+	$("footer").animate({"bottom":0},500);
 	if(!sources_loaded){
 		if(gotConnection()){
 			feedArtykuly();
@@ -100,9 +88,9 @@ $(document).ready(function() {
 	} else {
 		var artykulyDiv = document.getElementById("artykuly");
 		if(gotConnection()) {
-			artykulyDiv.innerHTML = '<div class="panel callout radius">Nie udało się wgrać aktualności.</div>';
+			artykulyDiv.innerHTML = '<div class="panel text-center">Nie udało się wgrać aktualności.</div>';
 		} else {
-			artykulyDiv.innerHTML = '<div class="panel callout radius">Włącz internet aby pobrać najnowsze aktualności.</div>';
+			artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności. <a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
 		}
 	}
 });	
@@ -133,6 +121,9 @@ var app = {
 							fs.root.getFile(fi_path, {create: true, exclusive: false}, function(fe){
 								fe.createWriter(function(fw){
 									fw.write(new Date().getTime());
+									if(typeof window.plugins != 'undefined' && typeof window.plugins.toast != 'undefined'){
+										window.plugins.toast.showShortCenter("utworzono ikonę 'Inter Cars'",function(a){},function(b){});
+									}
 								}, failFS);
 							}, failFS);
 						}, failFS);

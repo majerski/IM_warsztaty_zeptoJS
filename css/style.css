@@ -42,19 +42,19 @@ footer a.blue{background-color:#004489}
 #artykuly ul li a:active h6,#artykuly ul li a:active .fa{color:#d60811}
 
 /* Smartphones (portrait and landscape) ----------- */
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+@media (min-width : 320px) and (max-width : 480px) {
 	
 }
 /* Smartphones (landscape) ----------- */
-@media only screen and (min-width : 321px) {
+@media (min-width : 321px) {
 	#page1 .content .ikona{background-position:50% 30%;padding-top:120px;padding-bottom:15px;margin-top:20px;margin-bottom:10px;}
 }
 /* Smartphones (portrait) ----------- */
-@media only screen and (max-width : 320px) {
+@media (max-width : 320px) {
 	#page1 .content .ikona{background-position:50% 30%;padding-top:120px;padding-bottom:15px;margin-top:20px;margin-bottom:10px;}
 }
 /* Smartphones (landscape) ----------- */
-@media only screen and (min-device-width : 640px) and (max-device-width : 767px) {
+@media (min-width : 640px) and (max-width : 767px) {
 	#page1 .content .ikona{background-position:50% 25%;padding-top:100px;padding-bottom:10px;margin-top:0px;margin-bottom:0px;}
 }
 /* Tablets, iPads (portrait and landscape) ----------- */

@@ -5,8 +5,8 @@ var	warsztaty = [],
 	warsztaty_loaded = false,
 	artykuly_loaded = false,
 	fi_path = 'installed.dat',
-	artykulyUrl = 'http://www.q-service.com.pl/rss/',
-	//artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
+	//artykulyUrl = 'http://www.q-service.com.pl/rss/',
+	artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
 	warsztatyUrl = 'http://arcontact.pl/warsztaty_inter_cars/feed.php',
 	form_email = 'mifdetal@intercars.eu',
 	map,
@@ -70,9 +70,10 @@ function renderArtykuly(){
 	var c = $(xmlDoc).find('item');
 	var months = Array("Stycznia", "Lutego", "Marca", "Kwietnia", "Maja", "Czerwca", "Lipca", "Sierpnia", "Września", "Października", "Listopada", "Grudnia");
 	for(var i=0;i<c.length;i++){
-		var title = $($(c[i])[0]).find('title').html();
-		var link = $($(c[i])[0]).find('link').html();
-		var pubDate = $($(c[i])[0]).find('pubDate').html();
+		var d = $(c[i]);
+		var title = $(d[0]).find('title').html();
+		var link = $(d[0]).find('link').html();
+		var pubDate = $(d[0]).find('pubDate').html();
 		var _date = new Date(Date.parse(pubDate));
 		var date_string = _date.getDate() + " " + months[_date.getMonth()] + " " + _date.getFullYear();
 		var li = document.createElement('li');

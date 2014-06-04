@@ -5,64 +5,73 @@
 	<meta name="format-detection" content="telephone=no" />
 	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, target-densitydpi=medium-dpi" />
 	<title>ZEPTOJS Inter Cars sieć warsztatów Q-Service, Perfect Service, Q-Service Premium</title>
-	<link rel="stylesheet" type="text/css" href="css/transition.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
 	<script type="text/javascript" src="phonegap.js"></script>
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places,geometry&sensor=true"></script>
 	<script type="text/javascript" src="js/markerclusterer_compiled.js"></script>
 </head>
 <body>
-	<div id="app">
-		<div id="page1" data-role="page">
-			<header>
-				<a href="#page1" data-transition="spin">
-					<img src="img/logo.png" alt="Inter Cars" />
-				</a>
-			</header>
-			<div class="content">
-				#page1 .content<br />
-				<a href="#page2">next page</a>
+	<div class="loader"></div>
+	<header>
+		<a href="#page1" data-transition="pop" class="logo">
+			<img src="img/logo.png" alt="Inter Cars" />
+		</a>
+		<ul>
+			<li><a href="#page2" data-ajax="false"><img src="img/subicon-1.png" alt="Newsy" /></a></li>
+			<li><a href="#page3" data-ajax="false"><img src="img/subicon-2.png" alt="Lista warsztatów" /></a></li>
+			<li><a href="#page4" data-ajax="false"><img src="img/subicon-3.png" alt="Mapa" /></a></li>
+			<li><a href="#page5" data-ajax="false"><img src="img/subicon-4.png" alt="Wyceń naprawę" /></a></li>
+		</ul>
+	</header>
+	<div id="page1" data-role="page">
+		<div class="content">
+			<div class="row">
+				<div class="small-6 columns">
+					<a href="#page2" class="ikona ikona1">Aktualności<br />&nbsp;</a>
+				</div>
+				<div class="small-6 columns">
+					<a href="#page3" class="ikona ikona2">Lista<br />warsztatów</a>
+				</div>
 			</div>
-			<footer>
-				footer
-			</footer>
-		</div>
-		<div id="page2" data-role="page">
-			<header>
-				<a href="#page1" data-transition="slide">
-					<img src="img/logo.png" alt="Inter Cars" />
-				</a>
-			</header>
-			<div class="content">
-				#page2 .content<br />
-				<a href="#page1">previus page</a> <a href="#page3">next page</a>
-			</div>
-		</div>
-		<div id="page3" data-role="page">
-			<header>
-				<a href="#page1" data-transition="slideup">
-					<img src="img/logo.png" alt="Inter Cars" />
-				</a>
-			</header>
-			<div class="content">
-				#page3 .content<br />
-				<a href="#page2">previus page</a> <a href="#page4">next page</a>
+			<div class="row">
+				<div class="small-6 columns">
+					<a href="#page4" class="ikona ikona3">Mapa<br />warsztatów</a>
+				</div>
+				<div class="small-6 columns">
+					<a href="#page5" class="ikona ikona4">Wyceń<br />naprawę</a>
+				</div>
 			</div>
 		</div>
-		<div id="page4" data-role="page">
-			<header>
-				<a href="#page1" data-transition="slidedown">
-					<img src="img/logo.png" alt="Inter Cars" />
-				</a>
-			</header>
-			<div class="content">
-				#page4 .content<br />
-				<a href="#page3">previus page</a>
-			</div>
+		<footer>
+			<a onclick="window.open('http://q-servicepremium.pl/','_system','location=no')"><img src="img/qservicepremium-logo.png" alt="Q-Service Premium"></a>
+			<a onclick="window.open('http://www.q-service.com.pl','_system','location=no')" class="blue"><img src="img/qservice-logo.png" alt="Q-Service"></a>
+			<a onclick="window.open('http://www.perfectservice.pl','_system','location=no')"><img src="img/perfectservice-logo.png" alt="Perfect Service"></a>
+		</footer>
+	</div>
+	<div id="page2" data-role="page">
+		<div class="content">
+			
+		</div>
+	</div>
+	<div id="page3" data-role="page">
+		<div class="content">
+			
+		</div>
+	</div>
+	<div id="page4" data-role="page">
+		<div class="content">
+			
+		</div>
+	</div>
+	<div id="page5" data-role="page">
+		<div class="content">
+			
 		</div>
 	</div>
 	<script type="text/javascript" src="js/fastclick.min.js"></script>
-	<script type="text/javascript" src="js/index.js"></script>
 	<script type="text/javascript" src="js/zepto.min.js"></script>
+	<script type="text/javascript" src="js/fx_methods.min.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
 	<script type="text/javascript" src="js/transition.min.js"></script>
 	<script type="text/javascript">
 		app.initialize();

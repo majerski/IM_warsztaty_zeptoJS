@@ -41,6 +41,7 @@ var app = {
 		function failFS(){
 			// fail FS
 		}
+		
     },
 	onLoad: function() {
 		
@@ -60,3 +61,17 @@ var app = {
 		}
     }
 };
+
+$(document).ready(function() {
+	$("header .logo").on("click",function(){
+		$("header ul li a").removeClass("active");
+	});
+	$("header ul li a").on("click",function(){
+		$("header ul li a").removeClass("active");
+		$(this).addClass("active");
+	});
+});
+
+$(window).on("load",function() {
+	$(".loader").fadeOut();
+})

@@ -68,7 +68,7 @@ function renderArtykuly(){
 	var list = document.createElement('ul');
 	var	xmlDoc = $(artykuly).children();
 	var c = $(xmlDoc).find('item');
-	var months = Array("Stycznia", "Lutego", "Marca", "Kwietnia", "Maja", "Czerwca", "Lipca", "Sierpnia", "Września", "Października", "Listopada", "Grudnia");
+	var months = ["Stycznia", "Lutego", "Marca", "Kwietnia", "Maja", "Czerwca", "Lipca", "Sierpnia", "Września", "Października", "Listopada", "Grudnia"];
 	for(var i=0;i<c.length;i++){
 		var d = $(c[i]);
 		alert(d);

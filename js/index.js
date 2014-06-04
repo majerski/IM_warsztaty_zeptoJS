@@ -3,13 +3,14 @@ $(document.body).transition('options', {defaultPageTransition : 'fade', domCache
 var	warsztaty = [],
 	warsztaty_filtered = warsztaty,
 	artykuly = [],
+	new_version = false,
 	warsztaty_file_exists = false,
 	warsztaty_loaded = false,
 	artykuly_loaded = false,
 	fi_path = 'installed.dat',
 	warsztaty_path = 'warsztaty.dat',
-	artykulyUrl = 'http://www.q-service.com.pl/rss/',
-	//artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
+	//artykulyUrl = 'http://www.q-service.com.pl/rss/',
+	artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
 	warsztatyUrl = 'http://arcontact.pl/warsztaty_inter_cars/feed.php',
 	form_email = 'mifdetal@intercars.eu',
 	map,
@@ -25,7 +26,7 @@ function supports_html5_storage() {
 }
 function checkConnection() {
 	//
-	//return 'fail';
+	return 'ok';
 	//
 	if(typeof navigator.connection == 'undefined' || typeof navigator.connection.type == 'undefined') {
 		return 'fail';
@@ -98,29 +99,28 @@ function renderArtykuly(){
 	}
 }
 function checkVersion(){
-	if(gotConnection()){
-		$.ajax({
-			url: warsztatyUrl,
-			type: 'GET',
-			async: false,
-			cache: false,
-			data: {type:"version"},
-			dataType: 'json',
-			success: function(response){
-				if(supports_html5_storage()){
-					if(typeof localStorage["version"] != 'undefined' ){
-						var _local_version = JSON.parse(localStorage["version"]);
-						if( parseInt(_local_version.version) != parseInt(response.version) ) {
-							localStorage["version"] = JSON.stringify(response);
-							return true;
-						}
+	$.ajax({
+		url: warsztatyUrl,
+		type: 'GET',
+		async: false,
+		cache: false,
+		data: {type:"version"},
+		dataType: 'json',
+		success: function(response){
+			if(supports_html5_storage()){
+				if(typeof localStorage["version"] != 'undefined' ){
+					var _local_version = JSON.parse(localStorage["version"]);
+					if( parseInt(_local_version.version) != parseInt(response.version) ) {
+						localStorage["version"] = JSON.stringify(response);
+						new_version = true;
 					}
+				} else {
+					localStorage["version"] = JSON.stringify(response);
+					new_version = true;
 				}
-				return false;
 			}
-		});
-	}
-	return false;
+		}
+	});
 }
 function feedWarsztaty(){
 	if(gotConnection()){
@@ -148,7 +148,17 @@ function feedWarsztaty(){
 	}
 }
 function renderWarsztaty(){
-	console.log(warsztaty);
+	var warsztatyDiv = document.getElementById("warsztaty");
+	warsztatyDiv.innerHTML = '<div class="panel text-center">Wgrano listę warsztatów.</div>';
+}
+function fileExists(fe){
+	console.log(fe);
+}
+function fileNotExists(fe){
+	console.log(fe);
+}
+function warsztatyFailFS(){
+	warsztaty_loaded = false;
 }
 $(document).ready(function() {
 	$("header ul li a").removeClass("active");
@@ -168,11 +178,14 @@ $(document).ready(function() {
 	
 	if(gotConnection()){
 		feedArtykuly();
-		
-		if(checkVersion()) {
+		checkVersion();
+		if(new_version) {
 			feedWarsztaty();
 		} else {
-			console.log('obsługa odczytu z pliku');
+			//console.log('obsługa odczytu z pliku');
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+				fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
+			}, warsztatyFailFS); 
 		}
 	} else {
 		artykuly_loaded = false;

@@ -65,22 +65,27 @@ function feedArtykuly(){
 	}
 }
 function renderArtykuly(){
-	var list = document.createElement('ul');
-	var	xmlDoc = $(artykuly).children();
-	var c = $(xmlDoc).find('item');
-	var months = ["Stycznia", "Lutego", "Marca", "Kwietnia", "Maja", "Czerwca", "Lipca", "Sierpnia", "Września", "Października", "Listopada", "Grudnia"];
-	for(var i=0;i<c.length;i++){
-		var d = $(c[i]);
-		var title = $(d[0]).find('title').html();
-		var link = $(d[0]).find('link').html();
-		var pubDate = $(d[0]).find('pubDate').html();
-		var _date = new Date(Date.parse(pubDate));
-		var date_string = _date.getDate() + " " + months[_date.getMonth()] + " " + _date.getFullYear();
-		var li = document.createElement('li');
-		li.innerHTML = '<a onclick="window.open(\''+link+'\',\'_system\',\'location=no\')"><i class="fa fa-chevron-circle-right pull-right"></i><h6>'+title+'</h6><span>'+date_string+'</span></a>';
-		list.appendChild(li);
+	var artykulyDiv = document.getElementById("artykuly");
+	if(artykuly_loaded) {
+		var list = document.createElement('ul');
+		var	xmlDoc = $(artykuly).children();
+		var c = $(xmlDoc).find('item');
+		var months = ["Stycznia", "Lutego", "Marca", "Kwietnia", "Maja", "Czerwca", "Lipca", "Sierpnia", "Września", "Października", "Listopada", "Grudnia"];
+		for(var i=0;i<c.length;i++){
+			var d = $(c[i]);
+			var title = $(d[0]).find('title').html();
+			var link = $(d[0]).find('link').html();
+			var pubDate = $(d[0]).find('pubDate').html();
+			var _date = new Date(Date.parse(pubDate));
+			var date_string = _date.getDate() + " " + months[_date.getMonth()] + " " + _date.getFullYear();
+			var li = document.createElement('li');
+			li.innerHTML = '<a onclick="window.open(\''+link+'\',\'_system\',\'location=no\')"><i class="fa fa-chevron-circle-right pull-right"></i><h6>'+title+'</h6><span>'+date_string+'</span></a>';
+			list.appendChild(li);
+		}
+		artykulyDiv.innerHTML = list;
+	} else {
+		artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności. <a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
 	}
-	$("#artykuly").html(list);
 }
 $(document).ready(function() {
 	$("header .logo").on("click",function(){

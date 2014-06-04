@@ -74,8 +74,10 @@ $(document).ready(function() {
 		var targetID = eventData.toPage;
 		$('header ul li a[href="'+targetID+'"]').addClass("active");
 	});
-	$(".loader").fadeOut(function(){
-		$(this).remove();
+	$(".loader").animate({
+		"opacity":0
+	},300,function(){
+		this.remove();
 	});
 	$("footer").animate({
 		"bottom":0

@@ -1,3 +1,5 @@
+$(document.body).transition('options', {defaultPageTransition : 'fade', domCache : true});
+
 var	warsztaty = [],
 	artykuly = [],
 	warsztaty_loaded = false,

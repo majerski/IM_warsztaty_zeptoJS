@@ -51,7 +51,7 @@ footer a.blue{background-color:#004489}
 }
 /* Smartphones (portrait) ----------- */
 @media only screen and (max-width : 320px) {
-	
+	#page1 .content .ikona{background-position:50% 30%;padding-top:120px;padding-bottom:15px;margin-top:20px;margin-bottom:10px;}
 }
 /* Smartphones (landscape) ----------- */
 @media only screen and (min-device-width : 640px) and (max-device-width : 767px) {

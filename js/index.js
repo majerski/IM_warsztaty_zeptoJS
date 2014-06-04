@@ -121,9 +121,6 @@ var app = {
 							fs.root.getFile(fi_path, {create: true, exclusive: false}, function(fe){
 								fe.createWriter(function(fw){
 									fw.write(new Date().getTime());
-									if(typeof window.plugins != 'undefined' && typeof window.plugins.toast != 'undefined'){
-										window.plugins.toast.showShortCenter("utworzono ikonę 'Inter Cars'",function(a){},function(b){});
-									}
 								}, failFS);
 							}, failFS);
 						}, failFS);

@@ -69,7 +69,7 @@ $(document).ready(function() {
 	$("header .logo").on("click",function(){
 		$("header ul li a").removeClass("active");
 	});
-	$(document).on("pagebeforechange",function(e,eventData){
+	$(document).on("pagechange",function(e,eventData){
 		$("header ul li a").removeClass("active");
 		var targetID = eventData.toPage;
 		$('header ul li a[href="'+targetID+'"]').addClass("active");

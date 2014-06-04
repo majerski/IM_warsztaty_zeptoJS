@@ -73,9 +73,9 @@ function renderArtykuly(){
 		var months = ["Stycznia", "Lutego", "Marca", "Kwietnia", "Maja", "Czerwca", "Lipca", "Sierpnia", "Września", "Października", "Listopada", "Grudnia"];
 		for(var i=0;i<c.length;i++){
 			var d = $(c[i]);
-			var title = $(d[0]).find('title').html();
-			var link = $(d[0]).find('link').html();
-			var pubDate = $(d[0]).find('pubDate').html();
+			var title = $(d[0]).find('title').text();
+			var link = $(d[0]).find('link').text();
+			var pubDate = $(d[0]).find('pubDate').text();
 			var _date = new Date(Date.parse(pubDate));
 			var date_string = _date.getDate() + " " + months[_date.getMonth()] + " " + _date.getFullYear();
 			var li = document.createElement('li');

@@ -70,8 +70,5 @@ $(document).ready(function() {
 		$("header ul li a").removeClass("active");
 		$(this).addClass("active");
 	});
-});
-
-$(window).on("load",function() {
 	$(".loader").fadeOut();
-})
+});

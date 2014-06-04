@@ -74,7 +74,9 @@ $(document).ready(function() {
 		var targetID = eventData.toPage;
 		$('header ul li a[href="'+targetID+'"]').addClass("active");
 	});
-	$(".loader").fadeOut();
+	$(".loader").fadeOut(function(){
+		$(this).remove();
+	});
 	$("footer").animate({
 		"bottom":0
 	},{

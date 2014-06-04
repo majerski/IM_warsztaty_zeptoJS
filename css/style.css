@@ -37,11 +37,11 @@ footer a.blue{background-color:#004489}
 }
 /* Smartphones (landscape) ----------- */
 @media only screen and (min-width : 321px) {
-	
+	#page1 .content .ikona{background-position:50% 30%;padding-top:120px;padding-bottom:15px;margin-top:20px;margin-bottom:10px;}
 }
 /* Smartphones (portrait) ----------- */
 @media only screen and (max-width : 320px) {
-	#page1 .content .ikona{background-position:50% 30%;padding-top:120px;padding-bottom:15px;margin-top:20px;margin-bottom:10px;}
+	
 }
 
 /* Tablets, iPads (portrait and landscape) ----------- */

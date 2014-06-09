@@ -168,7 +168,7 @@ function fileExists(fe){
 		reader.readAsText(file);
 	},warsztatyFailFS);
 }
-function fileNotExists(error){
+function fileNotExists(){
 	window.plugins.toast.showLongCenter('fileNotExists',function(a){},function(b){});
 	feedWarsztaty();
 	if(warsztaty_loaded){

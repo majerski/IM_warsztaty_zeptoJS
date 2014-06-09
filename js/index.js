@@ -109,7 +109,18 @@ var app = {
 					li.innerHTML = '<a onclick="window.open(\''+link+'\',\'_system\',\'location=no\')"><i class="fa fa-chevron-circle-right pull-right"></i><h6>'+title+'</h6><span>'+date_string+'</span></a>';
 					list.appendChild(li);
 				}
-				artykulyDiv.innerHTML = "<ul>"+list.innerHTML+"</ul>";
+				artykulyDiv.innerHTML = "<div class='articles_pagination'></div><ul>"+list.innerHTML+"</ul>";
+				
+				$('.articles_pagination').pagination('destroy').pagination({
+					items: 20,
+					itemsOnPage: 10,
+					cssStyle: 'light-theme',
+					prevText: '<',
+					nextText: '>',
+					edges: 1,
+					displayedPages: 3
+				});
+				
 			} else {
 				artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności. <a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
 			}
@@ -164,7 +175,7 @@ var app = {
 			}
 		}
 		function renderWarsztaty(){
-			warsztatyDiv.innerHTML = '<div class="panel text-center">Wgrano listę warsztatów.</div>';
+			warsztatyDiv.innerHTML = '<div class="warsztaty_pagination"></div>';
 		}
 		function warsztatyLoadError(){
 			if(gotConnection()) {
@@ -174,7 +185,6 @@ var app = {
 			}
 		}
 		function fileExists(fe){
-			window.plugins.toast.showLongBottom('fileExists',function(a){},function(b){});
 			fe.file(function(file){
 				var reader = new FileReader();
 				reader.onloadend = function(e){
@@ -186,11 +196,9 @@ var app = {
 			},warsztatyFailFS);
 		}
 		function fileNotExists(){
-			window.plugins.toast.showLongBottom('fileNotExists',function(a){},function(b){});
 			feedWarsztaty();
 			if(warsztaty_loaded){
 				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-					window.plugins.toast.showLongTop('requestFileSystem',function(a){},function(b){});
 					fs.root.getFile(warsztaty_path,{create:true,exclusive:true},function(fe){
 						fe.createWriter(function(fw){
 							fw.onerror = function(e){

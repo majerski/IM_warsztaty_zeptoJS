@@ -150,8 +150,6 @@ function renderWarsztaty(){
 	warsztatyDiv.innerHTML = '<div class="panel text-center">Wgrano listę warsztatów.</div>';
 }
 function fileExists(fe){
-	window.plugins.toast.showShortBottom('fileExists',function(a){},function(b){});
-	/*
 	fe.file(function(file){
 		var reader = new FileReader();
 		reader.onloadend = function(e){
@@ -163,22 +161,25 @@ function fileExists(fe){
 		warsztaty_loaded = false;
 		window.plugins.toast.showLongCenter('fileExists error',function(a){},function(b){});
 	});
-	*/
 }
-function fileNotExists(fs){
+function fileNotExists(error){
 	feedWarsztaty();
 	if(warsztaty_loaded){
-		fs.root.getFile(warsztaty_path,{create:true,exclusive:true},function(fe){
-			fe.createWriter(function(fw){
-				fw.onerror = function(e){
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+			fs.root.getFile(warsztaty_path,{create:true,exclusive:true},function(fe){
+				fe.createWriter(function(fw){
+					fw.onerror = function(e){
+						warsztaty_loaded = false;
+					};
+					var inputData = JSON.stringify(warsztaty);
+					fw.write(inputData);
+				},function(e){
 					warsztaty_loaded = false;
-				};
-				var inputData = JSON.stringify(warsztaty);
-				fw.write(inputData);
-			},function(e){
+				});
+			}, function(e){
 				warsztaty_loaded = false;
 			});
-		}, function(e){
+		},function(e){
 			warsztaty_loaded = false;
 		});
 	}

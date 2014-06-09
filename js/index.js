@@ -165,23 +165,20 @@ function fileExists(fe){
 function fileNotExists(fs){
 	feedWarsztaty();
 	if(warsztaty_loaded){
-		// tworzenie i zapis do pliku
-		window.plugins.toast.showShortCenter('fileNotExists warsztaty_loaded',function(a){},function(b){});
 		fs.root.getFile(warsztaty_path, {create:true,exclusive:true}, function(fe){
-			window.plugins.toast.showShortTop('create success',function(a){},function(b){});
 			fe.createWriter(function(fw){
 				fw.onwriteend = function(e) {
-					window.plugins.toast.showShortBottom('write success',function(a){},function(b){});
+					
 				};
 				fw.onerror = function(e){
 					warsztaty_loaded = false;
-					window.plugins.toast.showShortBottom('file writer error',function(a){},function(b){});
 				};
 				var inputData = JSON.stringify(warsztaty);
 				fw.write(inputData);
+			},function(e){
+				warsztaty_loaded = false;
 			});
-		}, function(){
-			window.plugins.toast.showShortBottom('getFile error',function(a){},function(b){});
+		}, function(e){
 			warsztaty_loaded = false;
 		});
 	}
@@ -276,7 +273,7 @@ var app = {
 	},
 	onOnline: function() {
 		if(typeof window.plugins != 'undefined' && typeof window.plugins.toast != 'undefined'){
-			window.plugins.toast.showShortBottom('Nawiązano połączenie z internetem.',function(a){},function(b){});
+			window.plugins.toast.showLongCenter('Nawiązano połączenie z internetem.',function(a){},function(b){});
 		}
 		if(!artykuly_loaded){
 			feedArtykuly();

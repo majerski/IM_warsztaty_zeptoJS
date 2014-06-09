@@ -165,6 +165,7 @@ function fileExists(fe){
 function fileNotExists(fs){
 	feedWarsztaty();
 	if(warsztaty_loaded){
+		window.plugins.toast.showShortCenter('fileNotExists && warsztaty_loaded',function(a){},function(b){});
 		fs.root.getFile(warsztaty_path,{create:true,exclusive:true},function(fe){
 			window.plugins.toast.showShortTop('getFile success',function(a){},function(b){});
 			fe.createWriter(function(fw){
@@ -221,7 +222,7 @@ $(document).ready(function() {
 	
 	if(warsztaty_from_file){
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-			fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
+			fs.root.getFile(warsztaty_path, {create:true,exclusive:true}, fileExists, fileNotExists);
 		}, warsztatyFailFS);
 	}
 	

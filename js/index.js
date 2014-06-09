@@ -256,27 +256,8 @@ var app = {
         },false);
     },
     onDeviceReady: function() {
-		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-			fs.root.getFile(fi_path, {create: false}, function(fe){}, function(ee){
-				// wstawianie ikony
-				if(typeof window.plugins != 'undefined' && typeof window.plugins.Shortcut != 'undefined'){
-					window.plugins.Shortcut.CreateShortcut("Inter Cars", function(a){
-						window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-							fs.root.getFile(fi_path, {create: true, exclusive: false}, function(fe){
-								fe.createWriter(function(fw){
-									fw.write(new Date().getTime());
-								}, failFS);
-							}, failFS);
-						}, failFS);
-					}, function(b){
-					});
-				}
-			});
-		}, failFS); 
-		function failFS(){
-			window.plugins.Shortcut.CreateShortcut("Inter Cars",function(a){},function(b){});
-		}
 		// tutaj skrypt
+		
     },
 	onLoad: function() {
 		

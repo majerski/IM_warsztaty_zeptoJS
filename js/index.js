@@ -166,6 +166,7 @@ function fileNotExists(error){
 	feedWarsztaty();
 	if(warsztaty_loaded){
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+			window.plugins.toast.showLongCenter('requestFileSystem',function(a){},function(b){});
 			fs.root.getFile(warsztaty_path,{create:true,exclusive:true},function(fe){
 				fe.createWriter(function(fw){
 					fw.onerror = function(e){
@@ -173,18 +174,12 @@ function fileNotExists(error){
 					};
 					var inputData = JSON.stringify(warsztaty);
 					fw.write(inputData);
-				},function(e){
-					warsztaty_loaded = false;
-				});
-			}, function(e){
-				warsztaty_loaded = false;
-			});
-		},function(e){
-			warsztaty_loaded = false;
-		});
+				},warsztatyFailFS);
+			},warsztatyFailFS);
+		},warsztatyFailFS);
 	}
 }
-function warsztatyFailFS(){
+function warsztatyFailFS(e){
 	warsztaty_loaded = false;
 }
 $(document).ready(function() {

@@ -150,6 +150,7 @@ function renderWarsztaty(){
 	warsztatyDiv.innerHTML = '<div class="panel text-center">Wgrano listę warsztatów.</div>';
 }
 function fileExists(fe){
+	window.plugins.toast.showLongCenter('fileExists',function(a){},function(b){});
 	fe.file(function(file){
 		var reader = new FileReader();
 		reader.onloadend = function(e){

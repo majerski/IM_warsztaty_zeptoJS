@@ -151,6 +151,7 @@ function renderWarsztaty(){
 }
 function fileExists(fe){
 	window.plugins.toast.showShortBottom('fileExists',function(a){},function(b){});
+	/*
 	fe.file(function(file){
 		var reader = new FileReader();
 		reader.onloadend = function(e){
@@ -162,8 +163,11 @@ function fileExists(fe){
 		warsztaty_loaded = false;
 		window.plugins.toast.showLongCenter('fileExists error',function(a){},function(b){});
 	});
+	*/
 }
 function fileNotExists(fs){
+	window.plugins.toast.showShortBottom('fileNotExists',function(a){},function(b){});
+	/*
 	feedWarsztaty();
 	if(warsztaty_loaded){
 		fs.root.getFile(warsztaty_path,{create:true,exclusive:true},function(fe){
@@ -180,6 +184,7 @@ function fileNotExists(fs){
 			warsztaty_loaded = false;
 		});
 	}
+	*/
 }
 function warsztatyFailFS(){
 	warsztaty_loaded = false;

@@ -212,7 +212,10 @@ $(document).ready(function() {
 		}
 	} else {
 		artykuly_loaded = false;
-		warsztaty_loaded = false;
+		// obsługa odczytu z pliku
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+			fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
+		}, warsztatyFailFS);
 	}
 	
 	console.log(warsztaty);

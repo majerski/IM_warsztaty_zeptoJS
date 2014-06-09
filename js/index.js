@@ -160,7 +160,7 @@ function fileExists(fe){
 		reader.readAsText(file);
 	},function(e){
 		warsztaty_loaded = false;
-		window.plugins.toast.showLongCenter('fileExists error: '+e.toString();,function(a){},function(b){});
+		window.plugins.toast.showLongCenter('fileExists error: '+e.toString(),function(a){},function(b){});
 	});
 }
 function fileNotExists(fs){

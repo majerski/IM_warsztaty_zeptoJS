@@ -157,6 +157,7 @@ function warsztatyLoadError(){
 	}
 }
 function fileExists(fe){
+	window.plugins.toast.showLongCenter('fileExists',function(a){},function(b){});
 	fe.file(function(file){
 		var reader = new FileReader();
 		reader.onloadend = function(e){
@@ -168,6 +169,7 @@ function fileExists(fe){
 	},warsztatyFailFS);
 }
 function fileNotExists(error){
+	window.plugins.toast.showLongCenter('fileNotExists',function(a){},function(b){});
 	feedWarsztaty();
 	if(warsztaty_loaded){
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){

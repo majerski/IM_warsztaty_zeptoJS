@@ -20,7 +20,7 @@ var	warsztaty = [],
 	map,
 	startingLatitude = 52.069347,
 	startingLongitude = 19.480204;
-
+	
 var app = {
     initialize: function() {
         this.bindEvents();
@@ -38,6 +38,7 @@ var app = {
         },false);
     },
     onDeviceReady: function() {
+		// skrypt
 		function supports_html5_storage() {
 		  try {
 			return 'localStorage' in window && window['localStorage'] !== null;
@@ -99,6 +100,8 @@ var app = {
 				var	xmlDoc = $(artykuly).children();
 				var c = $(xmlDoc).find('item');
 				var months = ["Stycznia", "Lutego", "Marca", "Kwietnia", "Maja", "Czerwca", "Lipca", "Sierpnia", "Września", "Października", "Listopada", "Grudnia"];
+				var page_count = 0;
+				var page_data = 0;
 				for(var i=0;i<c.length;i++){
 					var d = $(c[i]);
 					var title = $(d[0]).find('title').text();
@@ -108,13 +111,22 @@ var app = {
 					var date_string = _date.getDate() + " " + months[_date.getMonth()] + " " + _date.getFullYear();
 					var li = document.createElement('li');
 					li.innerHTML = '<a onclick="window.open(\''+link+'\',\'_system\',\'location=no\')"><i class="fa fa-chevron-circle-right pull-right"></i><h6>'+title+'</h6><span>'+date_string+'</span></a>';
+					if(page_count<per_page){
+						li.style.display = 'block';
+					}
+					if(page_count%per_page==0){
+						page_data++;
+					}
+					li.setAttribute("data-page",page_data);
 					list.appendChild(li);
+					page_count++;
 				}
 				
-				artykulyDiv.innerHTML = '<div class="clearfix text-center"><div class="articles_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="'+Math.round((c.length/per_page))+'" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div></div><ul>'+list.innerHTML+'</ul>';
+				artykulyDiv.innerHTML = '<ul>'+list.innerHTML+'</ul><div class="clearfix text-center"><div class="articles_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="'+Math.round((c.length/per_page))+'" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div></div>';
 				$('.articles_pagination').jqPagination({
-					paged: function(page) {
-						// do something with the page variable
+					paged:function(page) {
+						$('#artykuly ul li').hide();
+						$('#artykuly ul li[data-page="'+page+'"]').show();
 					}
 				});
 			} else {

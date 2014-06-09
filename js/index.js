@@ -9,6 +9,7 @@ var	warsztaty = [],
 	artykuly_loaded = false,
 	fi_path = 'installed.dat',
 	warsztaty_path = 'warsztaty.dat',
+	warsztaty_from_file = false,
 	//artykulyUrl = 'http://www.q-service.com.pl/rss/',
 	artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
 	warsztatyUrl = 'http://arcontact.pl/warsztaty_inter_cars/feed.php',
@@ -25,9 +26,6 @@ function supports_html5_storage() {
   }
 }
 function checkConnection() {
-	//
-	return 'ok';
-	//
 	if(typeof navigator.connection == 'undefined' || typeof navigator.connection.type == 'undefined') {
 		return 'fail';
 	}
@@ -205,20 +203,18 @@ $(document).ready(function() {
 		if(new_version) {
 			feedWarsztaty();
 		} else {
-			// obsługa odczytu z pliku
-			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-				fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
-			}, warsztatyFailFS);
+			warsztaty_from_file = true;
 		}
 	} else {
 		artykuly_loaded = false;
-		// obsługa odczytu z pliku
+		warsztaty_from_file = true;
+	}
+	
+	if(warsztaty_from_file){
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
 			fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
 		}, warsztatyFailFS);
 	}
-	
-	console.log(warsztaty);
 	
 	if(artykuly_loaded){
 		renderArtykuly();

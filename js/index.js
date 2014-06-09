@@ -109,7 +109,7 @@ var app = {
 					li.innerHTML = '<a onclick="window.open(\''+link+'\',\'_system\',\'location=no\')"><i class="fa fa-chevron-circle-right pull-right"></i><h6>'+title+'</h6><span>'+date_string+'</span></a>';
 					list.appendChild(li);
 				}
-				artykulyDiv.innerHTML = '<div class="articles_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="40" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div><ul>'+list.innerHTML+'</ul>';
+				artykulyDiv.innerHTML = '<div class="clearfix text-center"><div class="articles_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="40" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div></div><ul>'+list.innerHTML+'</ul>';
 				$('.articles_pagination').jqPagination({
 					paged: function(page) {
 						// do something with the page variable

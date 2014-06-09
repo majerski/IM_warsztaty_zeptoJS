@@ -106,7 +106,7 @@ function supports_html5_storage() {
 					page_count++;
 				}
 				
-				artykulyDiv.innerHTML = '<div class="clearfix text-center pagination_outer"><div class="articles_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="'+Math.round((c.length/per_page))+'" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div></div><ul>'+list.innerHTML+'</ul>';
+				artykulyDiv.innerHTML = '<div class="text-center pagination_outer"><div class="articles_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="'+Math.round((c.length/per_page))+'" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div></div><ul>'+list.innerHTML+'</ul>';
 				$('.articles_pagination').jqPagination({
 					paged:function(page) {
 						$('#artykuly ul li').hide();

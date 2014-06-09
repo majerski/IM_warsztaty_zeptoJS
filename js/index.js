@@ -158,32 +158,25 @@ function fileExists(fe){
 			warsztaty_loaded = true;
 		};
 		reader.readAsText(file);
-	},function(){
+	},function(e){
 		warsztaty_loaded = false;
+		window.plugins.toast.showLongCenter('fileExists error: '+e.toString();,function(a){},function(b){});
 	});
 }
 function fileNotExists(fs){
 	feedWarsztaty();
 	if(warsztaty_loaded){
-		window.plugins.toast.showShortCenter('fileNotExists && warsztaty_loaded',function(a){},function(b){});
 		fs.root.getFile(warsztaty_path,{create:true,exclusive:true},function(fe){
-			window.plugins.toast.showShortTop('getFile success',function(a){},function(b){});
 			fe.createWriter(function(fw){
-				fw.onwriteend = function(e) {
-					window.plugins.toast.showShortBottom('fw.onwriteend',function(a){},function(b){});
-				};
 				fw.onerror = function(e){
 					warsztaty_loaded = false;
-					window.plugins.toast.showShortTop('fw.onerror '+e.toString(),function(a){},function(b){});
 				};
 				var inputData = JSON.stringify(warsztaty);
 				fw.write(inputData);
 			},function(e){
-				window.plugins.toast.showShortTop('createWriter error',function(a){},function(b){});
 				warsztaty_loaded = false;
 			});
 		}, function(e){
-			window.plugins.toast.showShortTop('getFile error',function(a){},function(b){});
 			warsztaty_loaded = false;
 		});
 	}

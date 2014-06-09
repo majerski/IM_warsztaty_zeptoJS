@@ -250,14 +250,10 @@ var app = {
 				}
 			}
 			
-			window.plugins.toast.showLongBottom('aaa',function(a){},function(b){});
 			if(warsztaty_from_file){
-				window.plugins.toast.showLongTop('warsztaty_from_file',function(a){},function(b){});
-				/*
 				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
 					fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
 				}, warsztatyFailFS);
-				*/
 			} else if(warsztaty_loaded){
 				renderWarsztaty();
 			} else {

@@ -232,7 +232,8 @@ $(document).ready(function() {
 			artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności. <a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
 		}
 	}
-	window.plugins.toast.showLongBottom('warsztaty_from_file: '+warsztaty_from_file,function(a){},function(b){});
+	
+	window.plugins.toast.showLongBottom('aaa',function(a){},function(b){});
 	if(warsztaty_from_file){
 		window.plugins.toast.showLongTop('warsztaty_from_file',function(a){},function(b){});
 		/*window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){

@@ -220,7 +220,7 @@ $(document).ready(function() {
 	
 	if(warsztaty_from_file){
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-			fs.root.getFile(warsztaty_path, {create:true,exclusive:true}, fileExists, fileNotExists);
+			fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
 		}, warsztatyFailFS);
 	}
 	

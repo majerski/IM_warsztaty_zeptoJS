@@ -163,9 +163,9 @@ function fileExists(fe){
 	});
 }
 function fileNotExists(fs){
-	window.plugins.toast.showShortBottom('fileNotExists',function(a){},function(b){});
 	feedWarsztaty();
 	if(warsztaty_loaded){
+		window.plugins.toast.showShortBottom('fileNotExists, warsztaty_loaded',function(a){},function(b){});
 		// tworzenie i zapis do pliku
 		fs.root.getFile(warsztaty_path, {create:true,exclusive:true}, function(fe){
 			fe.createWriter(function(fw){
@@ -216,7 +216,6 @@ $(document).ready(function() {
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
 			fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
 		}, warsztatyFailFS);
-		window.plugins.toast.showShortTop('warsztaty_from_file = true',function(a){},function(b){});
 	}
 	
 	if(artykuly_loaded){

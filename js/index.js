@@ -150,6 +150,7 @@ function renderWarsztaty(){
 	warsztatyDiv.innerHTML = '<div class="panel text-center">Wgrano listę warsztatów.</div>';
 }
 function fileExists(fe){
+	window.plugins.toast.showShortBottom('fileExists',function(a){},function(b){});
 	fe.file(function(file){
 		var reader = new FileReader();
 		reader.onloadend = function(e){
@@ -162,6 +163,7 @@ function fileExists(fe){
 	});
 }
 function fileNotExists(fs){
+	window.plugins.toast.showShortBottom('fileNotExists',function(a){},function(b){});
 	feedWarsztaty();
 	if(warsztaty_loaded){
 		// tworzenie i zapis do pliku
@@ -214,6 +216,7 @@ $(document).ready(function() {
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
 			fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
 		}, warsztatyFailFS);
+		window.plugins.toast.showShortTop('warsztaty_from_file = true',function(a){},function(b){});
 	}
 	
 	if(artykuly_loaded){

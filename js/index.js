@@ -165,17 +165,22 @@ function fileExists(fe){
 function fileNotExists(fs){
 	feedWarsztaty();
 	if(warsztaty_loaded){
-		window.plugins.toast.showShortBottom('fileNotExists, warsztaty_loaded',function(a){},function(b){});
 		// tworzenie i zapis do pliku
 		fs.root.getFile(warsztaty_path, {create:true,exclusive:true}, function(fe){
+			window.plugins.toast.showShortTop('create success',function(a){},function(b){});
 			fe.createWriter(function(fw){
+				fw.onwriteend = function(e) {
+					window.plugins.toast.showShortCenter('write success',function(a){},function(b){});
+				};
 				fw.onerror = function(e){
 					warsztaty_loaded = false;
+					window.plugins.toast.showShortBottom('file writer error',function(a){},function(b){});
 				};
 				var inputData = JSON.stringify(warsztaty);
 				fw.write(inputData);
 			});
 		}, function(){
+			window.plugins.toast.showShortCenter('getFile error',function(a){},function(b){});
 			warsztaty_loaded = false;
 		});
 	}

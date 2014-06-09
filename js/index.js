@@ -150,13 +150,13 @@ function renderWarsztaty(){
 	warsztatyDiv.innerHTML = '<div class="panel text-center">Wgrano listę warsztatów.</div>';
 }
 function fileExists(fe){
-	window.plugins.toast.showLongTop('fileExists: '+fe.toString(),function(a){},function(b){});
 	fe.file(function(file){
-		window.plugins.toast.showLongBottom('fe.file',function(a){},function(b){});
+		window.plugins.toast.showLongBottom(fe.fullPath,function(a){},function(b){});
 		var reader = new FileReader();
 		reader.onloadend = function(e){
 			warsztaty = JSON.parse(this.result);
 			warsztaty_loaded = true;
+			window.plugins.toast.showLongBottom(JSON.stringify(warsztaty),function(a){},function(b){});
 		};
 		reader.readAsText(file);
 	},warsztatyFailFS);

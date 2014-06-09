@@ -152,10 +152,33 @@ function renderWarsztaty(){
 	warsztatyDiv.innerHTML = '<div class="panel text-center">Wgrano listę warsztatów.</div>';
 }
 function fileExists(fe){
-	console.log(fe);
+	fe.file(function(file){
+		var reader = new FileReader();
+		reader.onloadend = function(e){
+			warsztaty = JSON.parse(this.result);
+			warsztaty_loaded = true;
+		};
+		reader.readAsText(file);
+	},function(){
+		warsztaty_loaded = false;
+	});
 }
-function fileNotExists(fe){
-	console.log(fe);
+function fileNotExists(fs){
+	feedWarsztaty();
+	if(warsztaty_loaded){
+		// tworzenie i zapis do pliku
+		fs.root.getFile(warsztaty_path, {create:true,exclusive:true}, function(fe){
+			fe.createWriter(function(fw){
+				fw.onerror = function(e){
+					warsztaty_loaded = false;
+				};
+				var inputData = JSON.stringify(warsztaty);
+				fw.write(inputData);
+			});
+		}, function(){
+			warsztaty_loaded = false;
+		});
+	}
 }
 function warsztatyFailFS(){
 	warsztaty_loaded = false;
@@ -182,15 +205,17 @@ $(document).ready(function() {
 		if(new_version) {
 			feedWarsztaty();
 		} else {
-			//console.log('obsługa odczytu z pliku');
+			// obsługa odczytu z pliku
 			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
 				fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
-			}, warsztatyFailFS); 
+			}, warsztatyFailFS);
 		}
 	} else {
 		artykuly_loaded = false;
 		warsztaty_loaded = false;
 	}
+	
+	console.log(warsztaty);
 	
 	if(artykuly_loaded){
 		renderArtykuly();
@@ -233,7 +258,7 @@ var app = {
     onDeviceReady: function() {
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
 			fs.root.getFile(fi_path, {create: false}, function(fe){}, function(ee){
-				//wstaw ikone
+				// wstawianie ikony
 				if(typeof window.plugins != 'undefined' && typeof window.plugins.Shortcut != 'undefined'){
 					window.plugins.Shortcut.CreateShortcut("Inter Cars", function(a){
 						window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){

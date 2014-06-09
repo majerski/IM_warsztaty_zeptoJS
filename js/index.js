@@ -170,7 +170,7 @@ function fileNotExists(fs){
 			window.plugins.toast.showShortTop('create success',function(a){},function(b){});
 			fe.createWriter(function(fw){
 				fw.onwriteend = function(e) {
-					window.plugins.toast.showShortCenter('write success',function(a){},function(b){});
+					window.plugins.toast.showShortBottom('write success',function(a){},function(b){});
 				};
 				fw.onerror = function(e){
 					warsztaty_loaded = false;
@@ -180,7 +180,7 @@ function fileNotExists(fs){
 				fw.write(inputData);
 			});
 		}, function(){
-			window.plugins.toast.showShortCenter('getFile error',function(a){},function(b){});
+			window.plugins.toast.showShortBottom('getFile error',function(a){},function(b){});
 			warsztaty_loaded = false;
 		});
 	}
@@ -218,6 +218,7 @@ $(document).ready(function() {
 	}
 	
 	if(warsztaty_from_file){
+		window.plugins.toast.showShortBottom('warsztaty_from_file',function(a){},function(b){});
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
 			fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
 		}, warsztatyFailFS);

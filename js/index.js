@@ -165,7 +165,7 @@ function fileExists(fe){
 function fileNotExists(fs){
 	feedWarsztaty();
 	if(warsztaty_loaded){
-		fs.root.getFile(warsztaty_path, {create:true,exclusive:true}, function(fe){
+		fs.root.getFile(warsztaty_path,{create:true},function(fe){
 			fe.createWriter(function(fw){
 				fw.onwriteend = function(e) {
 					window.plugins.toast.showShortBottom('fw.onwriteend',function(a){},function(b){});

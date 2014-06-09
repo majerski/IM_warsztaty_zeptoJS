@@ -44,8 +44,6 @@ function checkConnection() {
 }
 function gotConnection(){
 	var a = checkConnection();
-	window.plugins.toast.showLongTop('gotConnection',function(a){},function(b){});
-	
 	if(a == 'fail'){return false;}
 	return true;
 }

@@ -32,7 +32,7 @@ footer a.blue{background-color:#004489}
 #page1 .content .ikona4:active{background-image:url('../img/srodek-4hs.png')}
 #page1 .content .ikona{display:block;text-align:center;font-family:Lato,sans-serif;font-size:16px;font-weight:bold;color:#060E0E;text-shadow:#FFF 1px 1px 0px;background-position:50% 10%;background-repeat:no-repeat;padding-top:95px;padding-bottom:5px;-webkit-transition:padding 0.25s;-moz-transition:padding 0.25s;-o-transition:padding 0.25s;transition:padding 0.25s;}
 #page1 .content .ikona:active{text-shadow:#95120e 1px 1px 0px;background-color:rgb(175,15,10);background-color:-moz-linear-gradient(top,rgb(175,15,10) 0%,rgb(227,6,19) 100%);background-color:-webkit-gradient(linear,left top,left bottom,color-stop(0%,rgb(175,15,10)), color-stop(100%,rgb(227,6,19)));background-color: -webkit-linear-gradient(top,  rgb(175,15,10) 0%,rgb(227,6,19) 100%);background-color: -o-linear-gradient(top,rgb(175,15,10) 0%,rgb(227,6,19) 100%);background-color:-ms-linear-gradient(top,rgb(175,15,10) 0%,rgb(227,6,19) 100%);background-color: linear-gradient(to bottom,rgb(175,15,10) 0%,rgb(227,6,19) 100%);color:#fff;}
-#artykuly ul{list-style-type:none;margin-left:0px;margin-right:0px}
+#artykuly ul{list-style-type:none;margin-left:0px;margin-right:0px;margin-top:10px;margin-bottom:10px}
 #artykuly ul li{display:block;border:1px solid #f2f2f2;background:#f2f2f2;line-height:normal}
 #artykuly ul li:nth-child(even) {background:#efefef;border-bottom:1px solid #e5e5e5;border-top:1px solid #f5f5f5}
 #artykuly ul li a{display:block;color:#000;padding:.7em 15px}
@@ -41,7 +41,56 @@ footer a.blue{background-color:#004489}
 #artykuly ul li a .fa{margin-top:5px;color:#ddd}
 #artykuly ul li a:active h6,#artykuly ul li a:active .fa{color:#d60811}
 
-.pagination{text-align:center;display:inline-block;border:1px solid #CDCDCD;border-radius:3px}.pagination a{display:inline-block;width:28px;height:28px;outline:0;border-right:1px solid #CDCDCD;border-left:1px solid #CDCDCD;color:#555;vertical-align:middle;text-align:center;text-decoration:none;font-weight:700;font-size:16px;font-family:Lato,sans-serif;background-color:#f3f3f3;background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#f3f3f3),color-stop(100%,lightgrey));background-image:-webkit-linear-gradient(#f3f3f3,lightgrey);background-image:linear-gradient(#f3f3f3,lightgrey)}.pagination a:active,.pagination a:focus,.pagination a:hover{background-color:#cecece;background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#e4e4e4),color-stop(100%,#cecece));background-image:-webkit-linear-gradient(#e4e4e4,#cecece);background-image:linear-gradient(#e4e4e4,#cecece)}.pagination a.disabled,.pagination a.disabled:active,.pagination a.disabled:focus,.pagination a.disabled:hover{background-color:#f3f3f3;background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#f3f3f3),color-stop(100%,lightgrey));background-image:-webkit-linear-gradient(#f3f3f3,lightgrey);background-image:linear-gradient(#f3f3f3,lightgrey);color:#A8A8A8;cursor:default}.pagination a:first-child{border:none;border-radius:2px 0 0 2px}.pagination a:last-child{border:none;border-radius:0 2px 2px 0}.pagination input{display:inline-block;margin:0;padding:0;width:130px;height:28px;outline:0;border:none;vertical-align:middle;text-align:center}
+.pagination {margin-right:auto;margin-left:auto;border:1px solid #CDCDCD;border-radius:3px;}
+.pagination a {display:inline-block;width:28px;height:28px;line-height:28px;outline:none;border-right:1px solid #CDCDCD;border-left:1px solid #CDCDCD;
+color: #555555;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+  font-family:Lato,sans-serif;
+  background-color: #f3f3f3;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f3f3f3), color-stop(100%, lightgrey));
+  background-image: -webkit-linear-gradient(#f3f3f3, lightgrey);
+  background-image: linear-gradient(#f3f3f3, lightgrey);
+}
+.pagination a:hover, .pagination a:focus, .pagination a:active {
+    background-color: #cecece;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e4e4e4), color-stop(100%, #cecece));
+    background-image: -webkit-linear-gradient(#e4e4e4, #cecece);
+    background-image: linear-gradient(#e4e4e4, #cecece);
+}
+.pagination a.disabled, .pagination a.disabled:hover, .pagination a.disabled:focus, .pagination a.disabled:active {
+    background-color: #f3f3f3;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f3f3f3), color-stop(100%, lightgrey));
+    background-image: -webkit-linear-gradient(#f3f3f3, lightgrey);
+    background-image: linear-gradient(#f3f3f3, lightgrey);
+    color: #A8A8A8;
+    cursor: default;
+}
+
+.pagination a:first-child {
+  border: none;
+  border-radius: 2px 0 0 2px;
+}
+
+.pagination a:last-child {
+  border: none;
+  border-radius: 0 2px 2px 0;
+}
+
+.pagination input {
+  display:inline-block;
+  margin: 0;
+  padding: 0;
+  width: 130px;
+  height: 28px;
+  outline: none;
+  border: none;
+  vertical-align: middle;
+  text-align: center;
+}
 
 
 /* Smartphones (portrait and landscape) ----------- */

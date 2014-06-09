@@ -12,33 +12,15 @@ var	warsztaty = [],
 	fi_path = 'installed.dat',
 	warsztaty_path = 'warsztaty.txt',
 	warsztaty_from_file = false,
-	artykulyUrl = 'http://www.q-service.com.pl/rss/',
-	//artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
+	//artykulyUrl = 'http://www.q-service.com.pl/rss/',
+	artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
 	warsztatyUrl = 'http://arcontact.pl/warsztaty_inter_cars/feed.php',
 	form_email = 'mifdetal@intercars.eu',
 	map,
 	startingLatitude = 52.069347,
 	startingLongitude = 19.480204;
 	
-var app = {
-    initialize: function() {
-        this.bindEvents();
-        this.initFastClick();
-    },
-    bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-		document.addEventListener("load", this.onLoad, false);
-		document.addEventListener("offline", this.onOffline, false);
-		document.addEventListener("online", this.onOnline, false);
-    },
-    initFastClick: function() {
-        window.addEventListener('load', function() {
-            FastClick.attach(document.body);
-        },false);
-    },
-    onDeviceReady: function() {
-		// skrypt
-		function supports_html5_storage() {
+function supports_html5_storage() {
 		  try {
 			return 'localStorage' in window && window['localStorage'] !== null;
 		  } catch (e) {
@@ -62,6 +44,9 @@ var app = {
 			return states[networkState];
 		}
 		function gotConnection(){
+			//
+			return true;
+			//
 			var a = checkConnection();
 			if(a == 'fail'){return false;}
 			return true;
@@ -121,7 +106,7 @@ var app = {
 					page_count++;
 				}
 				
-				artykulyDiv.innerHTML = '<ul>'+list.innerHTML+'</ul><div class="clearfix text-center"><div class="articles_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="'+Math.round((c.length/per_page))+'" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div></div>';
+				artykulyDiv.innerHTML = '<div class="clearfix text-center pagination_outer"><div class="articles_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="'+Math.round((c.length/per_page))+'" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div></div><ul>'+list.innerHTML+'</ul>';
 				$('.articles_pagination').jqPagination({
 					paged:function(page) {
 						$('#artykuly ul li').hide();
@@ -275,6 +260,26 @@ var app = {
 				warsztatyLoadError();
 			}
 		//});
+	
+var app = {
+    initialize: function() {
+        this.bindEvents();
+        this.initFastClick();
+    },
+    bindEvents: function() {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+		document.addEventListener("load", this.onLoad, false);
+		document.addEventListener("offline", this.onOffline, false);
+		document.addEventListener("online", this.onOnline, false);
+    },
+    initFastClick: function() {
+        window.addEventListener('load', function() {
+            FastClick.attach(document.body);
+        },false);
+    },
+    onDeviceReady: function() {
+		// skrypt
+		
     },
 	onLoad: function() {
 		

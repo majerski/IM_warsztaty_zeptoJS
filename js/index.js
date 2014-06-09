@@ -225,56 +225,51 @@ var app = {
 			warsztaty_loaded = false;
 			warsztatyLoadError();
 		}
-		//$(document).ready(function() {
+		$("header ul li a").removeClass("active");
+		var targetID = $(".ui-page-active").attr('id');
+		$('header ul li a[href="'+targetID+'"]').addClass("active");
+		$("header .logo").on("click",function(){
 			$("header ul li a").removeClass("active");
-			var targetID = $(".ui-page-active").attr('id');
+		});
+		$(document).on("pagebeforechange",function(e,eventData){
+			$("header ul li a").removeClass("active");
+			targetID = eventData.toPage;
 			$('header ul li a[href="'+targetID+'"]').addClass("active");
-			$("header .logo").on("click",function(){
-				$("header ul li a").removeClass("active");
-			});
-			$(document).on("pagebeforechange",function(e,eventData){
-				$("header ul li a").removeClass("active");
-				targetID = eventData.toPage;
-				$('header ul li a[href="'+targetID+'"]').addClass("active");
-			});
+		});
 			
-			$(".loader").animate({"opacity":0},500,function(){this.remove();});
-			$("footer").animate({"bottom":0},500);
-			
-			if(gotConnection()){
-				feedArtykuly();
-				checkVersion();
-				if(new_version) {
-					feedWarsztaty();
-				} else {
-					warsztaty_from_file = true;
-				}
+		$(".loader").animate({"opacity":0},500,function(){this.remove();});
+		$("footer").animate({"bottom":0},500);
+		if(gotConnection()){
+			feedArtykuly();
+			checkVersion();
+			if(new_version) {
+				feedWarsztaty();
 			} else {
-				artykuly_loaded = false;
 				warsztaty_from_file = true;
 			}
-			
-			if(artykuly_loaded){
-				renderArtykuly();
+		} else {
+			artykuly_loaded = false;
+			warsztaty_from_file = true;
+		}
+		if(artykuly_loaded){
+			renderArtykuly();
+		} else {
+			var artykulyDiv = document.getElementById("artykuly");
+			if(gotConnection()) {
+				artykulyDiv.innerHTML = '<div class="panel text-center">Nie udało się wgrać aktualności.</div>';
 			} else {
-				var artykulyDiv = document.getElementById("artykuly");
-				if(gotConnection()) {
-					artykulyDiv.innerHTML = '<div class="panel text-center">Nie udało się wgrać aktualności.</div>';
-				} else {
-					artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności.<br /><br /><a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
-				}
+				artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności.<br /><br /><a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
 			}
-			
-			if(warsztaty_from_file){
-				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-					fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
-				}, warsztatyFailFS);
-			} else if(warsztaty_loaded){
-				renderWarsztaty();
-			} else {
-				warsztatyLoadError();
-			}
-		//});
+		}
+		if(warsztaty_from_file){
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+				fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
+			}, warsztatyFailFS);
+		} else if(warsztaty_loaded){
+			renderWarsztaty();
+		} else {
+			warsztatyLoadError();
+		}
     },
 	onLoad: function() {
 		

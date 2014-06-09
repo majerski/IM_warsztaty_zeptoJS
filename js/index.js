@@ -1,253 +1,4 @@
-(function($) {
-	$.fn.paginate = function(options) {
-		var opts = $.extend({}, $.fn.paginate.defaults, options);
-		return this.each(function() {
-			$this = $(this);
-			var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
-			var selectedpage = o.start;
-			$.fn.draw(o,$this,selectedpage);	
-		});
-	};
-	var outsidewidth_tmp = 0;
-	var insidewidth 	 = 0;
-	var bName = navigator.appName;
-	var bVer = navigator.appVersion;
-	if(bVer.indexOf('MSIE 7.0') > 0)
-		var ver = "ie7";
-	$.fn.paginate.defaults = {
-		count 		: 5,
-		start 		: 12,
-		display  	: 5,
-		border					: true,
-		border_color			: '#fff',
-		text_color  			: '#8cc59d',
-		background_color    	: 'black',	
-		border_hover_color		: '#fff',
-		text_hover_color  		: '#fff',
-		background_hover_color	: '#fff', 
-		rotate      			: true,
-		images					: true,
-		mouse					: 'slide',
-		onChange				: function(){return false;}
-	};
-	$.fn.draw = function(o,obj,selectedpage){
-		if(o.display > o.count)
-			o.display = o.count;
-		$this.empty();
-		if(o.images){
-			var spreviousclass 	= 'jPag-sprevious-img';
-			var previousclass 	= 'jPag-previous-img';
-			var snextclass 		= 'jPag-snext-img';
-			var nextclass 		= 'jPag-next-img';
-		}
-		else{
-			var spreviousclass 	= 'jPag-sprevious';
-			var previousclass 	= 'jPag-previous';
-			var snextclass 		= 'jPag-snext';
-			var nextclass 		= 'jPag-next';
-		}
-		var _first		= $(document.createElement('a')).addClass('jPag-first').html('First');
-		
-		if(o.rotate){
-			if(o.images) var _rotleft	= $(document.createElement('span')).addClass(spreviousclass);
-			else var _rotleft	= $(document.createElement('span')).addClass(spreviousclass).html('&laquo;');		
-		}
-		
-		var _divwrapleft	= $(document.createElement('div')).addClass('jPag-control-back');
-		_divwrapleft.append(_first).append(_rotleft);
-		
-		var _ulwrapdiv	= $(document.createElement('div')).css('overflow','hidden');
-		var _ul			= $(document.createElement('ul')).addClass('jPag-pages')
-		var c = (o.display - 1) / 2;
-		var first = selectedpage - c;
-		var selobj;
-		for(var i = 0; i < o.count; i++){
-			var val = i+1;
-			if(val == selectedpage){
-				var _obj = $(document.createElement('li')).html('<span class="jPag-current">'+val+'</span>');
-				selobj = _obj;
-				_ul.append(_obj);
-			}	
-			else{
-				var _obj = $(document.createElement('li')).html('<a>'+ val +'</a>');
-				_ul.append(_obj);
-				}				
-		}		
-		_ulwrapdiv.append(_ul);
-		
-		if(o.rotate){
-			if(o.images) var _rotright	= $(document.createElement('span')).addClass(snextclass);
-			else var _rotright	= $(document.createElement('span')).addClass(snextclass).html('&raquo;');
-		}
-		
-		var _last		= $(document.createElement('a')).addClass('jPag-last').html('Last');
-		var _divwrapright	= $(document.createElement('div')).addClass('jPag-control-front');
-		_divwrapright.append(_rotright).append(_last);
-		
-		//append all:
-		$this.addClass('jPaginate').append(_divwrapleft).append(_ulwrapdiv).append(_divwrapright);
-			
-		if(!o.border){
-			if(o.background_color == 'none') var a_css 				= {'color':o.text_color};
-			else var a_css 											= {'color':o.text_color,'background-color':o.background_color};
-			if(o.background_hover_color == 'none')	var hover_css 	= {'color':o.text_hover_color};
-			else var hover_css 										= {'color':o.text_hover_color,'background-color':o.background_hover_color};	
-		}	
-		else{
-			if(o.background_color == 'none') var a_css 				= {'color':o.text_color,'border':'1px solid '+o.border_color};
-			else var a_css 											= {'color':o.text_color,'background-color':o.background_color,'border':'1px solid '+o.border_color};
-			if(o.background_hover_color == 'none')	var hover_css 	= {'color':o.text_hover_color,'border':'1px solid '+o.border_hover_color};
-			else var hover_css 										= {'color':o.text_hover_color,'background-color':o.background_hover_color,'border':'1px solid '+o.border_hover_color};
-		}
-		
-		$.fn.applystyle(o,$this,a_css,hover_css,_first,_ul,_ulwrapdiv,_divwrapright);
-		//calculate width of the ones displayed:
-		var outsidewidth = outsidewidth_tmp - _first.parent().width() -3;
-		if(ver == 'ie7'){
-			_ulwrapdiv.css('width',outsidewidth+72+'px');
-			_divwrapright.css('left',outsidewidth_tmp+6+72+'px');
-		}
-		else{
-			_ulwrapdiv.css('width',outsidewidth+'px');
-			_divwrapright.css('left',outsidewidth_tmp+6+'px');
-		}
-		
-		if(o.rotate){
-			_rotright.hover(
-				function() {
-				  thumbs_scroll_interval = setInterval(
-					function() {
-					  var left = _ulwrapdiv.scrollLeft() + 1;
-					  _ulwrapdiv.scrollLeft(left);
-					},
-					20
-				  );
-				},
-				function() {
-				  clearInterval(thumbs_scroll_interval);
-				}
-			);
-			_rotleft.hover(
-				function() {
-				  thumbs_scroll_interval = setInterval(
-					function() {
-					  var left = _ulwrapdiv.scrollLeft() - 1;
-					  _ulwrapdiv.scrollLeft(left);
-					},
-					20
-				  );
-				},
-				function() {
-				  clearInterval(thumbs_scroll_interval);
-				}
-			);
-			if(o.mouse == 'press'){
-				_rotright.mousedown(
-					function() {
-					  thumbs_mouse_interval = setInterval(
-						function() {
-						  var left = _ulwrapdiv.scrollLeft() + 5;
-						  _ulwrapdiv.scrollLeft(left);
-						},
-						20
-					  );
-					}
-				).mouseup(
-					function() {
-					  clearInterval(thumbs_mouse_interval);
-					}
-				);
-				_rotleft.mousedown(
-					function() {
-					  thumbs_mouse_interval = setInterval(
-						function() {
-						  var left = _ulwrapdiv.scrollLeft() - 5;
-						  _ulwrapdiv.scrollLeft(left);
-						},
-						20
-					  );
-					}
-				).mouseup(
-					function() {
-					  clearInterval(thumbs_mouse_interval);
-					}
-				);
-			}
-			else{
-				_rotleft.click(function(e){
-					var width = outsidewidth - 10;
-					var left = _ulwrapdiv.scrollLeft() - width;
-					_ulwrapdiv.animate({scrollLeft: left +'px'});
-				});	
-				
-				_rotright.click(function(e){
-					var width = outsidewidth - 10;
-					var left = _ulwrapdiv.scrollLeft() + width;
-					_ulwrapdiv.animate({scrollLeft: left +'px'});
-				});
-			}
-		}
-		
-		//first and last:
-		_first.click(function(e){
-				_ulwrapdiv.animate({scrollLeft: '0px'});
-				_ulwrapdiv.find('li').eq(0).click();
-		});
-		_last.click(function(e){
-				_ulwrapdiv.animate({scrollLeft: insidewidth +'px'});
-				_ulwrapdiv.find('li').eq(o.count - 1).click();
-		});
-		
-		//click a page
-		_ulwrapdiv.find('li').click(function(e){
-			selobj.html('<a>'+selobj.find('.jPag-current').html()+'</a>'); 
-			var currval = $(this).find('a').html();
-			$(this).html('<span class="jPag-current">'+currval+'</span>');
-			selobj = $(this);
-			$.fn.applystyle(o,$(this).parent().parent().parent(),a_css,hover_css,_first,_ul,_ulwrapdiv,_divwrapright);	
-			var left = (this.offsetLeft) / 2;
-			var left2 = _ulwrapdiv.scrollLeft() + left;
-			var tmp = left - (outsidewidth / 2);
-			if(ver == 'ie7')
-				_ulwrapdiv.animate({scrollLeft: left + tmp - _first.parent().width() + 52 + 'px'});	
-			else
-				_ulwrapdiv.animate({scrollLeft: left + tmp - _first.parent().width() + 'px'});	
-			o.onChange(currval);	
-		});
-		
-		var last = _ulwrapdiv.find('li').eq(o.start-1);
-		last.attr('id','tmp');
-		var left = document.getElementById('tmp').offsetLeft / 2;
-		last.removeAttr('id');
-		var tmp = left - (outsidewidth / 2);
-		if(ver == 'ie7') _ulwrapdiv.animate({scrollLeft: left + tmp - _first.parent().width() + 52 + 'px'});	
-		else _ulwrapdiv.animate({scrollLeft: left + tmp - _first.parent().width() + 'px'});	
-	}
-	
-	$.fn.applystyle = function(o,obj,a_css,hover_css,_first,_ul,_ulwrapdiv,_divwrapright){
-					obj.find('a').css(a_css);
-					obj.find('span.jPag-current').css(hover_css);
-					obj.find('a').hover(
-					function(){
-						$(this).css(hover_css);
-					},
-					function(){
-						$(this).css(a_css);
-					}
-					);
-					obj.css('padding-left',_first.parent().width() + 5 +'px');
-					insidewidth = 0;
-					
-					obj.find('li').each(function(i,n){
-						if(i == (o.display-1)){
-							outsidewidth_tmp = this.offsetLeft + this.offsetWidth ;
-						}
-						insidewidth += this.offsetWidth;
-					})
-					_ul.css('width',insidewidth+'px');
-	}
-})(Zepto);
-
+;(function(e){"use strict";e.jqPagination=function(t,n){var r=this;r.$el=e(t);r.el=t;r.$input=r.$el.find("input");r.$el.data("jqPagination",r);r.init=function(){r.options=e.extend({},e.jqPagination.defaultOptions,n);r.options.max_page===null&&(r.$input.data("max-page")!==undefined?r.options.max_page=r.$input.data("max-page"):r.options.max_page=1);r.$input.data("current-page")!==undefined&&r.isNumber(r.$input.data("current-page"))&&(r.options.current_page=r.$input.data("current-page"));r.$input.removeAttr("readonly");r.updateInput(!0);r.$input.on("focus.jqPagination mouseup.jqPagination",function(t){if(t.type==="focus"){var n=parseInt(r.options.current_page,10);e(this).val(n).select()}if(t.type==="mouseup")return!1});r.$input.on("blur.jqPagination keydown.jqPagination",function(t){var n=e(this),i=parseInt(r.options.current_page,10);if(t.keyCode===27){n.val(i);n.blur()}t.keyCode===13&&n.blur();t.type==="blur"&&r.setPage(n.val())});r.$el.on("click.jqPagination","a",function(t){var n=e(this);if(n.hasClass("disabled"))return!1;if(!t.metaKey&&!t.ctrlKey){t.preventDefault();r.setPage(n.data("action"))}})};r.setPage=function(e,t){if(e===undefined)return r.options.current_page;var n=parseInt(r.options.current_page,10),i=parseInt(r.options.max_page,10);if(isNaN(parseInt(e,10)))switch(e){case"first":e=1;break;case"prev":case"previous":e=n-1;break;case"next":e=n+1;break;case"last":e=i}e=parseInt(e,10);if(isNaN(e)||e<1||e>i){r.setInputValue(n);return!1}r.options.current_page=e;r.$input.data("current-page",e);r.updateInput(t)};r.setMaxPage=function(e,t){if(e===undefined)return r.options.max_page;if(!r.isNumber(e)){console.error("jqPagination: max_page is not a number");return!1}if(e<r.options.current_page){console.error("jqPagination: max_page lower than current_page");return!1}r.options.max_page=e;r.$input.data("max-page",e);r.updateInput(t)};r.updateInput=function(e){var t=parseInt(r.options.current_page,10);r.setInputValue(t);r.setLinks(t);e!==!0&&r.options.paged(t)};r.setInputValue=function(e){var t=r.options.page_string,n=r.options.max_page;t=t.replace("{current_page}",e).replace("{max_page}",n);r.$input.val(t)};r.isNumber=function(e){return!isNaN(parseFloat(e))&&isFinite(e)};r.setLinks=function(e){var t=r.options.link_string,n=parseInt(r.options.current_page,10),i=parseInt(r.options.max_page,10);if(t!==""){var s=n-1;s<1&&(s=1);var o=n+1;o>i&&(o=i);r.$el.find("a.first").attr("href",t.replace("{page_number}","1"));r.$el.find("a.prev, a.previous").attr("href",t.replace("{page_number}",s));r.$el.find("a.next").attr("href",t.replace("{page_number}",o));r.$el.find("a.last").attr("href",t.replace("{page_number}",i))}r.$el.find("a").removeClass("disabled");n===i&&r.$el.find(".next, .last").addClass("disabled");n===1&&r.$el.find(".previous, .first").addClass("disabled")};r.callMethod=function(t,n,i){switch(t.toLowerCase()){case"option":if(i===undefined&&typeof n!="object")return r.options[n];var s={trigger:!0},o=!1;e.isPlainObject(n)&&!i?e.extend(s,n):s[n]=i;var u=s.trigger===!1;s.current_page!==undefined&&(o=r.setPage(s.current_page,u));s.max_page!==undefined&&(o=r.setMaxPage(s.max_page,u));o===!1&&console.error("jqPagination: cannot get / set option "+n);return o;case"destroy":r.$el.off(".jqPagination").find("*").off(".jqPagination");break;default:console.error('jqPagination: method "'+t+'" does not exist');return!1}};r.init()};e.jqPagination.defaultOptions={current_page:1,link_string:"",max_page:null,page_string:"Page {current_page} of {max_page}",paged:function(){}};e.fn.jqPagination=function(){var t=this,n=e(t),r=Array.prototype.slice.call(arguments),i=!1;if(typeof r[0]=="string"){r[2]===undefined?i=n.first().data("jqPagination").callMethod(r[0],r[1]):n.each(function(){i=e(this).data("jqPagination").callMethod(r[0],r[1],r[2])});return i}t.each(function(){new e.jqPagination(this,r[0])})}})(Zepto);if(!console){var console={},func=function(){return!1};console.log=func;console.info=func;console.warn=func;console.error=func};
 
 $(document.body).transition('options', {defaultPageTransition : 'fade', domCache : true});
 
@@ -336,9 +87,7 @@ var app = {
 					}
 				});
 			} else {
-				if(typeof window.plugins != 'undefined' && typeof window.plugins.toast != 'undefined'){
-					window.plugins.toast.showLongCenter('Brak połączenia z internetem.',function(a){},function(b){});
-				}
+				window.plugins.toast.showLongCenter('Brak połączenia z internetem.',function(a){},function(b){});
 				artykuly_loaded = false;
 			}
 		}
@@ -360,9 +109,16 @@ var app = {
 					li.innerHTML = '<a onclick="window.open(\''+link+'\',\'_system\',\'location=no\')"><i class="fa fa-chevron-circle-right pull-right"></i><h6>'+title+'</h6><span>'+date_string+'</span></a>';
 					list.appendChild(li);
 				}
-				artykulyDiv.innerHTML = '<ul>'+list.innerHTML+'</ul>';
+				artykulyDiv.innerHTML = '<div class=""<ul>'+list.innerHTML+'</ul>';
+				
+				$('.pagination').jqPagination({
+					paged: function(page) {
+						// do something with the page variable
+					}
+				});
+				
 			} else {
-				artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności. <a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
+				artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności.<br /><br /><a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
 			}
 		}
 		function checkVersion(){
@@ -421,7 +177,7 @@ var app = {
 			if(gotConnection()) {
 				warsztatyDiv.innerHTML = '<div class="panel text-center">Nie udało się wgrać listy warsztatów.</div>';
 			} else {
-				warsztatyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać listę warsztatów. <a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
+				warsztatyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać listę warsztatów.<br /><br /><a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
 			}
 		}
 		function fileExists(fe){
@@ -494,7 +250,7 @@ var app = {
 				if(gotConnection()) {
 					artykulyDiv.innerHTML = '<div class="panel text-center">Nie udało się wgrać aktualności.</div>';
 				} else {
-					artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności. <a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
+					artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności.<br /><br /><a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
 				}
 			}
 			
@@ -508,35 +264,15 @@ var app = {
 				warsztatyLoadError();
 			}
 		//});
-		
-		$("#demo1").paginate({
-				count 		: 100,
-				start 		: 1,
-				display     : 8,
-				border					: true,
-				border_color			: '#fff',
-				text_color  			: '#fff',
-				background_color    	: 'black',	
-				border_hover_color		: '#ccc',
-				text_hover_color  		: '#000',
-				background_hover_color	: '#fff', 
-				images					: false,
-				mouse					: 'press'
-			});
-		
     },
 	onLoad: function() {
 		
     },
 	onOffline: function() {
-		if(typeof window.plugins != 'undefined' && typeof window.plugins.toast != 'undefined'){
-			window.plugins.toast.showLongCenter('Brak połączenia z internetem.',function(a){},function(b){});
-		}
+		window.plugins.toast.showLongCenter('Brak połączenia z internetem.',function(a){},function(b){});
 	},
 	onOnline: function() {
-		if(typeof window.plugins != 'undefined' && typeof window.plugins.toast != 'undefined'){
-			window.plugins.toast.showLongCenter('Nawiązano połączenie z internetem.',function(a){},function(b){});
-		}
+		window.plugins.toast.showLongCenter('Nawiązano połączenie z internetem.',function(a){},function(b){});
 		if(!artykuly_loaded){
 			feedArtykuly();
 		}

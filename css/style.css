@@ -41,14 +41,14 @@ footer a.blue{background-color:#004489}
 #artykuly ul li a .fa{margin-top:5px;color:#ddd}
 #artykuly ul li a:active h6,#artykuly ul li a:active .fa{color:#d60811}
 
-.pagination_outer{position:fixed;width:100%;bottom:0px;left:0px;z-index:10;background-color:#fff;-moz-box-shadow:0px -1px 1px #d0d0d0;-webkit-box-shadow:0px -1px 1px #d0d0d0;box-shadow:0px -1px 1px #d0d0d0;}
+.pagination_outer{position:fixed;width:100%;bottom:0px;left:0px;padding:10px;z-index:999;background-color:#fff;}
 .pagination{display:inline-block;border:1px solid #CDCDCD;border-radius:3px;width:244px}
-.pagination a{display:inline-block;width:10%;height:48px;line-height:48px;outline:0;border-right:1px solid #CDCDCD;border-left:1px solid #CDCDCD;color:#555;vertical-align:middle;text-align:center;text-decoration:none;font-weight:700;font-size:18px;font-family:Lato,sans-serif;background-color:#f3f3f3;background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#f3f3f3),color-stop(100%,lightgrey));background-image:-webkit-linear-gradient(#f3f3f3,lightgrey);background-image:linear-gradient(#f3f3f3,lightgrey)}
+.pagination a{display:inline-block;width:28px;height:28px;line-height:28px;outline:0;border-right:1px solid #CDCDCD;border-left:1px solid #CDCDCD;color:#555;vertical-align:middle;text-align:center;text-decoration:none;font-weight:700;font-size:18px;font-family:Lato,sans-serif;background-color:#f3f3f3;background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#f3f3f3),color-stop(100%,lightgrey));background-image:-webkit-linear-gradient(#f3f3f3,lightgrey);background-image:linear-gradient(#f3f3f3,lightgrey)}
 .pagination a:active,.pagination a:focus,.pagination a:hover{background-color:#cecece;background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#e4e4e4),color-stop(100%,#cecece));background-image:-webkit-linear-gradient(#e4e4e4,#cecece);background-image:linear-gradient(#e4e4e4,#cecece)}
 .pagination a.disabled,.pagination a.disabled:active,.pagination a.disabled:focus,.pagination a.disabled:hover{background-color:#f3f3f3;background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#f3f3f3),color-stop(100%,lightgrey));background-image:-webkit-linear-gradient(#f3f3f3,lightgrey);background-image:linear-gradient(#f3f3f3,lightgrey);color:#A8A8A8;cursor:default}
 .pagination a:first-child{border:none;border-radius:2px 0 0 2px}
 .pagination a:last-child{border:none;border-radius:0 2px 2px 0}
-.pagination input{display:inline-block;margin:0;padding:0;width:60%;height:48px;outline:0;border:none;vertical-align:middle;text-align:center}
+.pagination input{display:inline-block;margin:0;padding:0;width:130px;height:28px;outline:0;border:none;vertical-align:middle;text-align:center}
 
 /* Smartphones (portrait and landscape) ----------- */
 @media (min-width : 320px) and (max-width : 480px) {

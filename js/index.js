@@ -8,7 +8,7 @@ var	warsztaty = [],
 	warsztaty_loaded = false,
 	artykuly_loaded = false,
 	fi_path = 'installed.dat',
-	warsztaty_path = 'warsztaty.dat',
+	warsztaty_path = 'warsztaty.txt',
 	warsztaty_from_file = false,
 	//artykulyUrl = 'http://www.q-service.com.pl/rss/',
 	artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
@@ -166,8 +166,6 @@ function fileExists(fe){
 	*/
 }
 function fileNotExists(fs){
-	window.plugins.toast.showShortBottom('fileNotExists',function(a){},function(b){});
-	/*
 	feedWarsztaty();
 	if(warsztaty_loaded){
 		fs.root.getFile(warsztaty_path,{create:true,exclusive:true},function(fe){
@@ -184,7 +182,6 @@ function fileNotExists(fs){
 			warsztaty_loaded = false;
 		});
 	}
-	*/
 }
 function warsztatyFailFS(){
 	warsztaty_loaded = false;

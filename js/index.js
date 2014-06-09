@@ -157,7 +157,7 @@ function warsztatyLoadError(){
 	}
 }
 function fileExists(fe){
-	window.plugins.toast.showLongCenter('fileExists',function(a){},function(b){});
+	window.plugins.toast.showLongBottom('fileExists',function(a){},function(b){});
 	fe.file(function(file){
 		var reader = new FileReader();
 		reader.onloadend = function(e){
@@ -169,11 +169,11 @@ function fileExists(fe){
 	},warsztatyFailFS);
 }
 function fileNotExists(){
-	window.plugins.toast.showLongCenter('fileNotExists',function(a){},function(b){});
+	window.plugins.toast.showLongBottom('fileNotExists',function(a){},function(b){});
 	feedWarsztaty();
 	if(warsztaty_loaded){
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-			window.plugins.toast.showLongCenter('requestFileSystem',function(a){},function(b){});
+			window.plugins.toast.showLongTop('requestFileSystem',function(a){},function(b){});
 			fs.root.getFile(warsztaty_path,{create:true,exclusive:true},function(fe){
 				fe.createWriter(function(fw){
 					fw.onerror = function(e){

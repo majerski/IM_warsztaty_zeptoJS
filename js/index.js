@@ -234,6 +234,7 @@ $(document).ready(function() {
 	}
 	
 	if(warsztaty_from_file){
+		window.plugins.toast.showLongCenter('warsztaty_from_file',function(a){},function(b){});
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
 			fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
 		}, warsztatyFailFS);

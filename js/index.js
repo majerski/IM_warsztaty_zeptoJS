@@ -152,6 +152,7 @@ function renderWarsztaty(){
 function fileExists(fe){
 	window.plugins.toast.showLongCenter('fileExists',function(a){},function(b){});
 	fe.file(function(file){
+		window.plugins.toast.showLongBottom('fe.file',function(a){},function(b){});
 		var reader = new FileReader();
 		reader.onloadend = function(e){
 			warsztaty = JSON.parse(this.result);

@@ -1,6 +1,7 @@
 $(document.body).transition('options', {defaultPageTransition : 'fade', domCache : true});
 
 var	warsztaty = [],
+	warsztatyDiv = document.getElementById("warsztaty"),
 	warsztaty_filtered = warsztaty,
 	artykuly = [],
 	new_version = false,
@@ -146,17 +147,22 @@ function feedWarsztaty(){
 	}
 }
 function renderWarsztaty(){
-	var warsztatyDiv = document.getElementById("warsztaty");
 	warsztatyDiv.innerHTML = '<div class="panel text-center">Wgrano listę warsztatów.</div>';
+}
+function warsztatyLoadError(){
+	if(gotConnection()) {
+		warsztatyDiv.innerHTML = '<div class="panel text-center">Nie udało się wgrać listy warsztatów.</div>';
+	} else {
+		warsztatyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać listę warsztatów. <a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
+	}
 }
 function fileExists(fe){
 	fe.file(function(file){
-		window.plugins.toast.showLongBottom(fe.fullPath,function(a){},function(b){});
 		var reader = new FileReader();
 		reader.onloadend = function(e){
 			warsztaty = JSON.parse(this.result);
 			warsztaty_loaded = true;
-			window.plugins.toast.showLongBottom(JSON.stringify(warsztaty),function(a){},function(b){});
+			renderWarsztaty();
 		};
 		reader.readAsText(file);
 	},warsztatyFailFS);
@@ -173,14 +179,17 @@ function fileNotExists(error){
 					};
 					var inputData = JSON.stringify(warsztaty);
 					fw.write(inputData);
+					renderWarsztaty();
 				},warsztatyFailFS);
 			},warsztatyFailFS);
 		},warsztatyFailFS);
+	} else {
+		warsztatyLoadError();
 	}
 }
 function warsztatyFailFS(e){
 	warsztaty_loaded = false;
-	window.plugins.toast.showLongCenter('warsztatyFailFS',function(a){},function(b){});
+	warsztatyLoadError();
 }
 $(document).ready(function() {
 	$("header ul li a").removeClass("active");
@@ -211,12 +220,6 @@ $(document).ready(function() {
 		warsztaty_from_file = true;
 	}
 	
-	if(warsztaty_from_file){
-		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-			fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
-		}, warsztatyFailFS);
-	}
-	
 	if(artykuly_loaded){
 		renderArtykuly();
 	} else {
@@ -227,15 +230,15 @@ $(document).ready(function() {
 			artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności. <a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
 		}
 	}
-	if(warsztaty_loaded){
+	
+	if(warsztaty_from_file){
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+			fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
+		}, warsztatyFailFS);
+	} else if(warsztaty_loaded){
 		renderWarsztaty();
 	} else {
-		var warsztatyDiv = document.getElementById("warsztaty");
-		if(gotConnection()) {
-			warsztatyDiv.innerHTML = '<div class="panel text-center">Nie udało się wgrać listy warsztatów.</div>';
-		} else {
-			warsztatyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać listę warsztatów. <a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
-		}
+		warsztatyLoadError();
 	}
 });	
 

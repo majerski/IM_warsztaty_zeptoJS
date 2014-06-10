@@ -777,8 +777,8 @@ var	warsztaty = [],
 			});
 			
 			$(document).on("pagebeforeshow","#page2",function(e,eventData){
-				//if(articles_first_load){
-				//	articles_first_load = false;
+				if(articles_first_load){
+					articles_first_load = false;
 					if(artykuly_loaded){
 						renderArtykuly();
 					} else {
@@ -788,7 +788,7 @@ var	warsztaty = [],
 							artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności.<br /><br /><a onclick="locationreload(\'page2\');"><i class="fa fa-refresh"></i> odśwież</a></div>';
 						}
 					}
-				//}
+				}
 			});
 			$(document).on("pageshow","#page2",function(e,eventData){
 				$(".articles_pagination_outer").fadeIn(100);

@@ -32,7 +32,7 @@ footer a.blue{background-color:#004489}
 #page1 .content .ikona4:active{background-image:url('../img/srodek-4hs.png')}
 #page1 .content .ikona{display:block;text-align:center;font-family:Lato,sans-serif;font-size:16px;font-weight:bold;color:#060E0E;text-shadow:#FFF 1px 1px 0px;background-position:50% 10%;background-repeat:no-repeat;padding-top:95px;padding-bottom:5px;-webkit-transition:padding 0.25s;-moz-transition:padding 0.25s;-o-transition:padding 0.25s;transition:padding 0.25s;}
 #page1 .content .ikona:active{text-shadow:#95120e 1px 1px 0px;background-color:rgb(175,15,10);background-color:-moz-linear-gradient(top,rgb(175,15,10) 0%,rgb(227,6,19) 100%);background-color:-webkit-gradient(linear,left top,left bottom,color-stop(0%,rgb(175,15,10)), color-stop(100%,rgb(227,6,19)));background-color: -webkit-linear-gradient(top,  rgb(175,15,10) 0%,rgb(227,6,19) 100%);background-color: -o-linear-gradient(top,rgb(175,15,10) 0%,rgb(227,6,19) 100%);background-color:-ms-linear-gradient(top,rgb(175,15,10) 0%,rgb(227,6,19) 100%);background-color: linear-gradient(to bottom,rgb(175,15,10) 0%,rgb(227,6,19) 100%);color:#fff;}
-#artykuly ul{list-style-type:none;margin-left:0px;margin-right:0px;margin-top:10px;margin-bottom:35px;}
+#artykuly ul{list-style-type:none;margin-left:0px;margin-right:0px;margin-top:0px;margin-bottom:35px;}
 #artykuly ul li{display:none;border:1px solid #f2f2f2;background:#f2f2f2;line-height:normal}
 #artykuly ul li:nth-child(even) {background:#efefef;border-bottom:1px solid #e5e5e5;border-top:1px solid #f5f5f5}
 #artykuly ul li a{display:block;color:#000;padding:.7em 15px}

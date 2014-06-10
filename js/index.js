@@ -31,10 +31,13 @@ var	warsztaty = [],
 	_warsztaty = [],
 	_order = 1,
 	_search = false,
+	warsztaty_first_load = false,
+	warsztaty_pagination_loaded = false,
 	warsztatyDiv = document.getElementById("warsztaty"),
 	artykulyDiv = document.getElementById("artykuly"),
 	warsztaty_filtered = warsztaty,
 	artykuly = [],
+	articles_first_load = false,
 	articles_pagination_loaded = false,
 	new_version = false,
 	warsztaty_file_exists = false,
@@ -59,6 +62,28 @@ function supports_html5_storage() {
 			return false;
 		  }
 		}
+		String.prototype.replaceArray = function(find, replace) {
+			var replaceString = this;
+			var regex; 
+			for (var i = 0; i < find.length; i++) {
+				regex = new RegExp(find[i], "g");
+				replaceString = replaceString.replace(regex, replace[i]);
+			}
+			return replaceString;
+		};
+		function filterValuePart(arr,part) {
+			var find = ["ą","ś","ż","ź","ć","ń","ł","ó","ę",'"',"'","`"];
+			var replace = ["a","s","z","z","c","n","l","o","e","","",""];
+			part = part.toLowerCase().trim();
+			partReplaced = part.replaceArray(find,replace);
+			var emptyArr = new Array();
+			$.each(arr,function(i,item){
+				if( (String(item.konto).toLowerCase().indexOf(part) > -1) || (String(item.miasto).toLowerCase().indexOf(part) > -1) || (String(item.ulica).toLowerCase().indexOf(part) > -1) || (String(item.konto).toLowerCase().replaceArray(find,replace).indexOf(partReplaced) > -1) || (String(item.miasto).toLowerCase().replaceArray(find,replace).indexOf(partReplaced) > -1) || (String(item.ulica).toLowerCase().replaceArray(find,replace).indexOf(partReplaced) > -1) ) {
+					emptyArr.push(item);
+				}
+			});
+			return emptyArr;
+		};
 		function checkConnection() {
 			if(typeof navigator.connection == 'undefined' || typeof navigator.connection.type == 'undefined') {
 				return 'fail';
@@ -201,30 +226,40 @@ function supports_html5_storage() {
 			}
 		}
 		function renderWarsztaty(){
-			$(".warsztaty_pagination_outer").remove();
-			$("body").prepend('<div class="text-center pagination_outer warsztaty_pagination_outer"><div class="relative"><a class="toggleForm" data-state="0">&#x25B2;</a><div class="warsztaty_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="60" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div><input type="search" placeholder="nazwa, miasto lub ulica" id="warsztat_search" onchange="return warsztaty_filter(this.value);" /><select onchange="return warsztaty_order(this.value);"><option value="1">alfabetycznie wg miast</option><option value="2">najmniejsza odległość</option></select></div></div>');
-			$('.warsztaty_pagination').jqPagination({
-				paged:function(page) {
-					//$('#artykuly ul li').hide();
-					//$('#artykuly ul li[data-page="'+page+'"]').show();
-				}
-			});
-			
-			$(".toggleForm").on("click",function(){
-				var state = $(this).attr("data-state");
-				if(state == 0){
-					$(this).attr("data-state",1).html("&#x25BC;");
-					$(".warsztaty_pagination_outer").animate({
-						"bottom":0
-					},200,"easeInExpo");
-				} else {
-					$(this).attr("data-state",0).html("&#x25B2;");
-					$(".warsztaty_pagination_outer").animate({
-						"bottom":-95
-					},200,"easeOutExpo");
-				}
-			});
-			
+			if(!warsztaty_pagination_loaded){
+				$("body").prepend('<div class="text-center pagination_outer warsztaty_pagination_outer"><div class="relative"><a class="toggleForm" data-state="0">&#x25B2;</a><div class="warsztaty_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="60" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div><input type="search" placeholder="nazwa, miasto lub ulica" id="warsztat_search" onchange="return warsztaty_filter(this.value);" /><select onchange="return warsztaty_order(this.value);"><option value="1">alfabetycznie wg miast</option><option value="2">najmniejsza odległość</option></select></div></div>');
+				$('.warsztaty_pagination').jqPagination({
+					paged:function(page) {
+						//$('#artykuly ul li').hide();
+						//$('#artykuly ul li[data-page="'+page+'"]').show();
+					}
+				});
+				$(".toggleForm").on("click",function(){
+					var state = $(this).attr("data-state");
+					if(state == 0){
+						$(this).attr("data-state",1).html("&#x25BC;");
+						$(".warsztaty_pagination_outer").animate({
+							"bottom":0
+						},200,"easeInExpo");
+					} else {
+						$(this).attr("data-state",0).html("&#x25B2;");
+						$(".warsztaty_pagination_outer").animate({
+							"bottom":-95
+						},200,"easeOutExpo");
+					}
+				});
+				warsztaty_pagination_loaded = true;
+			}
+			if(_warsztaty.length <= 0){
+				_warsztaty = warsztaty;
+			}
+			_warsztaty = filterValuePart(_warsztaty,'');
+			var len = Object.keys(_warsztaty).length;
+			if( len > 0 ) {
+				
+			} else {
+				
+			}
 			warsztatyDiv.innerHTML = '';
 		}
 		function warsztatyLoadError(){
@@ -300,15 +335,6 @@ function supports_html5_storage() {
 				artykuly_loaded = false;
 				warsztaty_from_file = true;
 			}
-			if(warsztaty_from_file){
-				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-					fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
-				}, warsztatyFailFS);
-			} else if(warsztaty_loaded){
-				renderWarsztaty();
-			} else {
-				warsztatyLoadError();
-			}
 			
 			$('#wycena').isHappy({
 				fields: {
@@ -353,6 +379,7 @@ function supports_html5_storage() {
 						message: 'pole wymagane'
 					}
 				},
+				submitButton:'.happybutton',
 				happy:function(){
 					var mailbody1 = '<p>Dane z formularza:</p><p>typ auta: '+$("#formtyp").val()+'<br />numer VIN: '+$("#vin").val()+'<br />marka, model, silnik: '+$("#marka").val()+'<br />rok produkcji: '+$("#rok").val()+'<br />rodzaj paliwa: '+$("#paliwo").val()+'<br />numer rejestracyjny: '+$("#rejestr").val()+'<br />usługa do wyceny: '+$("#usluga").val()+'<br />e-mail: '+$("#email").val()+'<br />numer telefonu: '+$("#tel").val()+'<br />miasto: '+$("#miasto").val()+'</p>';
 					window.plugin.email.isServiceAvailable(
@@ -369,13 +396,16 @@ function supports_html5_storage() {
 			});
 			
 			$(document).on("pagebeforeshow","#page2",function(e,eventData){
-				if(artykuly_loaded){
-					renderArtykuly();
-				} else {
-					if(gotConnection()) {
-						artykulyDiv.innerHTML = '<div class="panel text-center">Nie udało się wgrać aktualności.</div>';
+				if(!articles_first_load){
+					articles_first_load = true;
+					if(artykuly_loaded){
+						renderArtykuly();
 					} else {
-						artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności.<br /><br /><a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
+						if(gotConnection()) {
+							artykulyDiv.innerHTML = '<div class="panel text-center">Nie udało się wgrać aktualności.</div>';
+						} else {
+							artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności.<br /><br /><a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
+						}
 					}
 				}
 			});
@@ -386,6 +416,20 @@ function supports_html5_storage() {
 				$(".articles_pagination_outer").fadeOut(100);
 			});
 			
+			$(document).on("pagebeforeshow","#page3",function(e,eventData){
+				if(!warsztaty_first_load){
+					warsztaty_first_load = true;
+					if(warsztaty_from_file){
+						window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+							fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
+						}, warsztatyFailFS);
+					} else if(warsztaty_loaded){
+						renderWarsztaty();
+					} else {
+						warsztatyLoadError();
+					}
+				}
+			});
 			$(document).on("pageshow","#page3",function(e,eventData){
 				$(".warsztaty_pagination_outer").fadeIn(100);
 			});

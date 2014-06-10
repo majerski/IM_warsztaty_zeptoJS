@@ -185,7 +185,7 @@ var	warsztaty = [],
 					});
 				}
 			} else {
-				artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności.<br /><br /><a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
+				artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności.<br /><br /><a onclick="locationreload(\'page2\');"><i class="fa fa-refresh"></i> odśwież</a></div>';
 			}
 		}
 		function checkVersion(){
@@ -640,8 +640,30 @@ var	warsztaty = [],
 		}
 		
 		function locationreload(page){
-			$(document).transition('to', 'page1');
-			$(document).transition('to', page);
+			//$(document).transition('to', 'page1');
+			//$(document).transition('to', page);
+			var currentPage = $(".ui-page-active").attr('id');
+			switch(currentPage){
+				case "page2":
+					if(gotConnection()){
+						feedArtykuly();
+						if(artykuly_loaded){
+							renderArtykuly();
+						} else {
+							artykulyDiv.innerHTML = '<div class="panel text-center">Nie udało się wgrać aktualności.</div>';
+						}
+					} else {
+						artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności.<br /><br /><a onclick="locationreload(\'page2\');"><i class="fa fa-refresh"></i> odśwież</a></div>';
+					}
+					break;
+				case "page3":
+					
+					break;
+				case "page4":
+					
+					break;
+			}
+			return false;
 		}
 		function mapNotLoaded(){
 			$("#map_canvas").addClass("loaded").html('<div class="panel text-center">Włącz internet aby załadować mapę.<br /><br /><a onclick="locationreload(\'page4\');"><i class="fa fa-refresh"></i> odśwież</a></div>');
@@ -744,7 +766,7 @@ var	warsztaty = [],
 						if(gotConnection()) {
 							artykulyDiv.innerHTML = '<div class="panel text-center">Nie udało się wgrać aktualności.</div>';
 						} else {
-							artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności.<br /><br /><a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
+							artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności.<br /><br /><a onclick="locationreload(\'page2\');"><i class="fa fa-refresh"></i> odśwież</a></div>';
 						}
 					}
 				//}

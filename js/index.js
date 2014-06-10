@@ -28,6 +28,9 @@ $(document).ready(function(){$(document.body).transition("init").show()}),functi
 $(document.body).transition('options', {defaultPageTransition : 'fade', domCache : true});
 
 var	warsztaty = [],
+	_warsztaty = [],
+	_order = 1,
+	_search = false,
 	warsztatyDiv = document.getElementById("warsztaty"),
 	artykulyDiv = document.getElementById("artykuly"),
 	warsztaty_filtered = warsztaty,
@@ -208,14 +211,18 @@ var app = {
 			}
 		}
 		function renderWarsztaty(){
-			$("body").prepend('<div class="text-center pagination_outer warsztaty_pagination_outer"><div class="warsztaty_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="60" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div></div>');
+			$(".warsztaty_pagination_outer").remove();
+			$("body").prepend('<div class="text-center pagination_outer warsztaty_pagination_outer"><a class="toggleForm">&#x25B2;</a><div class="warsztaty_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="60" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div></div>');
 			$('.warsztaty_pagination').jqPagination({
 				paged:function(page) {
 					//$('#artykuly ul li').hide();
 					//$('#artykuly ul li[data-page="'+page+'"]').show();
 				}
 			});
-			warsztatyDiv.innerHTML = 'renderWarsztaty()';
+			
+			
+			
+			warsztatyDiv.innerHTML = '';
 		}
 		function warsztatyLoadError(){
 			if(gotConnection()) {

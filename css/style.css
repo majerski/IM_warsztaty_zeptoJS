@@ -53,6 +53,8 @@ footer a.blue{background-color:#004489}
 .unhappy{margin:0!important;border:1px solid #af0f0a!important}
 .unhappyMessage{font-size:0.775rem;color:#af0f0a;font-weight:normal;line-height:1.5;display:block;margin-bottom:10px}
 
+.toggleForm{display:block;float:right;width:20px;height:20px;margin:10px;padding:3px;background-color:#d40f09;color:#fff;font-size:18px;line-height:20px;}
+
 /* Smartphones (portrait and landscape) ----------- */
 @media (min-width : 320px) and (max-width : 480px) {
 	

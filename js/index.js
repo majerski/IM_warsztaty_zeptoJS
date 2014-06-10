@@ -671,8 +671,9 @@ var	warsztaty = [],
 					warsztaty_from_file = true;
 				}
 			} else {
-				artykuly_loaded = false;
-				warsztaty_from_file = true;
+				if(!warsztaty_loaded){
+					warsztaty_from_file = true;
+				}
 			}
 			
 			$('#wycena').isHappy({
@@ -777,7 +778,7 @@ var	warsztaty = [],
 			});
 			
 			$(document).on("pageshow","#page4",function(e,eventData){
-				var h = $(window).height() - 109;
+				var h = $(window).height() - 119;
 				$("#map_canvas").css({"height":h+"px"});
 				if(gotConnection()){
 					if(warsztaty_first_load){
@@ -848,6 +849,9 @@ var app = {
 		window.plugins.toast.showLongCenter('Nawiązano połączenie z internetem.',function(a){},function(b){});
 		if(!artykuly_loaded){
 			feedArtykuly();
+		}
+		if(!warsztaty_loaded){
+			
 		}
     }
 };

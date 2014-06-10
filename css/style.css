@@ -78,7 +78,7 @@ footer a.blue{background-color:#004489}
 
 #map_canvas .panel{margin:10px!important}
 #page4 .content{position:relative}
-#map_canvas{width:100%;background-color:#fff;background-image:url('../img/preloader.gif');background-position:center center;background-repeat:no-repeat;}
+#map_canvas{width:100%;background-image:url('../img/preloader.gif');background-position:center center;background-repeat:no-repeat;}
 #map_canvas.loaded{background-image:none}
 .gm-style-iw,.gm-style-iw div{overflow:visible!important}
 .noscrollbar {position:relative;width:200px;line-height:1.35;color:#444;font-family:Lato,sans-serif;padding-bottom:100px}

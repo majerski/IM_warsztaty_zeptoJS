@@ -668,7 +668,7 @@ var	warsztaty = [],
 		function mapNotLoaded(){
 			$("#map_canvas").addClass("loaded").html('<div class="panel text-center">Włącz internet aby załadować mapę.<br /><br /><a onclick="locationreload(\'page4\');"><i class="fa fa-refresh"></i> odśwież</a></div>');
 		}
-		$(document).ready(function(){
+		//$(document).ready(function(){
 			$("header ul li a").removeClass("active");
 			var targetID = $(".ui-page-active").attr('id');
 			$('header ul li a[href="'+targetID+'"]').addClass("active");
@@ -827,7 +827,7 @@ var	warsztaty = [],
 			$(document).on("pageshow","#warsztat",function(e,eventData){
 				$("#warsztat footer").animate({"bottom":0},500,"easeOutExpo");
 			});
-		});
+		//});
 	
 	
 var app = {

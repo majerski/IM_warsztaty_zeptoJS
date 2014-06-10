@@ -65,11 +65,11 @@ var	warsztaty = [],
 	};
 
 		function supports_html5_storage() {
-		  try {
-			return 'localStorage' in window && window['localStorage'] !== null;
-		  } catch (e) {
-			return false;
-		  }
+			try {
+				return 'localStorage' in window && window['localStorage'] !== null;
+			} catch (e) {
+				return false;
+			}
 		}
 		String.prototype.replaceArray = function(find, replace) {
 			var replaceString = this;
@@ -116,9 +116,6 @@ var	warsztaty = [],
 			return states[networkState];
 		}
 		function gotConnection(){
-			//
-			//return true;
-			//
 			var a = checkConnection();
 			if(a == 'fail'){return false;}
 			return true;

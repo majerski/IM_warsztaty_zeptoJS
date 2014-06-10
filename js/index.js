@@ -13,16 +13,33 @@ var	warsztaty = [],
 	fi_path = 'installed.dat',
 	warsztaty_path = 'warsztaty.txt',
 	warsztaty_from_file = false,
-	//artykulyUrl = 'http://www.q-service.com.pl/rss/',
-	artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
+	artykulyUrl = 'http://www.q-service.com.pl/rss/',
+	//artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
 	warsztatyUrl = 'http://arcontact.pl/warsztaty_inter_cars/feed.php',
 	form_email = 'mifdetal@intercars.eu',
 	map,
 	startingLatitude = 52.069347,
 	startingLongitude = 19.480204;
 	
-	
-function supports_html5_storage() {
+var app = {
+    initialize: function() {
+        this.bindEvents();
+        this.initFastClick();
+    },
+    bindEvents: function() {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+		document.addEventListener("load", this.onLoad, false);
+		document.addEventListener("offline", this.onOffline, false);
+		document.addEventListener("online", this.onOnline, false);
+    },
+    initFastClick: function() {
+        window.addEventListener('load', function() {
+            FastClick.attach(document.body);
+        },false);
+    },
+    onDeviceReady: function() {
+		// skrypt
+		function supports_html5_storage() {
 		  try {
 			return 'localStorage' in window && window['localStorage'] !== null;
 		  } catch (e) {
@@ -46,9 +63,6 @@ function supports_html5_storage() {
 			return states[networkState];
 		}
 		function gotConnection(){
-			//
-			return true;
-			//
 			var a = checkConnection();
 			if(a == 'fail'){return false;}
 			return true;
@@ -229,9 +243,6 @@ function supports_html5_storage() {
 		if(gotConnection()){
 			feedArtykuly();
 			checkVersion();
-			//
-			new_version = true;
-			//
 			if(new_version) {
 				feedWarsztaty();
 			} else {
@@ -242,9 +253,9 @@ function supports_html5_storage() {
 			warsztaty_from_file = true;
 		}
 		if(warsztaty_from_file){
-			//window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-			//	fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
-			//}, warsztatyFailFS);
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+				fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
+			}, warsztatyFailFS);
 		} else if(warsztaty_loaded){
 			renderWarsztaty();
 		} else {
@@ -326,25 +337,6 @@ function supports_html5_storage() {
 		$(document).on("pagebeforehide","#page2",function(e,eventData){
 			$(".articles_pagination_outer").fadeOut();
 		});
-	
-var app = {
-    initialize: function() {
-        this.bindEvents();
-        this.initFastClick();
-    },
-    bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-		document.addEventListener("load", this.onLoad, false);
-		document.addEventListener("offline", this.onOffline, false);
-		document.addEventListener("online", this.onOnline, false);
-    },
-    initFastClick: function() {
-        window.addEventListener('load', function() {
-            FastClick.attach(document.body);
-        },false);
-    },
-    onDeviceReady: function() {
-		// skrypt
     },
 	onLoad: function() {
 		

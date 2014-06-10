@@ -341,10 +341,17 @@ var app = {
 				}
 			});
 			$(document).on("pageshow","#page2",function(e,eventData){
-				$(".articles_pagination_outer").fadeIn();
+				$(".articles_pagination_outer").fadeIn(200);
 			});
 			$(document).on("pagebeforehide","#page2",function(e,eventData){
-				$(".articles_pagination_outer").fadeOut();
+				$(".articles_pagination_outer").fadeOut(200);
+			});
+			
+			$(document).on("pageshow","#page3",function(e,eventData){
+				$(".warsztaty_pagination_outer").fadeIn(200);
+			});
+			$(document).on("pagebeforehide","#page3",function(e,eventData){
+				$(".warsztaty_pagination_outer").fadeOut(200);
 			});
 		});
     },

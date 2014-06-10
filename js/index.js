@@ -35,6 +35,7 @@ var	warsztaty = [],
 	artykulyDiv = document.getElementById("artykuly"),
 	warsztaty_filtered = warsztaty,
 	artykuly = [],
+	articles_pagination_loaded = false,
 	new_version = false,
 	warsztaty_file_exists = false,
 	warsztaty_loaded = false,
@@ -42,33 +43,16 @@ var	warsztaty = [],
 	fi_path = 'installed.dat',
 	warsztaty_path = 'warsztaty.txt',
 	warsztaty_from_file = false,
-	artykulyUrl = 'http://www.q-service.com.pl/rss/',
-	//artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
+	//artykulyUrl = 'http://www.q-service.com.pl/rss/',
+	artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
 	warsztatyUrl = 'http://arcontact.pl/warsztaty_inter_cars/feed.php',
 	form_email = 'mifdetal@intercars.eu',
 	map,
 	startingLatitude = 52.069347,
 	startingLongitude = 19.480204;
-	
-var app = {
-    initialize: function() {
-        this.bindEvents();
-        this.initFastClick();
-    },
-    bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-		document.addEventListener("load", this.onLoad, false);
-		document.addEventListener("offline", this.onOffline, false);
-		document.addEventListener("online", this.onOnline, false);
-    },
-    initFastClick: function() {
-        window.addEventListener('load', function() {
-            FastClick.attach(document.body);
-        },false);
-    },
-    onDeviceReady: function() {
-		// skrypt
-		function supports_html5_storage() {
+
+
+function supports_html5_storage() {
 		  try {
 			return 'localStorage' in window && window['localStorage'] !== null;
 		  } catch (e) {
@@ -92,6 +76,9 @@ var app = {
 			return states[networkState];
 		}
 		function gotConnection(){
+			//
+			return true;
+			//
 			var a = checkConnection();
 			if(a == 'fail'){return false;}
 			return true;
@@ -150,13 +137,16 @@ var app = {
 					page_count++;
 				}
 				artykulyDiv.innerHTML = '<ul>'+list.innerHTML+'</ul>';
-				$("body").prepend('<div class="text-center pagination_outer articles_pagination_outer"><div class="articles_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="'+Math.round((c.length/per_page))+'" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div></div>');
-				$('.articles_pagination').jqPagination({
-					paged:function(page) {
-						$('#artykuly ul li').hide();
-						$('#artykuly ul li[data-page="'+page+'"]').show();
-					}
-				});
+				if(!articles_pagination_loaded){
+					$("body").prepend('<div class="text-center pagination_outer articles_pagination_outer"><div class="articles_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="'+Math.round((c.length/per_page))+'" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div></div>');
+					articles_pagination_loaded = true;
+					$('.articles_pagination').jqPagination({
+						paged:function(page) {
+							$('#artykuly ul li').hide();
+							$('#artykuly ul li[data-page="'+page+'"]').show();
+						}
+					});
+				}
 			} else {
 				artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności.<br /><br /><a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
 			}
@@ -212,7 +202,7 @@ var app = {
 		}
 		function renderWarsztaty(){
 			$(".warsztaty_pagination_outer").remove();
-			$("body").prepend('<div class="text-center pagination_outer warsztaty_pagination_outer"><a class="toggleForm">&#x25B2;</a><div class="warsztaty_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="60" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div></div>');
+			$("body").prepend('<div class="text-center pagination_outer warsztaty_pagination_outer"><div class="relative"><a class="toggleForm" data-state="0">&#x25B2;</a><div class="warsztaty_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="60" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div><input type="search" placeholder="nazwa, miasto lub ulica" id="warsztat_search" onchange="return warsztaty_filter(this.value);" /><select onchange="return warsztaty_order(this.value);"><option value="1">alfabetycznie wg miast</option><option value="2">najmniejsza odległość</option></select></div></div>');
 			$('.warsztaty_pagination').jqPagination({
 				paged:function(page) {
 					//$('#artykuly ul li').hide();
@@ -220,7 +210,20 @@ var app = {
 				}
 			});
 			
-			
+			$(".toggleForm").on("click",function(){
+				var state = $(this).attr("data-state");
+				if(state == 0){
+					$(this).attr("data-state",1).html("&#x25BC;");
+					$(".warsztaty_pagination_outer").animate({
+						"bottom":0
+					},200,"easeInExpo");
+				} else {
+					$(this).attr("data-state",0).html("&#x25B2;");
+					$(".warsztaty_pagination_outer").animate({
+						"bottom":-95
+					},200,"easeOutExpo");
+				}
+			});
 			
 			warsztatyDiv.innerHTML = '';
 		}
@@ -285,6 +288,9 @@ var app = {
 			if(gotConnection()){
 				feedArtykuly();
 				checkVersion();
+				//
+				new_version = true;
+				//
 				if(new_version) {
 					feedWarsztaty();
 				} else {
@@ -387,6 +393,27 @@ var app = {
 				$(".warsztaty_pagination_outer").fadeOut(100);
 			});
 		});
+	
+	
+var app = {
+    initialize: function() {
+        this.bindEvents();
+        this.initFastClick();
+    },
+    bindEvents: function() {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+		document.addEventListener("load", this.onLoad, false);
+		document.addEventListener("offline", this.onOffline, false);
+		document.addEventListener("online", this.onOnline, false);
+    },
+    initFastClick: function() {
+        window.addEventListener('load', function() {
+            FastClick.attach(document.body);
+        },false);
+    },
+    onDeviceReady: function() {
+		// skrypt
+		
     },
 	onLoad: function() {
 		

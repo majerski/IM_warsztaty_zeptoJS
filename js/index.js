@@ -29,6 +29,7 @@ $(document.body).transition('options', {defaultPageTransition : 'fade', domCache
 
 var	warsztaty = [],
 	_warsztaty = [],
+	use_warsztaty = [],
 	_order = 1,
 	_search = false,
 	warsztaty_first_load = false,
@@ -52,7 +53,8 @@ var	warsztaty = [],
 	form_email = 'mifdetal@intercars.eu',
 	map,
 	startingLatitude = 52.069347,
-	startingLongitude = 19.480204;
+	startingLongitude = 19.480204,
+	map_first_load = false;
 
 
 function supports_html5_storage() {
@@ -83,6 +85,12 @@ function supports_html5_storage() {
 				}
 			});
 			return emptyArr;
+		};
+		function sortByKey(array, key) {
+			return array.sort(function(a, b) {
+				var x = a[key]; var y = b[key];
+				return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+			});
 		};
 		function checkConnection() {
 			if(typeof navigator.connection == 'undefined' || typeof navigator.connection.type == 'undefined') {
@@ -227,13 +235,7 @@ function supports_html5_storage() {
 		}
 		function renderWarsztaty(){
 			if(!warsztaty_pagination_loaded){
-				$("body").prepend('<div class="text-center pagination_outer warsztaty_pagination_outer"><div class="relative"><a class="toggleForm" data-state="0">&#x25B2;</a><div class="warsztaty_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="60" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div><input type="search" placeholder="nazwa, miasto lub ulica" id="warsztat_search" onchange="return warsztaty_filter(this.value);" /><select onchange="return warsztaty_order(this.value);"><option value="1">alfabetycznie wg miast</option><option value="2">najmniejsza odległość</option></select></div></div>');
-				$('.warsztaty_pagination').jqPagination({
-					paged:function(page) {
-						//$('#artykuly ul li').hide();
-						//$('#artykuly ul li[data-page="'+page+'"]').show();
-					}
-				});
+				$("body").prepend('<div class="text-center pagination_outer warsztaty_pagination_outer"><div class="relative"><a class="toggleForm" data-state="0">&#x25B2;</a><div class="warsztaty_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div><input type="search" placeholder="nazwa, miasto lub ulica" id="warsztat_search" onchange="return warsztaty_filter(this.value);" /><select onchange="return warsztaty_order(this.value);"><option value="1">alfabetycznie wg miast</option><option value="2">najmniejsza odległość</option></select></div></div>');
 				$(".toggleForm").on("click",function(){
 					var state = $(this).attr("data-state");
 					if(state == 0){
@@ -256,11 +258,128 @@ function supports_html5_storage() {
 			_warsztaty = filterValuePart(_warsztaty,'');
 			var len = Object.keys(_warsztaty).length;
 			if( len > 0 ) {
-				
+				if(_order == 1) {
+					use_warsztaty = sortByKey(_warsztaty,'miasto');
+				} else if(_order == 2) {
+					//if(currentPosition) {
+						if(typeof currentPosition.coords != 'undefined') {
+							var mylat = currentPosition.coords.latitude;
+							var mylong = currentPosition.coords.longitude;
+						} else {
+							var mylat = currentPosition.lat();
+							var mylong = currentPosition.lng();
+						}
+						var latlng = new google.maps.LatLng(mylat,mylong);
+						$.each(_warsztaty,function(i,item){
+							var itemPos = new google.maps.LatLng(item.lat,item.lng);
+							var dist = google.maps.geometry.spherical.computeDistanceBetween(latlng, itemPos);
+							item.odleglosc = dist;
+						});
+						use_warsztaty = sortByKey(_warsztaty,'odleglosc');
+					//}
+				}
+				var per_page = 10;
+				var page_count = 0;
+				var page_data = 0;
+				var list = document.createElement('ul');
+				$.each(use_warsztaty,function(i,item){
+					var li = document.createElement('li');
+					li.innerHTML = '<a href="#warsztat" onclick="renderWarsztat('+i+')"><h6>'+item.miasto.toLowerCase()+','+item.ulica.toLowerCase()+'</h6><span>'+item.konto.toUpperCase()+'</span></a>';
+					if(page_count<per_page){
+						li.style.display = 'block';
+					}
+					if(page_count%per_page==0){
+						page_data++;
+					}
+					li.setAttribute("data-page",page_data);
+					list.appendChild(li);
+					page_count++;
+				});
+				warsztatyDiv.innerHTML = '<ul>'+list.innerHTML+'</ul>';
+				$('.warsztaty_pagination').jqPagination({
+					paged:function(page) {
+						$('#warsztaty ul li').hide();
+						$('#warsztaty ul li[data-page="'+page+'"]').show();
+					},
+					max_page:Math.round((len/per_page))
+				});
 			} else {
 				
 			}
-			warsztatyDiv.innerHTML = '';
+		}
+		function renderWarsztat(id){
+			var item = use_warsztaty[id];
+			$("#warsztat .content").empty();
+			$("#warsztat .content").append('<h2>'+item.konto+'</h2>');
+			$("#warsztat .content").append('<p>'+item.ulica+'<br />'+item.kod.substr(0,2)+'-'+item.kod.substr(2)+' '+item.miasto+'</p>');
+			$("#warsztat .content").append('<table><tr><td>otwarte </td><td>'+item.open+'</td></tr><tr><td>w soboty </td><td>'+item.opensob+'</td></tr></table>');
+			if(item.mechanika==1 || item.przeglad==1 || item.wulkanizacja==1 || item.klimatyzacja==1 || item.geometria==1 || item.diagnostyka==1 || item.elektryka==1 || item.spaliny==1 || item.blacharstwo==1 || item.lakiernictwo==1 || item.szyby==1) {
+				var list = document.createElement('ul');
+				list.style.marginTop = "15px";
+				list.style.marginLeft = "0px";
+				list.style.paddingLeft = "17px";
+				list.style.listStyleType = "square";
+				if(item.mechanika==1){
+					var li=document.createElement('li');li.innerHTML='mechanika';list.appendChild(li);
+				}
+				if(item.blacharstwo==1){
+					var li=document.createElement('li');li.innerHTML='blacharstwo';list.appendChild(li);
+				}
+				if(item.lakiernictwo==1){
+					var li=document.createElement('li');li.innerHTML='lakiernictwo';list.appendChild(li);
+				}
+				
+				if(item.przeglad==1){
+					var li=document.createElement('li');li.innerHTML='przeglądy';list.appendChild(li);
+				}
+				if(item.diagnostyka==1){
+					var li=document.createElement('li');li.innerHTML='diagnostyka';list.appendChild(li);
+				}
+				if(item.wulkanizacja==1){
+					var li=document.createElement('li');li.innerHTML='wulkanizacja';list.appendChild(li);
+				}
+				if(item.geometria==1){
+					var li=document.createElement('li');li.innerHTML='geometria kół';list.appendChild(li);
+				}
+				if(item.spaliny==1){
+					var li=document.createElement('li');li.innerHTML='układy wydechowe';list.appendChild(li);
+				}
+				if(item.elektryka==1){
+					var li=document.createElement('li');li.innerHTML='elektryka';list.appendChild(li);
+				}
+				if(item.klimatyzacja==1){
+					var li=document.createElement('li');li.innerHTML='klimatyzacje';list.appendChild(li);
+				}
+				if(item.szyby==1){
+					var li=document.createElement('li');li.innerHTML='szyby';list.appendChild(li);
+				}
+				$("#warsztat .content").append(list);
+			}
+			$(".footer_phone .telnumber").html(''+item.kom.substr(0,3)+' '+item.kom.substr(3,3)+' '+item.kom.substr(6,3)+'');
+			$(".footer_phone").click(function(){dial(item.kom);});
+			$(".footer_paper_plane").attr("href","geo:0,0?q="+encodeURI(item.miasto+', '+item.ulica));
+			$(".footer_map").attr("href","#page4").click(function(){showPoint(i);});
+		}
+		function dial(number){
+			window.location.href = 'tel:+48'+number;
+		}
+		function warsztatMail(id){
+			var mailbody = '';
+			$.each(use_warsztaty,function(i,item){
+				if(i==id){
+					mailbody = '<p>Warsztat:<br />'+item.konto+'<br />'+item.ulica+'<br />'+item.kod.substr(0,2)+'-'+item.kod.substr(2)+' '+item.miasto+'</p>';
+				}
+			});
+			window.plugin.email.isServiceAvailable(
+				function(isAvailable){
+					window.plugin.email.open({
+						to:[form_email],
+						subject:'Zapytanie z aplikacji mobilnej Inter Cars sieć warsztatów.',
+						body:mailbody,
+						isHtml:true
+					});
+				}
+			);
 		}
 		function warsztatyLoadError(){
 			if(gotConnection()) {
@@ -317,8 +436,8 @@ function supports_html5_storage() {
 				targetID = eventData.toPage;
 				$('header ul li a[href="'+targetID+'"]').addClass("active");
 			});
-			$(".loader").animate({"opacity":0},500,function(){this.remove();});
-			$("footer").animate({"bottom":0},500);
+			$(".loader").animate({"opacity":0},500,"easeOutExpo",function(){this.remove();});
+			$("#page1 footer").animate({"bottom":0},500,"easeOutExpo");
 			
 			if(gotConnection()){
 				feedArtykuly();
@@ -385,7 +504,7 @@ function supports_html5_storage() {
 					window.plugin.email.isServiceAvailable(
 						function(isAvailable){
 							window.plugin.email.open({
-								to:['mifdetal@intercars.eu'],
+								to:[form_email],
 								subject:'Zapytanie z aplikacji mobilnej Inter Cars sieć warsztatów.',
 								body:mailbody1,
 								isHtml:true
@@ -435,6 +554,16 @@ function supports_html5_storage() {
 			});
 			$(document).on("pagebeforehide","#page3",function(e,eventData){
 				$(".warsztaty_pagination_outer").fadeOut(100);
+			});
+			
+			$(document).on("pageshow","#page4",function(e,eventData){
+				if(!map_first_load){
+					map_first_load = true;
+					
+				}
+			});
+			$(document).on("pageshow","#warsztat",function(e,eventData){
+				$("#warsztat footer").animate({"bottom":0},500,"easeOutExpo");
 			});
 		});
 	

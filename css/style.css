@@ -41,6 +41,15 @@ footer a.blue{background-color:#004489}
 #artykuly ul li a .fa{margin-top:5px;color:#ddd}
 #artykuly ul li a:active h6,#artykuly ul li a:active .fa{color:#d60811}
 
+#warsztaty ul{list-style-type:none;margin-left:0px;margin-right:0px;margin-top:0px;margin-bottom:35px;}
+#warsztaty ul li{display:none;border:1px solid #f2f2f2;background:#f2f2f2;line-height:normal}
+#warsztaty ul li:nth-child(even) {background:#efefef;border-bottom:1px solid #e5e5e5;border-top:1px solid #f5f5f5}
+#warsztaty ul li a{display:block;color:#000;padding:.7em 15px}
+#warsztaty ul li a h6{font-family:Lato,sans-serif;font-size:16px;font-weight:bold;margin-top:0px;margin-bottom:0px;text-transform:capitalize;}
+#warsztaty ul li a span{font-size:13px;color:#8a8a8a}
+#warsztaty ul li a .fa{margin-top:5px;color:#ddd}
+#warsztaty ul li a:active h6,#warsztaty ul li a:active .fa{color:#d60811}
+
 .pagination_outer{position:fixed;width:100%;bottom:0px;left:0px;padding:10px;z-index:999;background-color:#fff;-webkit-backface-visibility:hidden;backface-visibility:hidden;-webkit-transform:translateZ(0);display:none;}
 .pagination{display:inline-block;border:1px solid #CDCDCD;border-radius:3px;width:244px}
 .pagination a{display:inline-block;width:28px;height:28px;line-height:28px;outline:0;border-right:1px solid #CDCDCD;border-left:1px solid #CDCDCD;color:#555;vertical-align:middle;text-align:center;text-decoration:none;font-weight:700;font-size:18px;font-family:Lato,sans-serif;background-color:#f3f3f3;background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#f3f3f3),color-stop(100%,lightgrey));background-image:-webkit-linear-gradient(#f3f3f3,lightgrey);background-image:linear-gradient(#f3f3f3,lightgrey)}

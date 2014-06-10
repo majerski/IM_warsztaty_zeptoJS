@@ -36,6 +36,7 @@ var	warsztaty = [],
 	warsztaty_pagination_loaded = false,
 	warsztatyDiv = document.getElementById("warsztaty"),
 	artykulyDiv = document.getElementById("artykuly"),
+	mapDiv = document.getElementById("map_canvas"),
 	warsztaty_filtered = warsztaty,
 	artykuly = [],
 	articles_first_load = true,
@@ -643,6 +644,9 @@ var	warsztaty = [],
 			$(document).transition('to', 'page1');
 			$(document).transition('to', page);
 		}
+		function mapNotLoaded(){
+			mapDiv.innerHTML = '<div class="panel text-center">Włącz internet aby załadować mapę.<br /><br /><a onclick="locationreload(\'page4\');"><i class="fa fa-refresh"></i> odśwież</a></div>';
+		}
 		$(document).ready(function(){
 			$("header ul li a").removeClass("active");
 			var targetID = $(".ui-page-active").attr('id');
@@ -786,14 +790,18 @@ var	warsztaty = [],
 					}
 					if(warsztaty_loaded){
 						var h = $(window).height() - 109;
-						$("#map_canvas").css({"height":h+"px"});
+						$("#map_canvas").css({"height":h+"px"}).addClass("loaded");
 						if(navigator.geolocation){
 							navigator.geolocation.getCurrentPosition(displayPosition,geolocationError);
 						} else {
 							geolocationError();
 						}
 						map_first_load = false;
+					} else {
+						mapNotLoaded();
 					}
+				} else {
+					mapNotLoaded();
 				}
 			});
 			$(document).on("pageshow","#warsztat",function(e,eventData){

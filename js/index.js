@@ -288,7 +288,7 @@ var	warsztaty = [],
 				var list = document.createElement('ul');
 				$.each(use_warsztaty,function(i,item){
 					var li = document.createElement('li');
-					li.innerHTML = '<a href="#warsztat" onclick="renderWarsztat('+i+')"><h6>'+item.miasto.toLowerCase()+','+item.ulica.toLowerCase()+'</h6><span>'+item.konto.toUpperCase()+'</span></a>';
+					li.innerHTML = '<a href="#warsztat" onclick="renderWarsztat('+i+')"><h6>'+item.miasto.toLowerCase()+', '+item.ulica.toLowerCase()+'</h6><span>'+item.konto.toUpperCase()+'</span></a>';
 					if(page_count<per_page){
 						li.style.display = 'block';
 					}

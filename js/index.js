@@ -757,8 +757,8 @@ var	warsztaty = [],
 			});
 			
 			$(document).on("pagebeforeshow","#page3",function(e,eventData){
-				if(warsztaty_first_load){
-					warsztaty_first_load = false;
+				//if(warsztaty_first_load){
+				//	warsztaty_first_load = false;
 					if(warsztaty_from_file){
 						window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
 							fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
@@ -768,7 +768,7 @@ var	warsztaty = [],
 					} else {
 						warsztatyLoadError();
 					}
-				}
+				//}
 			});
 			$(document).on("pageshow","#page3",function(e,eventData){
 				$(".warsztaty_pagination_outer").fadeIn(100);

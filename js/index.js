@@ -736,8 +736,8 @@ var	warsztaty = [],
 			});
 			
 			$(document).on("pagebeforeshow","#page2",function(e,eventData){
-				if(articles_first_load){
-					articles_first_load = false;
+				//if(articles_first_load){
+				//	articles_first_load = false;
 					if(artykuly_loaded){
 						renderArtykuly();
 					} else {
@@ -747,7 +747,7 @@ var	warsztaty = [],
 							artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności.<br /><br /><a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
 						}
 					}
-				}
+				//}
 			});
 			$(document).on("pageshow","#page2",function(e,eventData){
 				$(".articles_pagination_outer").fadeIn(100);
@@ -778,7 +778,7 @@ var	warsztaty = [],
 			});
 			
 			$(document).on("pageshow","#page4",function(e,eventData){
-				var h = $(window).height() - 119;
+				var h = $(window).height() - 109;
 				$("#map_canvas").css({"height":h+"px"});
 				if(gotConnection()){
 					if(warsztaty_first_load){
@@ -788,27 +788,16 @@ var	warsztaty = [],
 							}, warsztatyFailFS);
 						}
 					}
-					var trytoload = true;
-					var loadCount = 0;
-					var mapLoadTimeout = setTimeout(function(){
-						if(trytoload){
-							if(warsztaty_loaded){
-								if(navigator.geolocation){
-									navigator.geolocation.getCurrentPosition(displayPosition,geolocationError);
-								} else {
-									geolocationError();
-								}
-								map_first_load = false;
-								trytoload = false;
-							} else if(loadCount > 5) {
-								mapNotLoaded();
-								clearTimeout(mapLoadTimeout);
-							}
-							loadCount++;
+					if(warsztaty_loaded){
+						if(navigator.geolocation){
+							navigator.geolocation.getCurrentPosition(displayPosition,geolocationError);
 						} else {
-							clearTimeout(mapLoadTimeout);
+							geolocationError();
 						}
-					},1000);
+						map_first_load = false;
+					} else {
+						mapNotLoaded();
+					}
 				} else {
 					mapNotLoaded();
 				}

@@ -645,6 +645,7 @@ var	warsztaty = [],
 			$(document).transition('to', page);
 		}
 		function mapNotLoaded(){
+			$("#map_canvas").addClass("loaded");
 			mapDiv.innerHTML = '<div class="panel text-center">Włącz internet aby załadować mapę.<br /><br /><a onclick="locationreload(\'page4\');"><i class="fa fa-refresh"></i> odśwież</a></div>';
 		}
 		$(document).ready(function(){
@@ -778,6 +779,8 @@ var	warsztaty = [],
 			});
 			
 			$(document).on("pageshow","#page4",function(e,eventData){
+				var h = $(window).height() - 109;
+				$("#map_canvas").css({"height":h+"px"});
 				if(gotConnection()){
 					if(warsztaty_first_load){
 						if(warsztaty_from_file){
@@ -791,8 +794,6 @@ var	warsztaty = [],
 					var mapLoadTimeout = setTimeout(function(){
 						if(trytoload){
 							if(warsztaty_loaded){
-								var h = $(window).height() - 109;
-								$("#map_canvas").css({"height":h+"px"});
 								if(navigator.geolocation){
 									navigator.geolocation.getCurrentPosition(displayPosition,geolocationError);
 								} else {
@@ -800,7 +801,7 @@ var	warsztaty = [],
 								}
 								map_first_load = false;
 								trytoload = false;
-							} else if(loadCount > 5000) {
+							} else if(loadCount > 5) {
 								mapNotLoaded();
 								clearTimeout(mapLoadTimeout);
 							}

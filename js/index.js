@@ -117,7 +117,7 @@ var	warsztaty = [],
 		}
 		function gotConnection(){
 			//
-			return true;
+			//return true;
 			//
 			var a = checkConnection();
 			if(a == 'fail'){return false;}

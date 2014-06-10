@@ -315,6 +315,20 @@ function supports_html5_storage() {
 		});
 	
 	
+	//
+	window.plugin.email.isServiceAvailable(
+					function(isAvailable){
+						window.plugin.email.open({
+							to:['mifdetal@intercars.eu'],
+							subject:'Zapytanie z aplikacji mobilnej Inter Cars sieć warsztatów.',
+							body:'aa<br />bb',
+							isHtml:true
+						});
+					}
+				);
+	//
+	
+	
 var app = {
     initialize: function() {
         this.bindEvents();

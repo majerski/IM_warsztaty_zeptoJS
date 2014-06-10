@@ -41,7 +41,7 @@ footer a.blue{background-color:#004489}
 #artykuly ul li a .fa{margin-top:5px;color:#ddd}
 #artykuly ul li a:active h6,#artykuly ul li a:active .fa{color:#d60811}
 
-.pagination_outer{position:fixed;width:100%;bottom:0px;left:0px;padding:10px;z-index:999;background-color:#fff;-webkit-backface-visibility:hidden;backface-visibility:hidden;}
+.pagination_outer{position:fixed;width:100%;bottom:0px;left:0px;padding:10px;z-index:999;background-color:#fff;-webkit-backface-visibility:hidden;backface-visibility:hidden;-webkit-transform:translateZ(0);display:none;}
 .pagination{display:inline-block;border:1px solid #CDCDCD;border-radius:3px;width:244px}
 .pagination a{display:inline-block;width:28px;height:28px;line-height:28px;outline:0;border-right:1px solid #CDCDCD;border-left:1px solid #CDCDCD;color:#555;vertical-align:middle;text-align:center;text-decoration:none;font-weight:700;font-size:18px;font-family:Lato,sans-serif;background-color:#f3f3f3;background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#f3f3f3),color-stop(100%,lightgrey));background-image:-webkit-linear-gradient(#f3f3f3,lightgrey);background-image:linear-gradient(#f3f3f3,lightgrey)}
 .pagination a:active,.pagination a:focus,.pagination a:hover{background-color:#cecece;background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#e4e4e4),color-stop(100%,#cecece));background-image:-webkit-linear-gradient(#e4e4e4,#cecece);background-image:linear-gradient(#e4e4e4,#cecece)}

@@ -107,7 +107,7 @@ function supports_html5_storage() {
 					page_count++;
 				}
 				artykulyDiv.innerHTML = '<ul>'+list.innerHTML+'</ul>';
-				$("#page2 .content").append('<div class="text-center pagination_outer"><div class="articles_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="'+Math.round((c.length/per_page))+'" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div></div>');
+				$("body").prepend('<div class="text-center pagination_outer articles_pagination_outer"><div class="articles_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="'+Math.round((c.length/per_page))+'" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div></div>');
 				$('.articles_pagination').jqPagination({
 					paged:function(page) {
 						$('#artykuly ul li').hide();
@@ -216,6 +216,12 @@ function supports_html5_storage() {
 		$('header ul li a[href="'+targetID+'"]').addClass("active");
 		$("header .logo").on("click",function(){
 			$("header ul li a").removeClass("active");
+		});
+		$(document).on("pageshow","#page2",function(e,eventData){
+			$(".articles_pagination_outer").fadeIn();
+		});
+		$(document).on("pagebeforehide","#page2",function(e,eventData){
+			$(".articles_pagination_outer").fadeOut();
 		});
 		$(document).on("pagebeforechange",function(e,eventData){
 			$("header ul li a").removeClass("active");

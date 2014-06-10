@@ -32,13 +32,13 @@ var	warsztaty = [],
 	use_warsztaty = [],
 	_order = 1,
 	_search = false,
-	warsztaty_first_load = false,
+	warsztaty_first_load = true,
 	warsztaty_pagination_loaded = false,
 	warsztatyDiv = document.getElementById("warsztaty"),
 	artykulyDiv = document.getElementById("artykuly"),
 	warsztaty_filtered = warsztaty,
 	artykuly = [],
-	articles_first_load = false,
+	articles_first_load = true,
 	articles_pagination_loaded = false,
 	new_version = false,
 	warsztaty_file_exists = false,
@@ -54,8 +54,14 @@ var	warsztaty = [],
 	map,
 	startingLatitude = 52.069347,
 	startingLongitude = 19.480204,
-	map_first_load = false;
-
+	map_first_load = true,
+	markers = [],
+	currentPosition = false,
+	icons = {
+		qservicepremium:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAlCAYAAAAjt+tHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABMpJREFUeNq0V11MHFUU/u7M/gy7UH5Dm6hpaykbrAawSlIVUywgxERtQ20wvtRorZE+WCImktRItUitCBIN0tRof3zQ2KTGBg3GpCpIQxT7AhZtCprYAq3FdlmW2d0Z753OwOzOzO6MwkkON8zcvd93z/nuuXOILMtgVlVV5aIDR92jji4srUWpS9RFNvb19bH/QRgBFZwBC6p7VALcEoFLKgEGHlZdZCRIZWWlBu6jvkIdhWWKAAMOUb+ujqK2S0EFz6esfsQyGo32Jn1UOF3ofcsNzkzF0KLs4XTCE6x+1NbaikBBAe4oDCx4YF0BDra3/1cems44l5prl1XOR0dGcPiDHrzY2IjikhLEYlHwPI+hoSF0dnfj8ZxcFPBuRECU+SQnG3xgPfjb19LlLTW8gKmBWs58vWU/iouL8cKehrjnD5SX48zAAHq72vH8VAizundEEMAXBeCtfwLeHXVWRDikOmZf9fbi7OAg9rW8Zvr+laYmHItKOJ8pwCMvPpfDYUSHz2G2qRnBXQ2Qg7OWGJYEYrEYWt9sQ3VNjRIBMysrK0PJfeU4wsl0k8R0jvh1H0Kv7ndOgBCC2ocqMDI6imAwaDpn5to1/DI8jKLt9SDVlSAWa82fPIXY2G/OCHA0b7u9Albd+BvdPYdN53R2dEAU57HzpUakdb0Nf3fXTfEZSlAUke/6nRGQLo7D/+EJPCcTHP/kOCYmJuLej50fw7GPj2JfczM8VHRIS4PnkRr4D74BekyM6/3xp+VxMLXw0ROYD81hk8hhc56A6rrtWJebsxDmy5cuo6S0FNu2bo1f8O4S8GvXIPb7hbjncihkn4A88w/EU6dBN49IJIY9tGBW1Ndh3O+DS9ZSRPBwba2Sqjhzu8GtzDcQIFlZ9glEBs9Cmp6+qWIKlH8liEez80B2PZ26xkUikGZmDI/51bfZ10C0f3CROVuT/glPTdu7dyenIF24mKho8Hfd6YDA6K/GUG3ZbIuA+MVppRDF7X7NavCF6+0TkK9eNdYFvy/17v+6hPCRjwzP2ekgvjQHx1CSjVEZ+jk5ONVMsGEvpIRUkcxMeJ/cgWS3ktGokhNt7tA7ICsy6G5q43bD6nzkm28x19GFWGLu2b27+xlwt97ijAAfKESMFpq4tFCg2b0vI/zu+1RQG0CysyFTwTG9WBUZkpUJ4an6pJEzJeDd9hgV05fml9T4hOJ2TL5+A/OfnYTw7E5nl5G74kF4aquX4FtYwlx7p2lqkouQnlv/WwcU9f5fY6lTrmNJSkrA8JapN53ebuk978FTtQVcXq7uA0q5r0G8XnCrVsJdWQH/gRakdx4yL45nvlfuFpNeQdFAVOfGM0xTwZzdD9LkJD1mV2i1ESnBFUrNZ0IjGRmL+vlhAJF+48e1+OnncN97D/gNRdBjunTtUjhZKBkQz5yekGTmb2+zk5mw1qJxOvCQrmlY7sYkpJGw05pxakPR7xDo/gR9mbZmdprThW94SuInm+AbE7Rl3ZymaM+1Ud++DacAL9WHOIGAeXueYkGXCp6uOiNxzmJusQoeVD2sATn+LNc1k1rutEVD6i6tdm4b3BaBJCQ2JuTcMbitFFikw6e6R6szKoGQE3DHBHQkPAlHNapXtpP1/hVgAJwl9s0/kQ9hAAAAAElFTkSuQmCC",
+		qservice:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAlCAYAAAAjt+tHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABnVJREFUeNq0V21sU2UUfu5H29t26+Y6Id0GGwMckw1k0wBiIMhGYqIJmmjEmPhD5AcxQX+J//iJaDRE9I8hSnRR/EjEkBhhYIghEHBsYwFB3ZjbYB+wFdqt7dr74Xnf3tve1rZrE3yTk/fe9t57nnPOc857jmAYBtjq7OyUaRNJnOYu48EulUQnibP91KlT7B4CA2AqZ4oVU5wmAPEBKddNAEx5zJQ4AyF0dHRYyj0kPnNX/icPMMURkpC5xy0rFVP5ou5e//miPicImfdmKBdaHeumN9q9Yne9hytvaKArcoKiPFj7Y2R8JILuXpwnEK1WGOzES2pkyl10aRmk6ni4wo19L2+AR3GAcUYg6+P0+6HvL2Ho9j3AISc9wLwisD0HAFeGQRbPRIvtcirm2ZZH4zjw+hY8v+kRyLoBRZYgaQa2tNbh8N4OeJ0qfGUaKnw6ATQgMhDzEomYNiKlNvXtlE6LaLnZTsrXP7YUOztW48k9R9HXP0KWOICEirol1ej/Yhe63gNuB3vglBXMJ4DZqIyRcS8uXKlCz7WKZKjlnPwQUZDp9I4kSfhozzZ8+csA+v64DfjLLH9ibDyIg19fxv43XsBPl38nrxvcnwFyQHPDfXSunyAAfhw+tgzBEKmRdeRFkc/6V7a3oGmpH+8eOQu4HZn/e5348Ltz+Hu4Fs2124gTMXKMSF4QMUdeiFEINqydwluvDpJ3TM6XBEAScOtOBJouY/FDXtBFVmkxUO1TUEFAvjpei1jcgTKPSjw0LAciNOtA26ppPN4SJL5LJQIQXbg+0YeQdgbv797Os4Ez3ZJoAgd2b8XwxF0cPPonDnWtwckLAZ4JFgirPLQsD/+XkAUB8EwS8NqzU7gxeRTb1nuxYzOl7lwcIlmOSAKb2xrw4tZV2PtJNyWUjoHrPnx8ZCVOnK2D4tRtjhJQXRHLa2puEmoiVjTMoa15FtOhMPpHu/D5vjfxzs52yJIIlbyxevkifHa8F70DY0A5Sy+NI++7UYkdT4/yUmAZrWlCXkfnASBg45ogZVyClHkxGvwNP56uxOhINRUdjed6PKHh556bVLic9voMj0ul/w1Y1Yhd3w25yRVC8QAEp4FHl4WgcuQCJJGqn/sMurqbMisdVUb6M+PMWxqY48/bQz46oSTfKxaAz61isT9K1oumXQKckgJRcUHPk89co8NAy8pQKmEYGaPzMgbHKIsko3gSlns0eD0JTiD+EFn0z4QXeqJAe0D/1dfE0FQf4vWALQeBHZv0YoR5QCqhECkePcOzbDkdOudGPs5AlYh843QeqNDNeDvJIxevViEREfNmQc6fdS0zbeMJCe3N06ivpx4iQlGLSjaR4RIFvPTcGLa0TZLLkwVHEnXM3Ffw6yU/D01JWRAOS4jHRToLdCokAiejvzKG/XuuYuCvSkxOs4NHgttFp2D5PFYsmSP3hzFP71h9iZOIfOxkDaaY+91qaQCmQ06KWxmaGu5RTU9axOLqdVMBap9MHuJIphpTmFCF1HP2ClhZHs/L/gVD8EN3LWe/w8Z6jWLLXDwXlfiBw/ZITEqRzr6YN555ahxrW6j9i0mlAQAR7tKVCnz67YrUIaOQuxkYidLJEplCxMjpUTS4SWTJfgZQ/RB0KucjcHnyE1hqbGx0m52we2jCswuBgBkcA4NDZTg/4KdTzUVfZO6mGOuMlCISJOGIC1NBN64NVuB49xK43DoaArPsoOTFSKN3ahdF6V7CFdacMDKOj6MxED3CDnwkKZ3qUHPko4bxuw58c6KGXq6hdlGjlixNqLgm8ZBo8wJvwW7ecaGOFFJScBDM5mDYwBOtMzh9sZo6J0f2rMBJqNok2b3aG0jWTskav4zEBEQMh+3IZE2ozhokEg1Dt9x4+4MWyGK6R1VZSovJnX87PSOoVluu2yYW3jrnbE55wIwc9dd+iBiYSwgF23LrzhrRZJvyCBsaWN+e8wNsXqiqKm4GmJkBhocLDSYR+1ygmzch84HWrNGMZwoBO8fvFgJhKqfvbMriV/Zoxq71YobTVA9Pk1NPQU+klbdncSv/cLrAeG7t9vGtNyeItPJ1dhdnAcg9nhdaJjCmvMwUBqI/A0Ra+VpT+awpMUtR3hnXKGKqzQGiLOUJttKWz5aivGgAOUD4TBA9JnHbTaWhUpSXBCALhMcUqyONm66PlKK8ZAA2EM6sVFXtzC7le/8KMABTg/HInmfpOAAAAABJRU5ErkJggg==",
+		perfectservice:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAlCAYAAAAjt+tHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABM9JREFUeNq8V0tsG1UUPfNzxhP/4nwMcZofKAWiBkIQSoAUqSRQVUJIUKEK8VmwY1MqFkAXXXTNAkQ3bCqkqgt2iB1k0QqRZAGhpSqBps2vTRPbcRx/x+PxZ7gzHkdT4yR2G/tKV89jP79z3rn33XmX0TQNuk1OTvI0sOQ2c+RxsJYjL5Cr+jg1NaU/g9EJmOA6sGi6zSTAHhB4wSSggyumqzoJZmJiogQukbvMUayTAjqwTB43R7W0S9EE7yBWs6ijkdpjVlVYi/RSvcF1MzFKKttYS+KJaJyV8owtZTtfh5jvZTuYpSxn0XhjDwRYuXL1kaV4aNOyWaRTCiKbSTA8B5EEnb8bhb2Jx5OdLrgkoT4E5OlZxC5dhpBRoHzwMT789hp66RD/vhDGSiBpzPG12HFyvBdfnBqCx2HbOw7Vmrq0jMDpz7DxyWmkrvyKfEo2sujU+CH8dCOCm5s5JDkRWVFCDAJ+/HMTN1aitSuQW1mFpqT1Sm0cFJbnodGobWzAPXkMzrfeLH4v8MgsLuHYYSe+6t+Gt80FT7sHUqsHbo8Er6sJNi6N7J1FI1yM0wmhy78/gSTFNZuQwXIsUskM7m/JCKeyiOYFjPa0oaelKGmeE1CIRNCtJfH+uy9SUmjQ8lTg8nmqcylo0QS0QgGqnAZrtxNntjoFmL5+LK/Fkc3lsa4q8A6I8PAMcnEViQ4Jtv4WY16cyDHLq1CDYThGRyuHjRTaPnceXZe/rz4EAdpxb0cz/r0XxfzSFl4b7sQrz3Q8MGf+Xhxnv5vFxVEO2YVbD776YnHkQiEUZLn4HNkuhkAQqiMQjivG2OtzEjiDVoplua0GElgPxEhaH/LxBLa+uQD11m1kKX8KJDnTJIBrbUX7ubPwX7pYEbwigZm/Qzj+5S9gKP+Gn2jFQJcb7R4RPMfARmddN4edx8mjfTjxUh8KmSjywSCBL0AcOgLHieNoemoAgt8Pxi4aeWEsVu0pOHzIjfMfPY/Zf0JYDSbx280gcpRYHBGQqMA87pXQ7WvG3J0IPn/vOWgz05AufA2aUBlhD/CKBHS5z7wziDMYLGZ6QUOBdsHSQhxbYbFXx3cHP4hSrINy2GMXjwBesRLOUTn94eoyri9Gdr6Ly1n8/Md9RJNqsVDlNUQSGSO815ejxm+xlLozP6vXArK7oSTSat5QsWoFwvEM1sIpI/76MdT/nKFFUkoO4ZgCd7MNzZSEcwtb+PTtQUTpxMyvRo0kDUTSRvHkqeDo9V8n3izy9HLisE5Hu90t4vUR/94KCFTcx57uwNEhHxyiYIRgjGoAR1XRSW+34HbaWKjH5zCSc6DLhW6qGTPzIXS2SYTP4I0X/NggQK/ThttrMXiIdIwq6WP0gvpfjtKt2EtjG7m3EXdCy8VUj3GYtdxQG22FUghyFm+U7WCylnZJaSABpdSisRZw2dI01Dv+cokEbyqgmO2SPuFIWWvGmg3FdI1AL5flV3lrpn8uVNOc7tzhicRcleAjZbm1e3O6T3teGq3t27V9wIetEpcRqNye77Mgb4I7TNdJ/LXL3GdN8KTpSgnooW/F5gKKZVHZ3OVuO68avOpr+S4kRspiXjN4VSHYJRyS6aWOQzUJyLWA10zAQsJWdlRz1syuZb3/BBgAsgop9FmfDRMAAAAASUVORK5CYII="
+	};
 
 function supports_html5_storage() {
 		  try {
@@ -358,18 +364,14 @@ function supports_html5_storage() {
 			$(".footer_phone .telnumber").html(''+item.kom.substr(0,3)+' '+item.kom.substr(3,3)+' '+item.kom.substr(6,3)+'');
 			$(".footer_phone").click(function(){dial(item.kom);});
 			$(".footer_paper_plane").attr("href","geo:0,0?q="+encodeURI(item.miasto+', '+item.ulica));
-			$(".footer_map").attr("href","#page4").click(function(){showPoint(i);});
+			$(".footer_map").attr("href","#page4").click(function(){showPoint(id);});
 		}
 		function dial(number){
 			window.location.href = 'tel:+48'+number;
 		}
 		function warsztatMail(id){
-			var mailbody = '';
-			$.each(use_warsztaty,function(i,item){
-				if(i==id){
-					mailbody = '<p>Warsztat:<br />'+item.konto+'<br />'+item.ulica+'<br />'+item.kod.substr(0,2)+'-'+item.kod.substr(2)+' '+item.miasto+'</p>';
-				}
-			});
+			var	item = use_warsztaty[id],
+				mailbody = '<p>Warsztat:<br />'+item.konto+'<br />'+item.ulica+'<br />'+item.kod.substr(0,2)+'-'+item.kod.substr(2)+' '+item.miasto+'</p>';
 			window.plugin.email.isServiceAvailable(
 				function(isAvailable){
 					window.plugin.email.open({
@@ -423,6 +425,224 @@ function supports_html5_storage() {
 			warsztatyLoadError();
 		}
 		
+		function createMarker(location) {
+			var mapicon = $.trim(location.umowa).toLowerCase().replace(/ /g,'').replace(/-/g,'');
+			var latlng = new google.maps.LatLng(parseFloat(location.lat), parseFloat(location.lng));
+			var marker = new google.maps.Marker({
+				map: map,
+				position: latlng,
+				icon:icons[mapicon]
+			});
+			var infoWindowContent = '<div class="noscrollbar">' + location.konto + '<br /><br /><span class="capitalize">'+location.ulica.toLowerCase()+'<br />'+location.kod.substr(0,2)+'-'+location.kod.substr(2)+' '+location.miasto.toLowerCase()+'</span><div><a onclick="dial(\''+location.kom+'\')"><img src="img/phone.png" alt="" />'+location.kom+'</a><a href="geo:0,0?q='+encodeURI(location.miasto+', '+location.ulica)+'"><img src="img/paper_plane.png" alt="" />nawiguj</a></div></div>';
+			var infowindow = new google.maps.InfoWindow({
+				content: infoWindowContent
+			});
+			google.maps.event.addListener(marker, 'click', function() {
+				infowindow.open(map, this);
+			});
+			markers.push(marker);
+		}
+		function closestMarker(position,warsztatyArray){
+			var closestMarker = -1;
+			var closestDistance = Number.MAX_VALUE;
+			var len1 = Object.keys(warsztatyArray).length;
+			for(var i=0; i<len1; i++){
+				var locationLatLng = new google.maps.LatLng(parseFloat(warsztatyArray[i].lat), parseFloat(warsztatyArray[i].lng));
+				var dist = google.maps.geometry.spherical.computeDistanceBetween(position, locationLatLng);
+				if(dist < closestDistance){
+					closestMarker = i;
+					closestDistance = dist;
+				}
+			}
+			return closestMarker;
+		}
+		function displayPosition(pos){
+			currentPosition = pos;
+			var mylat = pos.coords.latitude;
+			var mylong = pos.coords.longitude;
+			var latlng = new google.maps.LatLng(mylat,mylong);
+			var myOptions = {
+				zoom: 12,
+				center: latlng,
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+				mapTypeControl: false,
+				panControl: false,
+				zoomControl: true,
+				zoomControlOptions: {
+					style: google.maps.ZoomControlStyle.LARGE,
+					position: google.maps.ControlPosition.TOP_RIGHT
+				},
+				scaleControl: true,
+				streetViewControl: false
+			};
+			map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+			if((warsztatShowPointId && warsztatShowPointId > -1) || (parseInt(warsztatShowPointId)==0)) {
+				createMarker(use_warsztaty[warsztatShowPointId]);
+				var closestMarker1 = warsztatShowPointId;
+			} else {
+				var l = Object.keys(use_warsztaty).length;
+				for(var i=0; i<l; i++){
+					createMarker(use_warsztaty[i]);
+				}
+				var markerCluster = new MarkerClusterer(map, markers);
+				var closestMarker1 = closestMarker(latlng, use_warsztaty);
+			}
+			warsztatShowPointId = false;
+			
+			var marker = new google.maps.Marker({
+				position: latlng,
+				map: map,
+				title: 'Twoja lokalizacja'
+			});
+			
+			var path = new google.maps.MVCArray();
+			var service = new google.maps.DirectionsService();
+			var poly = new google.maps.Polyline({ map: map, strokeColor: '#FF8200' });
+			var src = latlng;
+			
+			var des = new google.maps.LatLng(use_warsztaty[closestMarker1].lat,use_warsztaty[closestMarker1].lng);
+			path.push(src);
+			poly.setPath(path);
+			service.route({
+				origin: src,
+				destination: des,
+				travelMode: google.maps.DirectionsTravelMode.DRIVING
+			}, function (result, status) {
+				if (status == google.maps.DirectionsStatus.OK) {
+					for (var i = 0, len = result.routes[0].overview_path.length; i < len; i++) {
+						path.push(result.routes[0].overview_path[i]);
+					}
+				}
+			});
+			var LatLngList = new Array(src,des);
+			var bounds = new google.maps.LatLngBounds();
+			for (var i = 0, LtLgLen = LatLngList.length; i < LtLgLen; i++) {
+				bounds.extend(LatLngList[i]);
+			}
+			$("#map_canvas").addClass("loaded");
+			map.fitBounds(bounds);
+		}
+		function geolocationError() {
+			if(typeof window.plugins != 'undefined' && typeof window.plugins.toast != 'undefined'){
+				window.plugins.toast.showLongCenter('Nie można ustalić pozycji.',function(a){},function(b){});
+			}
+			$('#page4 .content').prepend('<div class="input-outer"><div><input type="text" id="address" placeholder="Wprowadź adres (autouzupełnianie)" /></div></div>');
+			if(currentPosition){
+				if(typeof currentPosition.coords != 'undefined'){
+					var mylat = currentPosition.coords.latitude;
+					var mylong = currentPosition.coords.longitude;
+				} else {
+					var mylat = currentPosition.lat();
+					var mylong = currentPosition.lng();
+				}
+			} else {
+				var mylat = startingLatitude;
+				var mylong = startingLongitude;
+			}
+			var latlng = new google.maps.LatLng(mylat, mylong);
+			var myOptions = {
+				zoom: 12,
+				center: latlng,
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+				mapTypeControl: false,
+				panControl: false,
+				zoomControl: true,
+				zoomControlOptions: {
+					style: google.maps.ZoomControlStyle.LARGE,
+					position: google.maps.ControlPosition.BOTTOM_RIGHT
+				},
+				scaleControl: true,
+				streetViewControl: false
+			};
+			map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+			
+			if((warsztatShowPointId && warsztatShowPointId > -1) || (parseInt(warsztatShowPointId)==0)) {
+				createMarker(use_warsztaty[warsztatShowPointId]);
+				map.setCenter(new google.maps.LatLng(use_warsztaty[warsztatShowPointId].lat,use_warsztaty[warsztatShowPointId].lng));
+				
+				if(currentPosition){
+					var path = new google.maps.MVCArray();
+					var service = new google.maps.DirectionsService();
+					var poly = new google.maps.Polyline({ map: map, strokeColor: '#FF8200' });
+					var src = latlng;
+					var des = new google.maps.LatLng(use_warsztaty[warsztatShowPointId].lat,use_warsztaty[warsztatShowPointId].lng);
+					path.push(src);
+					poly.setPath(path);
+					service.route({
+						origin: src,
+						destination: des,
+						travelMode: google.maps.DirectionsTravelMode.DRIVING
+					}, function (result, status) {
+						if (status == google.maps.DirectionsStatus.OK) {
+							for (var i = 0, len = result.routes[0].overview_path.length; i < len; i++) {
+								path.push(result.routes[0].overview_path[i]);
+							}
+						}
+					});
+					var LatLngList = new Array(src,des);
+					var bounds = new google.maps.LatLngBounds();
+					for (var i = 0, LtLgLen = LatLngList.length; i < LtLgLen; i++) {
+						bounds.extend(LatLngList[i]);
+					}
+					$("#map_canvas").addClass("loaded");
+					map.fitBounds(bounds);
+				}
+				
+			} else {
+				var l = Object.keys(use_warsztaty).length;
+				for(var i=0; i<l; i++){
+					createMarker(use_warsztaty[i]);
+				}
+				var markerCluster = new MarkerClusterer(map, markers);
+			}
+			warsztatShowPointId = false;
+			showGeolocationForm();
+		}
+		function showGeolocationForm(){
+			markers = [];
+			var input = $("#address").get(0);
+			var autocomplete = new google.maps.places.Autocomplete(input);
+			autocomplete.bindTo('bounds', map);
+			var marker = new google.maps.Marker({
+				map: map
+			});
+			var pos = {
+				coords: {
+					latitude: startingLatitude,
+					longitude: startingLongitude,
+				}
+			};
+			google.maps.event.addListener(autocomplete, 'place_changed', function() {
+				marker.setVisible(false);
+				var place = autocomplete.getPlace();
+				if (!place.geometry) {
+					return;
+				}
+				if (place.geometry.viewport) {
+					map.fitBounds(place.geometry.viewport);
+				} else {
+					map.setCenter(place.geometry.location);
+				}
+				marker.setPosition(place.geometry.location);
+				marker.setVisible(true);
+				pos.coords.latitude = place.geometry.location.lat();
+				pos.coords.longitude = place.geometry.location.lng();
+				displayPosition(pos);
+			});
+		}
+		function showPoint(id){
+			markers = [];
+			$("#map_canvas").empty();
+			$("#map_canvas").removeClass("loaded");
+			document.getElementById("map_canvas").innerHTML="";
+			warsztatShowPointId = id;
+		}
+		
+		
+		function locationreload(page){
+			$(document).transition('to', 'page1');
+			$(document).transition('to', page);
+		}
 		$(document).ready(function(){
 			$("header ul li a").removeClass("active");
 			var targetID = $(".ui-page-active").attr('id');
@@ -515,8 +735,8 @@ function supports_html5_storage() {
 			});
 			
 			$(document).on("pagebeforeshow","#page2",function(e,eventData){
-				if(!articles_first_load){
-					articles_first_load = true;
+				if(articles_first_load){
+					articles_first_load = false;
 					if(artykuly_loaded){
 						renderArtykuly();
 					} else {
@@ -536,8 +756,8 @@ function supports_html5_storage() {
 			});
 			
 			$(document).on("pagebeforeshow","#page3",function(e,eventData){
-				if(!warsztaty_first_load){
-					warsztaty_first_load = true;
+				if(warsztaty_first_load){
+					warsztaty_first_load = false;
 					if(warsztaty_from_file){
 						window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
 							fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
@@ -557,9 +777,26 @@ function supports_html5_storage() {
 			});
 			
 			$(document).on("pageshow","#page4",function(e,eventData){
-				if(!map_first_load){
-					map_first_load = true;
-					
+				if(map_first_load && gotConnection()){
+					if(warsztaty_first_load){
+						if(warsztaty_from_file){
+							window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+								fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
+							}, warsztatyFailFS);
+						} else if(warsztaty_loaded){
+							renderWarsztaty();
+						}
+					}
+					if(warsztaty_loaded){
+						var h = $(window).height() - 109;
+						$("#map_canvas").css({"height":h+"px"});
+						if(navigator.geolocation){
+							navigator.geolocation.getCurrentPosition(displayPosition,geolocationError);
+						} else {
+							geolocationError();
+						}
+						map_first_load = false;
+					}
 				}
 			});
 			$(document).on("pageshow","#warsztat",function(e,eventData){

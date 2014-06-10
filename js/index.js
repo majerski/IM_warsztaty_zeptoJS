@@ -592,7 +592,6 @@ var	warsztaty = [],
 					for (var i = 0, LtLgLen = LatLngList.length; i < LtLgLen; i++) {
 						bounds.extend(LatLngList[i]);
 					}
-					$("#map_canvas").addClass("loaded");
 					map.fitBounds(bounds);
 				}
 			}
@@ -630,6 +629,7 @@ var	warsztaty = [],
 				warsztatShowPointId = warsztatShowPointIdCopy;
 				displayPosition(pos);
 			});
+			$("#map_canvas").addClass("loaded");
 		}
 		function showPoint(id){
 			clearOverlays();
@@ -665,7 +665,7 @@ var	warsztaty = [],
 			
 			if(gotConnection()){
 				feedArtykuly();
-				checkVersion(); 
+				checkVersion();
 				if(new_version) {
 					feedWarsztaty();
 				} else {
@@ -784,22 +784,31 @@ var	warsztaty = [],
 							window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
 								fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
 							}, warsztatyFailFS);
-						} else if(warsztaty_loaded){
-							renderWarsztaty();
 						}
 					}
-					if(warsztaty_loaded){
-						var h = $(window).height() - 109;
-						$("#map_canvas").css({"height":h+"px"}).addClass("loaded");
-						if(navigator.geolocation){
-							navigator.geolocation.getCurrentPosition(displayPosition,geolocationError);
+					var trytoload = true;
+					var loadCount = 0;
+					var mapLoadTimeout = setTimeout(function(){
+						if(trytoload){
+							if(warsztaty_loaded){
+								var h = $(window).height() - 109;
+								$("#map_canvas").css({"height":h+"px"});
+								if(navigator.geolocation){
+									navigator.geolocation.getCurrentPosition(displayPosition,geolocationError);
+								} else {
+									geolocationError();
+								}
+								map_first_load = false;
+								trytoload = false;
+							} else if(loadCount > 5000) {
+								mapNotLoaded();
+								clearTimeout(mapLoadTimeout);
+							}
+							loadCount++;
 						} else {
-							geolocationError();
+							clearTimeout(mapLoadTimeout);
 						}
-						map_first_load = false;
-					} else {
-						mapNotLoaded();
-					}
+					},1000);
 				} else {
 					mapNotLoaded();
 				}

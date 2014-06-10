@@ -661,7 +661,7 @@ var	warsztaty = [],
 			
 			if(gotConnection()){
 				feedArtykuly();
-				checkVersion();
+				checkVersion(); 
 				if(new_version) {
 					feedWarsztaty();
 				} else {

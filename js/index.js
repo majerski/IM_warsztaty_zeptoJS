@@ -12,33 +12,16 @@ var	warsztaty = [],
 	fi_path = 'installed.dat',
 	warsztaty_path = 'warsztaty.txt',
 	warsztaty_from_file = false,
-	artykulyUrl = 'http://www.q-service.com.pl/rss/',
-	//artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
+	//artykulyUrl = 'http://www.q-service.com.pl/rss/',
+	artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
 	warsztatyUrl = 'http://arcontact.pl/warsztaty_inter_cars/feed.php',
 	form_email = 'mifdetal@intercars.eu',
 	map,
 	startingLatitude = 52.069347,
 	startingLongitude = 19.480204;
 	
-var app = {
-    initialize: function() {
-        this.bindEvents();
-        this.initFastClick();
-    },
-    bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-		document.addEventListener("load", this.onLoad, false);
-		document.addEventListener("offline", this.onOffline, false);
-		document.addEventListener("online", this.onOnline, false);
-    },
-    initFastClick: function() {
-        window.addEventListener('load', function() {
-            FastClick.attach(document.body);
-        },false);
-    },
-    onDeviceReady: function() {
-		// skrypt
-		function supports_html5_storage() {
+	
+function supports_html5_storage() {
 		  try {
 			return 'localStorage' in window && window['localStorage'] !== null;
 		  } catch (e) {
@@ -62,6 +45,9 @@ var app = {
 			return states[networkState];
 		}
 		function gotConnection(){
+			//
+			return true;
+			//
 			var a = checkConnection();
 			if(a == 'fail'){return false;}
 			return true;
@@ -236,7 +222,6 @@ var app = {
 			targetID = eventData.toPage;
 			$('header ul li a[href="'+targetID+'"]').addClass("active");
 		});
-			
 		$(".loader").animate({"opacity":0},500,function(){this.remove();});
 		$("footer").animate({"bottom":0},500);
 		if(gotConnection()){
@@ -262,14 +247,92 @@ var app = {
 			}
 		}
 		if(warsztaty_from_file){
-			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-				fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
-			}, warsztatyFailFS);
+			//window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+			//	fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
+			//}, warsztatyFailFS);
 		} else if(warsztaty_loaded){
 			renderWarsztaty();
 		} else {
 			warsztatyLoadError();
 		}
+		
+		$('#wycena').isHappy({
+			fields: {
+				'#formtyp': {
+					required: true,
+					message: 'pole wymagane'
+				},
+				'#vin': {
+					required: true,
+					message: 'pole wymagane'
+				},
+				'#marka': {
+					required: true,
+					message: 'pole wymagane'
+				},
+				'#rok': {
+					required: true,
+					message: 'pole wymagane'
+				},
+				'#paliwo': {
+					required: true,
+					message: 'pole wymagane'
+				},
+				'#rejestr': {
+					required: true,
+					message: 'pole wymagane'
+				},
+				'#usluga': {
+					required: true,
+					message: 'pole wymagane'
+				},
+				'#email': {
+					required: true,
+					message: 'pole wymagane'
+				},
+				'#tel': {
+					required: true,
+					message: 'pole wymagane'
+				},
+				'#miasto': {
+					required: true,
+					message: 'pole wymagane'
+				}
+			},
+			happy:function(){
+				var mailbody1 = '<p>Dane z formularza:</p><p>typ auta: '+$("#formtyp").val()+'<br />numer VIN: '+$("#vin").val()+'<br />marka, model, silnik: '+$("#marka").val()+'<br />rok produkcji: '+$("#rok").val()+'<br />rodzaj paliwa: '+$("#paliwo").val()+'<br />numer rejestracyjny: '+$("#rejestr").val()+'<br />usługa do wyceny: '+$("#usluga").val()+'<br />e-mail: '+$("#email").val()+'<br />numer telefonu: '+$("#tel").val()+'<br />miasto: '+$("#miasto").val()+'</p>';
+				window.plugin.email.isServiceAvailable(
+					function(isAvailable){
+						window.plugin.email.open({
+							to:['mifdetal@intercars.eu'],
+							subject:'Zapytanie z aplikacji mobilnej Inter Cars sieć warsztatów.',
+							body:mailbody1,
+							isHtml:true
+						});
+					}
+				);
+			}
+		});
+	
+	
+var app = {
+    initialize: function() {
+        this.bindEvents();
+        this.initFastClick();
+    },
+    bindEvents: function() {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+		document.addEventListener("load", this.onLoad, false);
+		document.addEventListener("offline", this.onOffline, false);
+		document.addEventListener("online", this.onOnline, false);
+    },
+    initFastClick: function() {
+        window.addEventListener('load', function() {
+            FastClick.attach(document.body);
+        },false);
+    },
+    onDeviceReady: function() {
+		// skrypt
     },
 	onLoad: function() {
 		

@@ -645,8 +645,7 @@ var	warsztaty = [],
 			$(document).transition('to', page);
 		}
 		function mapNotLoaded(){
-			$("#map_canvas").addClass("loaded");
-			mapDiv.innerHTML = '<div class="panel text-center">Włącz internet aby załadować mapę.<br /><br /><a onclick="locationreload(\'page4\');"><i class="fa fa-refresh"></i> odśwież</a></div>';
+			$("#map_canvas").addClass("loaded").html('<div class="panel text-center">Włącz internet aby załadować mapę.<br /><br /><a onclick="locationreload(\'page4\');"><i class="fa fa-refresh"></i> odśwież</a></div>');
 		}
 		$(document).ready(function(){
 			$("header ul li a").removeClass("active");

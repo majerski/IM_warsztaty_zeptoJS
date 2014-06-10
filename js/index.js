@@ -367,17 +367,17 @@ var app = {
 				}
 			});
 			$(document).on("pageshow","#page2",function(e,eventData){
-				$(".articles_pagination_outer").fadeIn(200);
+				$(".articles_pagination_outer").fadeIn(100);
 			});
 			$(document).on("pagebeforehide","#page2",function(e,eventData){
-				$(".articles_pagination_outer").fadeOut(200);
+				$(".articles_pagination_outer").fadeOut(100);
 			});
 			
 			$(document).on("pageshow","#page3",function(e,eventData){
-				$(".warsztaty_pagination_outer").fadeIn(200);
+				$(".warsztaty_pagination_outer").fadeIn(100);
 			});
 			$(document).on("pagebeforehide","#page3",function(e,eventData){
-				$(".warsztaty_pagination_outer").fadeOut(200);
+				$(".warsztaty_pagination_outer").fadeOut(100);
 			});
 		});
     },

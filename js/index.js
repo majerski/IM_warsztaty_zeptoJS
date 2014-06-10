@@ -657,7 +657,27 @@ var	warsztaty = [],
 					}
 					break;
 				case "page3":
-					
+					if(gotConnection()){
+						checkVersion();
+						if(new_version) {
+							feedWarsztaty();
+						} else {
+							warsztaty_from_file = true;
+						}
+					} else {
+						if(!warsztaty_loaded){
+							warsztaty_from_file = true;
+						}
+					}
+					if(warsztaty_from_file){
+						window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+							fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
+						}, warsztatyFailFS);
+					} else if(warsztaty_loaded){
+						renderWarsztaty();
+					} else {
+						warsztatyLoadError();
+					}
 					break;
 				case "page4":
 					

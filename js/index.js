@@ -480,6 +480,7 @@ var	warsztaty = [],
 				streetViewControl: false
 			};
 			map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+			clearOverlays();
 			var l = Object.keys(use_warsztaty).length;
 			for(var i=0; i<l; i++){
 				createMarker(use_warsztaty[i]);
@@ -640,8 +641,6 @@ var	warsztaty = [],
 		}
 		
 		function locationreload(page){
-			//$(document).transition('to', 'page1');
-			//$(document).transition('to', page);
 			var currentPage = $(".ui-page-active").attr('id');
 			switch(currentPage){
 				case "page2":

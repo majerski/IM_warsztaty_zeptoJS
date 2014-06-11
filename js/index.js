@@ -808,11 +808,11 @@ var app = {
 				}
 			}
 		});
-		$(document).on("pagebeforeshow","#page2",function(){
-			$(".articles_pagination_outer").fadeIn(100);
+		$(document).on("pageshow","#page2",function(){
+			$(".articles_pagination_outer").fadeIn(200);
 		});
-		$(document).on("pagehide","#page2",function(){
-			$(".articles_pagination_outer").hide();
+		$(document).on("pagebeforehide","#page2",function(){
+			$(".articles_pagination_outer").fadeOut(100);
 		});
 		
 		$(document).on("pagebeforeshow","#page3",function(){
@@ -829,11 +829,11 @@ var app = {
 				}
 			}
 		});
-		$(document).on("pagebeforeshow","#page3",function(){
-			$(".warsztaty_pagination_outer").fadeIn(100);
+		$(document).on("pageshow","#page3",function(){
+			$(".warsztaty_pagination_outer").fadeIn(200);
 		});
-		$(document).on("pagehide","#page3",function(){
-			$(".warsztaty_pagination_outer").hide();
+		$(document).on("pagebeforehide","#page3",function(){
+			$(".warsztaty_pagination_outer").fadeOut(100);
 		});
 			
 		$(document).on("pageshow","#page4",function(){

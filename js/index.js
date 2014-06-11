@@ -994,7 +994,6 @@ var app = {
 					} else {
 						warsztatyLoadError();
 					}
-					mapRenderWarsztaty = false;
 				}
 				if(!map_first_load){
 					map_first_load = true;

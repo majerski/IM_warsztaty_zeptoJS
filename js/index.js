@@ -423,7 +423,16 @@ function supports_html5_storage() {
 			$(".footer_map").attr("href","#page4").click(function(){showPoint(id);});
 		}
 		function dial(number){
-			window.location.href = 'tel:+48'+number;
+			//window.location.href = 'tel:+48'+number;
+			phonedialer.dial(
+				number, 
+				function(err){
+					window.location.href = 'tel:+48'+number;
+				},
+				function(success){
+					
+				}
+			);
 		}
 		function warsztatMail(id){
 			var	item = use_warsztaty[id],

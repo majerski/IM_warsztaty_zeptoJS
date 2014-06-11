@@ -809,7 +809,7 @@ var app = {
 			}
 		});
 		$(document).on("pagebeforeshow","#page2",function(){
-			$(".articles_pagination_outer").show();
+			$(".articles_pagination_outer").fadeIn(100);
 		});
 		$(document).on("pagehide","#page2",function(){
 			$(".articles_pagination_outer").hide();
@@ -830,7 +830,7 @@ var app = {
 			}
 		});
 		$(document).on("pagebeforeshow","#page3",function(){
-			$(".warsztaty_pagination_outer").show();
+			$(".warsztaty_pagination_outer").fadeIn(100);
 		});
 		$(document).on("pagehide","#page3",function(){
 			$(".warsztaty_pagination_outer").hide();

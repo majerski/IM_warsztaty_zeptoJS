@@ -849,6 +849,7 @@ var app = {
     },
     onDeviceReady: function() {
 		// skrypt
+		alert('onDeviceReady');
 		$("header ul li a").removeClass("active");
 		var targetID = $(".ui-page-active").attr('id');
 		$('header ul li a[href="'+targetID+'"]').addClass("active");
@@ -1044,7 +1045,14 @@ var app = {
 			feedArtykuly();
 		}
 		if(!warsztaty_loaded){
-			
+			checkVersion();
+			if(new_version) {
+				feedWarsztaty();
+			} else {
+				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+					fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
+				}, warsztatyFailFS);
+			}
 		}
     }
 };

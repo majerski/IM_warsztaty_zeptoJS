@@ -54,7 +54,7 @@ var	warsztaty = [],
 	map,
 	startingLatitude = 52.069347,
 	startingLongitude = 19.480204,
-	map_first_load = true,
+	map_first_load = false,
 	markers = [],
 	currentPosition = false,
 	warsztatShowPointId = false,
@@ -848,15 +848,28 @@ var app = {
 						}, warsztatyFailFS);
 					}
 				}
-				if(warsztaty_loaded){
-					if(navigator.geolocation){
-						navigator.geolocation.getCurrentPosition(displayPosition,geolocationError);
-					} else {
-						geolocationError();
-					}
-					map_first_load = false;
-				} else {
-					mapNotLoaded();
+				if(!map_first_load){
+					map_first_load = true;
+					var loadComplete = false;
+					var timeStart = 0;
+					var timeEnd = 1000;
+					var everythingLoaded = setInterval(function(){
+						if(warsztaty_loaded && !loadComplete){
+							loadComplete = true;
+							clearInterval(everythingLoaded);
+							if(navigator.geolocation){
+								navigator.geolocation.getCurrentPosition(displayPosition,geolocationError);
+							} else {
+								geolocationError();
+							}
+						} else {
+							timeStart++;
+						}
+						if(timeStart == timeEnd){
+							clearInterval(everythingLoaded);
+							mapNotLoaded();
+						}
+					},100);
 				}
 			} else {
 				mapNotLoaded();

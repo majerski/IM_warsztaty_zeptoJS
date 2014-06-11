@@ -58,6 +58,7 @@ var	warsztaty = [],
 	markers = [],
 	currentPosition = false,
 	warsztatShowPointId = false,
+	mapRenderWarsztaty = false,
 	icons = {
 		qservicepremium:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAlCAYAAAAjt+tHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABMpJREFUeNq0V11MHFUU/u7M/gy7UH5Dm6hpaykbrAawSlIVUywgxERtQ20wvtRorZE+WCImktRItUitCBIN0tRof3zQ2KTGBg3GpCpIQxT7AhZtCprYAq3FdlmW2d0Z753OwOzOzO6MwkkON8zcvd93z/nuuXOILMtgVlVV5aIDR92jji4srUWpS9RFNvb19bH/QRgBFZwBC6p7VALcEoFLKgEGHlZdZCRIZWWlBu6jvkIdhWWKAAMOUb+ujqK2S0EFz6esfsQyGo32Jn1UOF3ofcsNzkzF0KLs4XTCE6x+1NbaikBBAe4oDCx4YF0BDra3/1cems44l5prl1XOR0dGcPiDHrzY2IjikhLEYlHwPI+hoSF0dnfj8ZxcFPBuRECU+SQnG3xgPfjb19LlLTW8gKmBWs58vWU/iouL8cKehrjnD5SX48zAAHq72vH8VAizundEEMAXBeCtfwLeHXVWRDikOmZf9fbi7OAg9rW8Zvr+laYmHItKOJ8pwCMvPpfDYUSHz2G2qRnBXQ2Qg7OWGJYEYrEYWt9sQ3VNjRIBMysrK0PJfeU4wsl0k8R0jvh1H0Kv7ndOgBCC2ocqMDI6imAwaDpn5to1/DI8jKLt9SDVlSAWa82fPIXY2G/OCHA0b7u9Albd+BvdPYdN53R2dEAU57HzpUakdb0Nf3fXTfEZSlAUke/6nRGQLo7D/+EJPCcTHP/kOCYmJuLej50fw7GPj2JfczM8VHRIS4PnkRr4D74BekyM6/3xp+VxMLXw0ROYD81hk8hhc56A6rrtWJebsxDmy5cuo6S0FNu2bo1f8O4S8GvXIPb7hbjncihkn4A88w/EU6dBN49IJIY9tGBW1Ndh3O+DS9ZSRPBwba2Sqjhzu8GtzDcQIFlZ9glEBs9Cmp6+qWIKlH8liEez80B2PZ26xkUikGZmDI/51bfZ10C0f3CROVuT/glPTdu7dyenIF24mKho8Hfd6YDA6K/GUG3ZbIuA+MVppRDF7X7NavCF6+0TkK9eNdYFvy/17v+6hPCRjwzP2ekgvjQHx1CSjVEZ+jk5ONVMsGEvpIRUkcxMeJ/cgWS3ktGokhNt7tA7ICsy6G5q43bD6nzkm28x19GFWGLu2b27+xlwt97ijAAfKESMFpq4tFCg2b0vI/zu+1RQG0CysyFTwTG9WBUZkpUJ4an6pJEzJeDd9hgV05fml9T4hOJ2TL5+A/OfnYTw7E5nl5G74kF4aquX4FtYwlx7p2lqkouQnlv/WwcU9f5fY6lTrmNJSkrA8JapN53ebuk978FTtQVcXq7uA0q5r0G8XnCrVsJdWQH/gRakdx4yL45nvlfuFpNeQdFAVOfGM0xTwZzdD9LkJD1mV2i1ESnBFUrNZ0IjGRmL+vlhAJF+48e1+OnncN97D/gNRdBjunTtUjhZKBkQz5yekGTmb2+zk5mw1qJxOvCQrmlY7sYkpJGw05pxakPR7xDo/gR9mbZmdprThW94SuInm+AbE7Rl3ZymaM+1Ud++DacAL9WHOIGAeXueYkGXCp6uOiNxzmJusQoeVD2sATn+LNc1k1rutEVD6i6tdm4b3BaBJCQ2JuTcMbitFFikw6e6R6szKoGQE3DHBHQkPAlHNapXtpP1/hVgAJwl9s0/kQ9hAAAAAElFTkSuQmCC",
 		qservice:"data:image/png;base64,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",
@@ -288,7 +289,9 @@ function supports_html5_storage() {
 		function renderWarsztaty(){
 			if(!warsztaty_pagination_loaded){
 				$("body").prepend('<div class="text-center pagination_outer warsztaty_pagination_outer"><div class="relative"><a class="toggleForm" data-state="0">&#x25B2;</a><div class="warsztaty_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div><input type="search" placeholder="nazwa, miasto lub ulica" id="warsztat_search" onchange="return warsztaty_filter(this.value);" /><div id="order"><select onchange="return warsztaty_order(this.value);"><option value="1">alfabetycznie wg miast</option><option value="2">najmniejsza odległość</option></select></div></div></div>');
-				$(".warsztaty_pagination_outer").fadeIn(200);
+				if(!mapRenderWarsztaty){
+					$(".warsztaty_pagination_outer").fadeIn(200);
+				}
 				$(".toggleForm").on("click",function(){
 					var state = $(this).attr("data-state");
 					if(state == 0){
@@ -968,7 +971,9 @@ var app = {
 			}
 		});
 		$(document).on("pageshow","#page3",function(){
-			$(".warsztaty_pagination_outer").fadeIn(200);
+			if(warsztaty_pagination_loaded){
+				$(".warsztaty_pagination_outer").fadeIn(200);
+			}
 		});
 		$(document).on("pagebeforehide","#page3",function(){
 			$(".warsztaty_pagination_outer").fadeOut(100);
@@ -978,6 +983,7 @@ var app = {
 			$("#map_canvas").css({"height":h+"px"});
 			if(gotConnection()){
 				if(warsztaty_first_load){
+					mapRenderWarsztaty = true;
 					warsztaty_first_load = false;
 					if(warsztaty_from_file){
 						window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
@@ -988,6 +994,7 @@ var app = {
 					} else {
 						warsztatyLoadError();
 					}
+					mapRenderWarsztaty = false;
 				}
 				if(!map_first_load){
 					map_first_load = true;
@@ -1021,9 +1028,6 @@ var app = {
 			} else {
 				mapNotLoaded();
 			}
-		});
-		$(document).on("pagechange","#page4",function(){
-			$(".warsztaty_pagination_outer").css({"opacity":0});
 		});
 		$(document).on("pageshow","#warsztat",function(){
 			$("#warsztat footer").animate({"bottom":0},500,"easeOutExpo");

@@ -99,6 +99,47 @@ var	warsztaty = [],
 				return ((x < y) ? -1 : ((x > y) ? 1 : 0));
 			});
 		};
+		function warsztaty_filter(value){
+			_warsztaty = filterValuePart(warsztaty,value);
+			_search = true;
+			renderWarsztaty(true);
+		}
+		function warsztaty_order(type){
+			_order = type;
+			var render = true;
+			$("#address2").remove();
+			if(type == 2){
+				$('#order').append('<input type="text" id="address2" placeholder="Wprowadź adres (autouzupełnianie)" />');
+				var input2 = $("#address2").get(0);
+				var autocomplete2 = new google.maps.places.Autocomplete(input2);
+				google.maps.event.addListener(autocomplete2, 'place_changed', function() {
+					var place2 = autocomplete2.getPlace();
+					if (!place2.geometry) {
+						use_warsztaty = sortByKey(use_warsztaty,'miasto');
+					} else {
+						var rLat = place2.geometry.location.lat();
+						var rLng = place2.geometry.location.lng();
+						var point = new google.maps.LatLng(rLat,rLng);
+						currentPosition = point;
+						return renderWarsztaty();
+					}
+				});
+				if(currentPosition){
+					if(typeof currentPosition.coords != 'undefined') {
+						var mylat = currentPosition.coords.latitude;
+						var mylong = currentPosition.coords.longitude;
+					} else {
+						var mylat = currentPosition.lat();
+						var mylong = currentPosition.lng();
+					}
+					var point = new google.maps.LatLng(mylat,mylong);
+					currentPosition = point;
+				}
+			}
+			if(render){
+				renderWarsztaty();
+			}
+		}
 		function checkConnection() {
 			if(typeof navigator.connection == 'undefined' || typeof navigator.connection.type == 'undefined') {
 				return 'fail';
@@ -116,6 +157,9 @@ var	warsztaty = [],
 			return states[networkState];
 		}
 		function gotConnection(){
+			//
+			return true;
+			//
 			var a = checkConnection();
 			if(a == 'fail'){return false;}
 			return true;
@@ -239,7 +283,7 @@ var	warsztaty = [],
 		}
 		function renderWarsztaty(){
 			if(!warsztaty_pagination_loaded){
-				$("body").prepend('<div class="text-center pagination_outer warsztaty_pagination_outer"><div class="relative"><a class="toggleForm" data-state="0">&#x25B2;</a><div class="warsztaty_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div><input type="search" placeholder="nazwa, miasto lub ulica" id="warsztat_search" onchange="return warsztaty_filter(this.value);" /><select onchange="return warsztaty_order(this.value);"><option value="1">alfabetycznie wg miast</option><option value="2">najmniejsza odległość</option></select></div></div>');
+				$("body").prepend('<div class="text-center pagination_outer warsztaty_pagination_outer"><div class="relative"><a class="toggleForm" data-state="0">&#x25B2;</a><div class="warsztaty_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div><input type="search" placeholder="nazwa, miasto lub ulica" id="warsztat_search" onchange="return warsztaty_filter(this.value);" /><div id="order"><select onchange="return warsztaty_order(this.value);"><option value="1">alfabetycznie wg miast</option><option value="2">najmniejsza odległość</option></select></div></div></div>');
 				$(".toggleForm").on("click",function(){
 					var state = $(this).attr("data-state");
 					if(state == 0){
@@ -247,25 +291,33 @@ var	warsztaty = [],
 						$(".warsztaty_pagination_outer").animate({
 							"bottom":0
 						},200,"easeInExpo");
+						$("#warsztaty ul").animate({
+							"margin-bottom":130
+						},200,"easeInExpo");
 					} else {
 						$(this).attr("data-state",0).html("&#x25B2;");
 						$(".warsztaty_pagination_outer").animate({
 							"bottom":-95
 						},200,"easeOutExpo");
+						$("#warsztaty ul").animate({
+							"margin-bottom":35
+						},200,"easeOutExpo");
 					}
 				});
 				warsztaty_pagination_loaded = true;
 			}
-			if(_warsztaty.length <= 0){
+			if(_warsztaty.length <= 0 && !_search){
 				_warsztaty = warsztaty;
 			}
-			_warsztaty = filterValuePart(_warsztaty,'');
+			if(!_search){
+				_warsztaty = filterValuePart(_warsztaty,'');
+			}
 			var len = Object.keys(_warsztaty).length;
 			if( len > 0 ) {
 				if(_order == 1) {
 					use_warsztaty = sortByKey(_warsztaty,'miasto');
 				} else if(_order == 2) {
-					//if(currentPosition) {
+					if(currentPosition) {
 						if(typeof currentPosition.coords != 'undefined') {
 							var mylat = currentPosition.coords.latitude;
 							var mylong = currentPosition.coords.longitude;
@@ -280,7 +332,7 @@ var	warsztaty = [],
 							item.odleglosc = dist;
 						});
 						use_warsztaty = sortByKey(_warsztaty,'odleglosc');
-					//}
+					}
 				}
 				var per_page = 10;
 				var page_count = 0;
@@ -308,7 +360,7 @@ var	warsztaty = [],
 					max_page:Math.round((len/per_page))
 				});
 			} else {
-				
+				$("#warsztaty").html('<div class="panel text-center">Brak warsztatów.</div>');
 			}
 		}
 		function renderWarsztat(id){
@@ -481,6 +533,15 @@ var	warsztaty = [],
 			};
 			map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 			clearOverlays();
+			
+			if(use_warsztaty.length <= 0){
+				if(_warsztaty.length <= 0){
+					_warsztaty = warsztaty;
+				}
+				_warsztaty = filterValuePart(_warsztaty,'');
+				use_warsztaty = sortByKey(_warsztaty,'miasto');
+			}
+			
 			var l = Object.keys(use_warsztaty).length;
 			for(var i=0; i<l; i++){
 				createMarker(use_warsztaty[i]);
@@ -759,27 +820,9 @@ var	warsztaty = [],
 		}
 		function mapNotLoaded(){
 			$("#map_canvas").addClass("loaded").html('<div class="panel text-center">Włącz internet aby załadować mapę.<br /><br /><a onclick="locationreload(\'page4\');"><i class="fa fa-refresh"></i> odśwież</a></div>');
-			$(".clearAddress").hide();
+			$(".input-outer").hide();
 		}
 
-var app = {
-    initialize: function() {
-        this.bindEvents();
-        this.initFastClick();
-    },
-    bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-		document.addEventListener("load", this.onLoad, false);
-		document.addEventListener("offline", this.onOffline, false);
-		document.addEventListener("online", this.onOnline, false);
-    },
-    initFastClick: function() {
-        window.addEventListener('load', function() {
-            FastClick.attach(document.body);
-        },false);
-    },
-    onDeviceReady: function() {
-		// skrypt
 		$("header ul li a").removeClass("active");
 		var targetID = $(".ui-page-active").attr('id');
 		$('header ul li a[href="'+targetID+'"]').addClass("active");
@@ -859,6 +902,9 @@ var app = {
 		if(gotConnection()){
 			feedArtykuly();
 			checkVersion();
+			//
+			new_version = true;
+			//
 			if(new_version) {
 				feedWarsztaty();
 			} else {
@@ -922,6 +968,10 @@ var app = {
 						window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
 							fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
 						}, warsztatyFailFS);
+					} else if(warsztaty_loaded){
+						renderWarsztaty();
+					} else {
+						warsztatyLoadError();
 					}
 				}
 				if(!map_first_load){
@@ -960,6 +1010,26 @@ var app = {
 		$(document).on("pageshow","#warsztat",function(){
 			$("#warsztat footer").animate({"bottom":0},500,"easeOutExpo");
 		});
+		
+var app = {
+    initialize: function() {
+        this.bindEvents();
+        this.initFastClick();
+    },
+    bindEvents: function() {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+		document.addEventListener("load", this.onLoad, false);
+		document.addEventListener("offline", this.onOffline, false);
+		document.addEventListener("online", this.onOnline, false);
+    },
+    initFastClick: function() {
+        window.addEventListener('load', function() {
+            FastClick.attach(document.body);
+        },false);
+    },
+    onDeviceReady: function() {
+		// skrypt
+		
     },
 	onLoad: function() {
 		

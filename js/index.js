@@ -753,7 +753,9 @@ var app = {
 		});
 		$(".loader").animate({"opacity":0},500,"easeOutExpo",function(){this.remove();});
 		$("#page1 footer").animate({"bottom":0},500,"easeOutExpo");
-		
+		$(".clearAddress").on("click",function(){
+			$("#address").val('');
+		});
 		$('#wycena').isHappy({
 			fields: {
 				'#formtyp': {

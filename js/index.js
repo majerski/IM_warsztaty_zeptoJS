@@ -720,21 +720,7 @@ var app = {
 		});
 		$(".loader").animate({"opacity":0},500,"easeOutExpo",function(){this.remove();});
 		$("#page1 footer").animate({"bottom":0},500,"easeOutExpo");
-			
-		if(gotConnection()){
-			feedArtykuly();
-			checkVersion();
-			if(new_version) {
-				feedWarsztaty();
-			} else {
-				warsztaty_from_file = true;
-			}
-		} else {
-			if(!warsztaty_loaded){
-				warsztaty_from_file = true;
-			}
-		}
-			
+		
 		$('#wycena').isHappy({
 			fields: {
 				'#formtyp': {
@@ -793,8 +779,22 @@ var app = {
 				);
 			}
 		});
-			
-		$(document).on("pagebeforeshow","#page2",function(e,eventData){
+		
+		if(gotConnection()){
+			feedArtykuly();
+			checkVersion();
+			if(new_version) {
+				feedWarsztaty();
+			} else {
+				warsztaty_from_file = true;
+			}
+		} else {
+			if(!warsztaty_loaded){
+				warsztaty_from_file = true;
+			}
+		}
+		
+		$(document).on("pagebeforeshow","#page2",function(){
 			if(articles_first_load){
 				articles_first_load = false;
 				if(artykuly_loaded){
@@ -808,14 +808,14 @@ var app = {
 				}
 			}
 		});
-		$(document).on("pageshow","#page2",function(e,eventData){
+		$(document).on("pageshow","#page2",function(){
 			$(".articles_pagination_outer").fadeIn(100);
 		});
-		$(document).on("pagebeforehide","#page2",function(e,eventData){
+		$(document).on("pagebeforehide","#page2",function(){
 			$(".articles_pagination_outer").fadeOut(100);
 		});
-			
-		$(document).on("pagebeforeshow","#page3",function(e,eventData){
+		
+		$(document).on("pagebeforeshow","#page3",function(){
 			if(warsztaty_first_load){
 				warsztaty_first_load = false;
 				if(warsztaty_from_file){
@@ -827,20 +827,16 @@ var app = {
 				} else {
 					warsztatyLoadError();
 				}
-			} else if(warsztaty_loaded){
-				renderWarsztaty();
-			} else {
-				warsztatyLoadError();
 			}
 		});
-		$(document).on("pageshow","#page3",function(e,eventData){
+		$(document).on("pageshow","#page3",function(){
 			$(".warsztaty_pagination_outer").fadeIn(100);
 		});
-		$(document).on("pagebeforehide","#page3",function(e,eventData){
+		$(document).on("pagebeforehide","#page3",function(){
 			$(".warsztaty_pagination_outer").fadeOut(100);
 		});
 			
-		$(document).on("pageshow","#page4",function(e,eventData){
+		$(document).on("pageshow","#page4",function(){
 			var h = $(window).height() - 109;
 			$("#map_canvas").css({"height":h+"px"});
 			if(gotConnection()){
@@ -866,7 +862,7 @@ var app = {
 				mapNotLoaded();
 			}
 		});
-		$(document).on("pageshow","#warsztat",function(e,eventData){
+		$(document).on("pageshow","#warsztat",function(){
 			$("#warsztat footer").animate({"bottom":0},500,"easeOutExpo");
 		});
     },

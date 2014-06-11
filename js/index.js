@@ -687,173 +687,7 @@ var	warsztaty = [],
 		function mapNotLoaded(){
 			$("#map_canvas").addClass("loaded").html('<div class="panel text-center">Włącz internet aby załadować mapę.<br /><br /><a onclick="locationreload(\'page4\');"><i class="fa fa-refresh"></i> odśwież</a></div>');
 		}
-		//$(document).ready(function(){
-			$("header ul li a").removeClass("active");
-			var targetID = $(".ui-page-active").attr('id');
-			$('header ul li a[href="'+targetID+'"]').addClass("active");
-			$("header .logo").on("click",function(){
-				$("header ul li a").removeClass("active");
-			});
-			
-			$(document).on("pagebeforechange",function(e,eventData){
-				$("header ul li a").removeClass("active");
-				targetID = eventData.toPage;
-				$('header ul li a[href="'+targetID+'"]').addClass("active");
-			});
-			$(".loader").animate({"opacity":0},500,"easeOutExpo",function(){this.remove();});
-			$("#page1 footer").animate({"bottom":0},500,"easeOutExpo");
-			
-			if(gotConnection()){
-				feedArtykuly();
-				checkVersion();
-				if(new_version) {
-					feedWarsztaty();
-				} else {
-					warsztaty_from_file = true;
-				}
-			} else {
-				if(!warsztaty_loaded){
-					warsztaty_from_file = true;
-				}
-			}
-			
-			$('#wycena').isHappy({
-				fields: {
-					'#formtyp': {
-						required: true,
-						message: 'pole wymagane'
-					},
-					'#vin': {
-						required: true,
-						message: 'pole wymagane'
-					},
-					'#marka': {
-						required: true,
-						message: 'pole wymagane'
-					},
-					'#rok': {
-						required: true,
-						message: 'pole wymagane'
-					},
-					'#paliwo': {
-						required: true,
-						message: 'pole wymagane'
-					},
-					'#rejestr': {
-						required: true,
-						message: 'pole wymagane'
-					},
-					'#usluga': {
-						required: true,
-						message: 'pole wymagane'
-					},
-					'#email': {
-						required: true,
-						message: 'pole wymagane'
-					},
-					'#tel': {
-						required: true,
-						message: 'pole wymagane'
-					},
-					'#miasto': {
-						required: true,
-						message: 'pole wymagane'
-					}
-				},
-				submitButton:'.happybutton',
-				happy:function(){
-					var mailbody1 = '<p>Dane z formularza:</p><p>typ auta: '+$("#formtyp").val()+'<br />numer VIN: '+$("#vin").val()+'<br />marka, model, silnik: '+$("#marka").val()+'<br />rok produkcji: '+$("#rok").val()+'<br />rodzaj paliwa: '+$("#paliwo").val()+'<br />numer rejestracyjny: '+$("#rejestr").val()+'<br />usługa do wyceny: '+$("#usluga").val()+'<br />e-mail: '+$("#email").val()+'<br />numer telefonu: '+$("#tel").val()+'<br />miasto: '+$("#miasto").val()+'</p>';
-					window.plugin.email.isServiceAvailable(
-						function(isAvailable){
-							window.plugin.email.open({
-								to:[form_email],
-								subject:'Zapytanie z aplikacji mobilnej Inter Cars sieć warsztatów.',
-								body:mailbody1,
-								isHtml:true
-							});
-						}
-					);
-				}
-			});
-			
-			$(document).on("pagebeforeshow","#page2",function(e,eventData){
-				if(articles_first_load){
-					articles_first_load = false;
-					if(artykuly_loaded){
-						renderArtykuly();
-					} else {
-						if(gotConnection()) {
-							artykulyDiv.innerHTML = '<div class="panel text-center">Nie udało się wgrać aktualności.</div>';
-						} else {
-							artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności.<br /><br /><a onclick="locationreload(\'page2\');"><i class="fa fa-refresh"></i> odśwież</a></div>';
-						}
-					}
-				}
-			});
-			$(document).on("pageshow","#page2",function(e,eventData){
-				$(".articles_pagination_outer").fadeIn(100);
-			});
-			$(document).on("pagebeforehide","#page2",function(e,eventData){
-				$(".articles_pagination_outer").fadeOut(100);
-			});
-			
-			$(document).on("pagebeforeshow","#page3",function(e,eventData){
-				if(warsztaty_first_load){
-					warsztaty_first_load = false;
-					if(warsztaty_from_file){
-						window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-							fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
-						}, warsztatyFailFS);
-					} else if(warsztaty_loaded){
-						renderWarsztaty();
-					} else {
-						warsztatyLoadError();
-					}
-				} else if(warsztaty_loaded){
-					renderWarsztaty();
-				} else {
-					warsztatyLoadError();
-				}
-			});
-			$(document).on("pageshow","#page3",function(e,eventData){
-				$(".warsztaty_pagination_outer").fadeIn(100);
-			});
-			$(document).on("pagebeforehide","#page3",function(e,eventData){
-				$(".warsztaty_pagination_outer").fadeOut(100);
-			});
-			
-			$(document).on("pageshow","#page4",function(e,eventData){
-				var h = $(window).height() - 109;
-				$("#map_canvas").css({"height":h+"px"});
-				if(gotConnection()){
-					if(warsztaty_first_load){
-						warsztaty_first_load = false;
-						if(warsztaty_from_file){
-							window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-								fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
-							}, warsztatyFailFS);
-						}
-					}
-					if(warsztaty_loaded){
-						if(navigator.geolocation){
-							navigator.geolocation.getCurrentPosition(displayPosition,geolocationError);
-						} else {
-							geolocationError();
-						}
-						map_first_load = false;
-					} else {
-						mapNotLoaded();
-					}
-				} else {
-					mapNotLoaded();
-				}
-			});
-			$(document).on("pageshow","#warsztat",function(e,eventData){
-				$("#warsztat footer").animate({"bottom":0},500,"easeOutExpo");
-			});
-		//});
-	
-	
+
 var app = {
     initialize: function() {
         this.bindEvents();
@@ -872,7 +706,169 @@ var app = {
     },
     onDeviceReady: function() {
 		// skrypt
-		
+		$("header ul li a").removeClass("active");
+		var targetID = $(".ui-page-active").attr('id');
+		$('header ul li a[href="'+targetID+'"]').addClass("active");
+		$("header .logo").on("click",function(){
+			$("header ul li a").removeClass("active");
+		});
+			
+		$(document).on("pagebeforechange",function(e,eventData){
+			$("header ul li a").removeClass("active");
+			targetID = eventData.toPage;
+			$('header ul li a[href="'+targetID+'"]').addClass("active");
+		});
+		$(".loader").animate({"opacity":0},500,"easeOutExpo",function(){this.remove();});
+		$("#page1 footer").animate({"bottom":0},500,"easeOutExpo");
+			
+		if(gotConnection()){
+			feedArtykuly();
+			checkVersion();
+			if(new_version) {
+				feedWarsztaty();
+			} else {
+				warsztaty_from_file = true;
+			}
+		} else {
+			if(!warsztaty_loaded){
+				warsztaty_from_file = true;
+			}
+		}
+			
+		$('#wycena').isHappy({
+			fields: {
+				'#formtyp': {
+					required: true,
+					message: 'pole wymagane'
+				},
+				'#vin': {
+					required: true,
+					message: 'pole wymagane'
+				},
+				'#marka': {
+					required: true,
+					message: 'pole wymagane'
+				},
+				'#rok': {
+					required: true,
+					message: 'pole wymagane'
+				},
+				'#paliwo': {
+					required: true,
+					message: 'pole wymagane'
+				},
+				'#rejestr': {
+					required: true,
+					message: 'pole wymagane'
+				},
+				'#usluga': {
+					required: true,
+					message: 'pole wymagane'
+				},
+				'#email': {
+					required: true,
+					message: 'pole wymagane'
+				},
+				'#tel': {
+					required: true,
+					message: 'pole wymagane'
+				},
+				'#miasto': {
+					required: true,
+					message: 'pole wymagane'
+				}
+			},
+			submitButton:'.happybutton',
+			happy:function(){
+				var mailbody1 = '<p>Dane z formularza:</p><p>typ auta: '+$("#formtyp").val()+'<br />numer VIN: '+$("#vin").val()+'<br />marka, model, silnik: '+$("#marka").val()+'<br />rok produkcji: '+$("#rok").val()+'<br />rodzaj paliwa: '+$("#paliwo").val()+'<br />numer rejestracyjny: '+$("#rejestr").val()+'<br />usługa do wyceny: '+$("#usluga").val()+'<br />e-mail: '+$("#email").val()+'<br />numer telefonu: '+$("#tel").val()+'<br />miasto: '+$("#miasto").val()+'</p>';
+				window.plugin.email.isServiceAvailable(
+					function(isAvailable){
+						window.plugin.email.open({
+							to:[form_email],
+							subject:'Zapytanie z aplikacji mobilnej Inter Cars sieć warsztatów.',
+							body:mailbody1,
+							isHtml:true
+						});
+					}
+				);
+			}
+		});
+			
+		$(document).on("pagebeforeshow","#page2",function(e,eventData){
+			if(articles_first_load){
+				articles_first_load = false;
+				if(artykuly_loaded){
+					renderArtykuly();
+				} else {
+					if(gotConnection()) {
+						artykulyDiv.innerHTML = '<div class="panel text-center">Nie udało się wgrać aktualności.</div>';
+					} else {
+						artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności.<br /><br /><a onclick="locationreload(\'page2\');"><i class="fa fa-refresh"></i> odśwież</a></div>';
+					}
+				}
+			}
+		});
+		$(document).on("pageshow","#page2",function(e,eventData){
+			$(".articles_pagination_outer").fadeIn(100);
+		});
+		$(document).on("pagebeforehide","#page2",function(e,eventData){
+			$(".articles_pagination_outer").fadeOut(100);
+		});
+			
+		$(document).on("pagebeforeshow","#page3",function(e,eventData){
+			if(warsztaty_first_load){
+				warsztaty_first_load = false;
+				if(warsztaty_from_file){
+					window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+						fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
+					}, warsztatyFailFS);
+				} else if(warsztaty_loaded){
+					renderWarsztaty();
+				} else {
+					warsztatyLoadError();
+				}
+			} else if(warsztaty_loaded){
+				renderWarsztaty();
+			} else {
+				warsztatyLoadError();
+			}
+		});
+		$(document).on("pageshow","#page3",function(e,eventData){
+			$(".warsztaty_pagination_outer").fadeIn(100);
+		});
+		$(document).on("pagebeforehide","#page3",function(e,eventData){
+			$(".warsztaty_pagination_outer").fadeOut(100);
+		});
+			
+		$(document).on("pageshow","#page4",function(e,eventData){
+			var h = $(window).height() - 109;
+			$("#map_canvas").css({"height":h+"px"});
+			if(gotConnection()){
+				if(warsztaty_first_load){
+					warsztaty_first_load = false;
+					if(warsztaty_from_file){
+						window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+							fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
+						}, warsztatyFailFS);
+					}
+				}
+				if(warsztaty_loaded){
+					if(navigator.geolocation){
+						navigator.geolocation.getCurrentPosition(displayPosition,geolocationError);
+					} else {
+						geolocationError();
+					}
+					map_first_load = false;
+				} else {
+					mapNotLoaded();
+				}
+			} else {
+				mapNotLoaded();
+			}
+		});
+		$(document).on("pageshow","#warsztat",function(e,eventData){
+			$("#warsztat footer").animate({"bottom":0},500,"easeOutExpo");
+		});
     },
 	onLoad: function() {
 		

@@ -870,6 +870,12 @@ var app = {
 							mapNotLoaded();
 						}
 					},100);
+				} else {
+					if(navigator.geolocation){
+						navigator.geolocation.getCurrentPosition(displayPosition,geolocationError);
+					} else {
+						geolocationError();
+					}
 				}
 			} else {
 				mapNotLoaded();

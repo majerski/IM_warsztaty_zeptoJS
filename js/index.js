@@ -808,10 +808,10 @@ var app = {
 				}
 			}
 		});
-		$(document).on("pageshow","#page2",function(){
+		$(document).on("pagebeforeshow","#page2",function(){
 			$(".articles_pagination_outer").show();
 		});
-		$(document).on("pagebeforehide","#page2",function(){
+		$(document).on("pagehide","#page2",function(){
 			$(".articles_pagination_outer").hide();
 		});
 		
@@ -829,10 +829,10 @@ var app = {
 				}
 			}
 		});
-		$(document).on("pageshow","#page3",function(){
+		$(document).on("pagebeforeshow","#page3",function(){
 			$(".warsztaty_pagination_outer").show();
 		});
-		$(document).on("pagebeforehide","#page3",function(){
+		$(document).on("pagehide","#page3",function(){
 			$(".warsztaty_pagination_outer").hide();
 		});
 			

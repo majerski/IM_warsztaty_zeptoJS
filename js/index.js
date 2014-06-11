@@ -712,7 +712,47 @@ var	warsztaty = [],
 					}
 					break;
 				case "page4":
-					
+					if(gotConnection()){
+						if(warsztaty_first_load){
+							warsztaty_first_load = false;
+							if(warsztaty_from_file){
+								window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+									fs.root.getFile(warsztaty_path, {create:false}, fileExists, fileNotExists);
+								}, warsztatyFailFS);
+							}
+						}
+						if(!map_first_load){
+							map_first_load = true;
+							var loadComplete = false;
+							var timeStart = 0;
+							var timeEnd = 1000;
+							var everythingLoaded = setInterval(function(){
+								if(warsztaty_loaded && !loadComplete){
+									loadComplete = true;
+									clearInterval(everythingLoaded);
+									if(navigator.geolocation){
+										navigator.geolocation.getCurrentPosition(displayPosition,geolocationError);
+									} else {
+										geolocationError();
+									}
+								} else {
+									timeStart++;
+								}
+								if(timeStart == timeEnd){
+									clearInterval(everythingLoaded);
+									mapNotLoaded();
+								}
+							},100);
+						} else {
+							if(navigator.geolocation){
+								navigator.geolocation.getCurrentPosition(displayPosition,geolocationError);
+							} else {
+								geolocationError();
+							}
+						}
+					} else {
+						mapNotLoaded();
+					}
 					break;
 			}
 			return false;

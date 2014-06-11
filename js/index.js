@@ -719,6 +719,7 @@ var	warsztaty = [],
 		}
 		function mapNotLoaded(){
 			$("#map_canvas").addClass("loaded").html('<div class="panel text-center">Włącz internet aby załadować mapę.<br /><br /><a onclick="locationreload(\'page4\');"><i class="fa fa-refresh"></i> odśwież</a></div>');
+			$(".clearAddress").hide();
 		}
 
 var app = {

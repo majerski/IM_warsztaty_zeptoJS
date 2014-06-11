@@ -70,10 +70,12 @@ footer a.blue{background-color:#004489}
 
 #warsztat .content{padding-bottom:73px}
 #warsztat .content h2{font-size:18px;font-weight:bold;font-family:Lato,sans-serif}
-#warsztat .content p,#warsztat .content table td,#warsztat .content ul,#warsztat .content ul li,#warsztat .content a{font-size:14px}
+#warsztat .content p{font-size:16px}
+#warsztat .content table td,#warsztat .content ul,#warsztat .content ul li,#warsztat .content a{font-size:14px}
 #warsztat .content table td{padding-right:20px;line-height:22px}
-#warsztat footer a{float:left;width:33.333%;text-align:center;color:#fff;font-size:12px;font-weight:bold;background:#e30613;background:-moz-linear-gradient(top,#e30613 0,#ae0f0a 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#e30613),color-stop(100%,#ae0f0a));background:-webkit-linear-gradient(top,#e30613 0,#ae0f0a 100%);background:-o-linear-gradient(top,#e30613 0,#ae0f0a 100%);background:-ms-linear-gradient(top,#e30613 0,#ae0f0a 100%);background:linear-gradient(to bottom,#e30613 0,#ae0f0a 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e30613', endColorstr='#ae0f0a', GradientType=0)}
-#warsztat footer a:active{background:#cd0d18;background:-moz-linear-gradient(top,#cd0d18 0,#95130f 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#cd0d18),color-stop(100%,#95130f));background:-webkit-linear-gradient(top,#cd0d18 0,#95130f 100%);background:-o-linear-gradient(top,#cd0d18 0,#95130f 100%);background:-ms-linear-gradient(top,#cd0d18 0,#95130f 100%);background:linear-gradient(to bottom,#cd0d18 0,#95130f 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#cd0d18', endColorstr='#95130f', GradientType=0)}
+#warsztat footer{background:#e30613;background:-moz-linear-gradient(top,#e30613 0,#ae0f0a 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#e30613),color-stop(100%,#ae0f0a));background:-webkit-linear-gradient(top,#e30613 0,#ae0f0a 100%);background:-o-linear-gradient(top,#e30613 0,#ae0f0a 100%);background:-ms-linear-gradient(top,#e30613 0,#ae0f0a 100%);background:linear-gradient(to bottom,#e30613 0,#ae0f0a 100%);}
+#warsztat footer a{float:left;width:33.333%;text-align:center;color:#fff;font-size:12px;font-weight:bold}
+#warsztat footer a:active{background:#cd0d18;background:-moz-linear-gradient(top,#cd0d18 0,#95130f 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#cd0d18),color-stop(100%,#95130f));background:-webkit-linear-gradient(top,#cd0d18 0,#95130f 100%);background:-o-linear-gradient(top,#cd0d18 0,#95130f 100%);background:-ms-linear-gradient(top,#cd0d18 0,#95130f 100%);background:linear-gradient(to bottom,#cd0d18 0,#95130f 100%)}
 #warsztat footer a img{display:block;margin-left:auto;margin-right:auto;margin-bottom:5px}
 
 #map_canvas .panel{margin:10px!important}

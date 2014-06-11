@@ -90,7 +90,7 @@ footer a.blue{background-color:#004489}
 .noscrollbar div a img{display:block;margin-left:auto;margin-right:auto;margin-bottom:5px}
 .input-outer {position:absolute;top:0px;left:0;width:100%;z-index:9999;background:url('../img/dot.png') top left repeat;display:none}
 .input-outer div{margin:10px 5%}
-.clearAddress{display:block;width:26px;height:26px;position:absolute;z-index:9;right:8%;top:12px;background-color:#fff;color:#8f8f8f;border:1px solid #aaaaaa}
+.clearAddress{display:block;width:27px;height:27px;line-height:25px;position:absolute;z-index:9;right:8%;top:15px;background-color:#fff;color:#8f8f8f;border:1px solid #c6c6c6;text-align:center;-webkit-border-radius:50px;-moz-border-radius:50px;border-radius:50px;}
 .clearAddress:active{background-color:#f3f3f3;color:#666}
 
 /* Smartphones (portrait and landscape) ----------- */

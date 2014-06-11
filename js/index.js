@@ -124,6 +124,9 @@ var	warsztaty = [],
 						return renderWarsztaty();
 					}
 				});
+				if(navigator.geolocation){
+					navigator.geolocation.getCurrentPosition(setcurrentPosition,function(a){});
+				}
 				if(currentPosition){
 					if(typeof currentPosition.coords != 'undefined') {
 						var mylat = currentPosition.coords.latitude;
@@ -139,6 +142,9 @@ var	warsztaty = [],
 			if(render){
 				renderWarsztaty();
 			}
+		}
+		function setcurrentPosition(pos){
+			currentPosition = pos;
 		}
 		function checkConnection() {
 			if(typeof navigator.connection == 'undefined' || typeof navigator.connection.type == 'undefined') {

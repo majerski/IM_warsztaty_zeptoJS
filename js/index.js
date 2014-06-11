@@ -47,8 +47,8 @@ var	warsztaty = [],
 	fi_path = 'installed.dat',
 	warsztaty_path = 'warsztaty.txt',
 	warsztaty_from_file = false,
-	//artykulyUrl = 'http://www.q-service.com.pl/rss/',
-	artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
+	artykulyUrl = 'http://www.q-service.com.pl/rss/',
+	//artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
 	warsztatyUrl = 'http://arcontact.pl/warsztaty_inter_cars/feed.php',
 	form_email = 'mifdetal@intercars.eu',
 	map,
@@ -63,7 +63,24 @@ var	warsztaty = [],
 		qservice:"data:image/png;base64,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",
 		perfectservice:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAlCAYAAAAjt+tHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABM9JREFUeNq8V0tsG1UUPfNzxhP/4nwMcZofKAWiBkIQSoAUqSRQVUJIUKEK8VmwY1MqFkAXXXTNAkQ3bCqkqgt2iB1k0QqRZAGhpSqBps2vTRPbcRx/x+PxZ7gzHkdT4yR2G/tKV89jP79z3rn33XmX0TQNuk1OTvI0sOQ2c+RxsJYjL5Cr+jg1NaU/g9EJmOA6sGi6zSTAHhB4wSSggyumqzoJZmJiogQukbvMUayTAjqwTB43R7W0S9EE7yBWs6ijkdpjVlVYi/RSvcF1MzFKKttYS+KJaJyV8owtZTtfh5jvZTuYpSxn0XhjDwRYuXL1kaV4aNOyWaRTCiKbSTA8B5EEnb8bhb2Jx5OdLrgkoT4E5OlZxC5dhpBRoHzwMT789hp66RD/vhDGSiBpzPG12HFyvBdfnBqCx2HbOw7Vmrq0jMDpz7DxyWmkrvyKfEo2sujU+CH8dCOCm5s5JDkRWVFCDAJ+/HMTN1aitSuQW1mFpqT1Sm0cFJbnodGobWzAPXkMzrfeLH4v8MgsLuHYYSe+6t+Gt80FT7sHUqsHbo8Er6sJNi6N7J1FI1yM0wmhy78/gSTFNZuQwXIsUskM7m/JCKeyiOYFjPa0oaelKGmeE1CIRNCtJfH+uy9SUmjQ8lTg8nmqcylo0QS0QgGqnAZrtxNntjoFmL5+LK/Fkc3lsa4q8A6I8PAMcnEViQ4Jtv4WY16cyDHLq1CDYThGRyuHjRTaPnceXZe/rz4EAdpxb0cz/r0XxfzSFl4b7sQrz3Q8MGf+Xhxnv5vFxVEO2YVbD776YnHkQiEUZLn4HNkuhkAQqiMQjivG2OtzEjiDVoplua0GElgPxEhaH/LxBLa+uQD11m1kKX8KJDnTJIBrbUX7ubPwX7pYEbwigZm/Qzj+5S9gKP+Gn2jFQJcb7R4RPMfARmddN4edx8mjfTjxUh8KmSjywSCBL0AcOgLHieNoemoAgt8Pxi4aeWEsVu0pOHzIjfMfPY/Zf0JYDSbx280gcpRYHBGQqMA87pXQ7WvG3J0IPn/vOWgz05AufA2aUBlhD/CKBHS5z7wziDMYLGZ6QUOBdsHSQhxbYbFXx3cHP4hSrINy2GMXjwBesRLOUTn94eoyri9Gdr6Ly1n8/Md9RJNqsVDlNUQSGSO815ejxm+xlLozP6vXArK7oSTSat5QsWoFwvEM1sIpI/76MdT/nKFFUkoO4ZgCd7MNzZSEcwtb+PTtQUTpxMyvRo0kDUTSRvHkqeDo9V8n3izy9HLisE5Hu90t4vUR/94KCFTcx57uwNEhHxyiYIRgjGoAR1XRSW+34HbaWKjH5zCSc6DLhW6qGTPzIXS2SYTP4I0X/NggQK/ThttrMXiIdIwq6WP0gvpfjtKt2EtjG7m3EXdCy8VUj3GYtdxQG22FUghyFm+U7WCylnZJaSABpdSisRZw2dI01Dv+cokEbyqgmO2SPuFIWWvGmg3FdI1AL5flV3lrpn8uVNOc7tzhicRcleAjZbm1e3O6T3teGq3t27V9wIetEpcRqNye77Mgb4I7TNdJ/LXL3GdN8KTpSgnooW/F5gKKZVHZ3OVuO68avOpr+S4kRspiXjN4VSHYJRyS6aWOQzUJyLWA10zAQsJWdlRz1syuZb3/BBgAsgop9FmfDRMAAAAASUVORK5CYII="
 	};
-
+		
+var app = {
+    initialize: function() {
+        this.bindEvents();
+        this.initFastClick();
+    },
+    bindEvents: function() {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+		document.addEventListener("load", this.onLoad, false);
+		document.addEventListener("offline", this.onOffline, false);
+		document.addEventListener("online", this.onOnline, false);
+    },
+    initFastClick: function() {
+        window.addEventListener('load', function() {
+            FastClick.attach(document.body);
+        },false);
+    },
+    onDeviceReady: function() {
 		function supports_html5_storage() {
 			try {
 				return 'localStorage' in window && window['localStorage'] !== null;
@@ -163,9 +180,6 @@ var	warsztaty = [],
 			return states[networkState];
 		}
 		function gotConnection(){
-			//
-			return true;
-			//
 			var a = checkConnection();
 			if(a == 'fail'){return false;}
 			return true;
@@ -739,7 +753,6 @@ var	warsztaty = [],
 			document.getElementById("map_canvas").innerHTML="";
 			warsztatShowPointId = id;
 		}
-		
 		function locationreload(page){
 			var currentPage = $(".ui-page-active").attr('id');
 			switch(currentPage){
@@ -828,14 +841,12 @@ var	warsztaty = [],
 			$("#map_canvas").addClass("loaded").html('<div class="panel text-center">Włącz internet aby załadować mapę.<br /><br /><a onclick="locationreload(\'page4\');"><i class="fa fa-refresh"></i> odśwież</a></div>');
 			$(".input-outer").hide();
 		}
-
 		$("header ul li a").removeClass("active");
 		var targetID = $(".ui-page-active").attr('id');
 		$('header ul li a[href="'+targetID+'"]').addClass("active");
 		$("header .logo").on("click",function(){
 			$("header ul li a").removeClass("active");
 		});
-			
 		$(document).on("pagebeforechange",function(e,eventData){
 			$("header ul li a").removeClass("active");
 			targetID = eventData.toPage;
@@ -904,13 +915,9 @@ var	warsztaty = [],
 				);
 			}
 		});
-		
 		if(gotConnection()){
 			feedArtykuly();
 			checkVersion();
-			//
-			new_version = true;
-			//
 			if(new_version) {
 				feedWarsztaty();
 			} else {
@@ -921,7 +928,6 @@ var	warsztaty = [],
 				warsztaty_from_file = true;
 			}
 		}
-		
 		$(document).on("pagebeforeshow","#page2",function(){
 			if(articles_first_load){
 				articles_first_load = false;
@@ -942,7 +948,6 @@ var	warsztaty = [],
 		$(document).on("pagebeforehide","#page2",function(){
 			$(".articles_pagination_outer").fadeOut(100);
 		});
-		
 		$(document).on("pagebeforeshow","#page3",function(){
 			if(warsztaty_first_load){
 				warsztaty_first_load = false;
@@ -963,7 +968,6 @@ var	warsztaty = [],
 		$(document).on("pagebeforehide","#page3",function(){
 			$(".warsztaty_pagination_outer").fadeOut(100);
 		});
-			
 		$(document).on("pageshow","#page4",function(){
 			var h = $(window).height() - 109;
 			$("#map_canvas").css({"height":h+"px"});
@@ -1016,26 +1020,6 @@ var	warsztaty = [],
 		$(document).on("pageshow","#warsztat",function(){
 			$("#warsztat footer").animate({"bottom":0},500,"easeOutExpo");
 		});
-		
-var app = {
-    initialize: function() {
-        this.bindEvents();
-        this.initFastClick();
-    },
-    bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-		document.addEventListener("load", this.onLoad, false);
-		document.addEventListener("offline", this.onOffline, false);
-		document.addEventListener("online", this.onOnline, false);
-    },
-    initFastClick: function() {
-        window.addEventListener('load', function() {
-            FastClick.attach(document.body);
-        },false);
-    },
-    onDeviceReady: function() {
-		// skrypt
-		
     },
 	onLoad: function() {
 		

@@ -90,6 +90,8 @@ footer a.blue{background-color:#004489}
 .noscrollbar div a img{display:block;margin-left:auto;margin-right:auto;margin-bottom:5px}
 .input-outer {position:absolute;top:0px;left:0;width:100%;z-index:9999;background:url('../img/dot.png') top left repeat;display:none}
 .input-outer div{margin:10px 10%}
+.clearAddress{display:block;width:20px;height:20px;position:absolute;z-index:9;right:10px;top:10px;background-color:#fff;color:#8f8f8f}
+.clearAddress:active{background-color:#f3f3f3;color:#666}
 
 /* Smartphones (portrait and landscape) ----------- */
 @media (min-width : 320px) and (max-width : 480px) {

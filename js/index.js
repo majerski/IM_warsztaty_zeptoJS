@@ -546,7 +546,7 @@ var app = {
 				zoomControl: true,
 				zoomControlOptions: {
 					style: google.maps.ZoomControlStyle.LARGE,
-					position: google.maps.ControlPosition.TOP_RIGHT
+					position: google.maps.ControlPosition.BOTTOM_RIGHT
 				},
 				scaleControl: true,
 				streetViewControl: false

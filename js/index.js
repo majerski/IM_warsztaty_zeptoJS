@@ -164,9 +164,6 @@ function supports_html5_storage() {
 			return states[networkState];
 		}
 		function gotConnection(){
-			//
-			return true;
-			//
 			var a = checkConnection();
 			if(a == 'fail'){return false;}
 			return true;
@@ -372,7 +369,6 @@ function supports_html5_storage() {
 			}
 		}
 		function renderWarsztat(id){
-			alert(id);
 			var item = use_warsztaty[id];
 			$("#warsztat .content").empty();
 			$("#warsztat .content").append('<h2>'+item.konto+'</h2><p>'+item.ulica+'<br />'+item.kod.substr(0,2)+'-'+item.kod.substr(2)+' '+item.miasto+'</p><table><tr><td>otwarte </td><td>'+item.open+'</td></tr><tr><td>w soboty </td><td>'+item.opensob+'</td></tr></table>');
@@ -828,6 +824,28 @@ function supports_html5_storage() {
 			$("#map_canvas").addClass("loaded").html('<div class="panel text-center">Włącz internet aby załadować mapę.<br /><br /><a onclick="locationreload(\'page4\');"><i class="fa fa-refresh"></i> odśwież</a></div>');
 			$(".input-outer").hide();
 		}
+		
+	
+	
+
+var app = {
+    initialize: function() {
+        this.bindEvents();
+        this.initFastClick();
+    },
+    bindEvents: function() {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+		document.addEventListener("load", this.onLoad, false);
+		document.addEventListener("offline", this.onOffline, false);
+		document.addEventListener("online", this.onOnline, false);
+    },
+    initFastClick: function() {
+        window.addEventListener('load', function() {
+            FastClick.attach(document.body);
+        },false);
+    },
+    onDeviceReady: function() {
+		// skrypt
 		$("header ul li a").removeClass("active");
 		var targetID = $(".ui-page-active").attr('id');
 		$('header ul li a[href="'+targetID+'"]').addClass("active");
@@ -905,9 +923,6 @@ function supports_html5_storage() {
 		if(gotConnection()){
 			feedArtykuly();
 			checkVersion();
-			//
-			new_version = true;
-			//
 			if(new_version) {
 				feedWarsztaty();
 			} else {
@@ -1010,27 +1025,6 @@ function supports_html5_storage() {
 		$(document).on("pageshow","#warsztat",function(){
 			$("#warsztat footer").animate({"bottom":0},500,"easeOutExpo");
 		});	
-	
-	
-
-var app = {
-    initialize: function() {
-        this.bindEvents();
-        this.initFastClick();
-    },
-    bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-		document.addEventListener("load", this.onLoad, false);
-		document.addEventListener("offline", this.onOffline, false);
-		document.addEventListener("online", this.onOnline, false);
-    },
-    initFastClick: function() {
-        window.addEventListener('load', function() {
-            FastClick.attach(document.body);
-        },false);
-    },
-    onDeviceReady: function() {
-		// skrypt
     },
 	onLoad: function() {
 		

@@ -989,7 +989,6 @@ var app = {
 						warsztatyLoadError();
 					}
 				}
-				$(".warsztaty_pagination_outer").css({"opacity":0});
 				if(!map_first_load){
 					map_first_load = true;
 					var loadComplete = false;
@@ -1023,9 +1022,12 @@ var app = {
 				mapNotLoaded();
 			}
 		});
+		$(document).on("pagechange","#page4",function(){
+			$(".warsztaty_pagination_outer").css({"opacity":0});
+		});
 		$(document).on("pageshow","#warsztat",function(){
 			$("#warsztat footer").animate({"bottom":0},500,"easeOutExpo");
-		});	
+		});
     },
 	onLoad: function() {
 		

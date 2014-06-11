@@ -875,7 +875,7 @@ var app = {
 						navigator.geolocation.getCurrentPosition(displayPosition,geolocationError);
 					} else {
 						geolocationError();
-					}
+					}//
 				}
 			} else {
 				mapNotLoaded();

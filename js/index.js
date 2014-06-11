@@ -989,6 +989,7 @@ var app = {
 						warsztatyLoadError();
 					}
 				}
+				$(".warsztaty_pagination_outer").css({"opacity":0});
 				if(!map_first_load){
 					map_first_load = true;
 					var loadComplete = false;

@@ -425,7 +425,7 @@ var	warsztaty = [],
 		function dial(number){
 			//window.location.href = 'tel:+48'+number;
 			window.open('tel:+48'+number,'_system','location=no');
-			location.reload();
+			location.hash = 'page3';
 		}
 		function warsztatMail(id){
 			var	item = use_warsztaty[id],

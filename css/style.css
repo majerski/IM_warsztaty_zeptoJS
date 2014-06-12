@@ -80,7 +80,7 @@ footer a.blue{background-color:#004489}
 
 #map_canvas .panel{margin:10px!important}
 #page4 .content{position:relative}
-#map_canvas{width:100%;background-image:url('../img/preloader.gif');background-position:center center;background-repeat:no-repeat;z-index:1}
+#map_canvas{width:100%;background-image:url('../img/preloader.gif');background-position:center center;background-repeat:no-repeat;z-index:1!important}
 #map_canvas.loaded{background-image:none}
 .gm-style-iw,.gm-style-iw div{overflow:visible!important}
 .noscrollbar {position:relative;width:200px;line-height:1.35;color:#444;font-family:Lato,sans-serif;padding-bottom:100px}
@@ -88,9 +88,9 @@ footer a.blue{background-color:#004489}
 .noscrollbar div{position:absolute;width:242px;left:-11px;bottom:-8px}
 .noscrollbar div a{display:block;float:left;width:121px;padding-top:10px;padding-bottom:10px;text-align:center;color:#fff;background:#e30613;background:-moz-linear-gradient(top,#e30613 0,#ae0f0a 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#e30613),color-stop(100%,#ae0f0a));background:-webkit-linear-gradient(top,#e30613 0,#ae0f0a 100%);background:-o-linear-gradient(top,#e30613 0,#ae0f0a 100%);background:-ms-linear-gradient(top,#e30613 0,#ae0f0a 100%);background:linear-gradient(to bottom,#e30613 0,#ae0f0a 100%);}
 .noscrollbar div a img{display:block;margin-left:auto;margin-right:auto;margin-bottom:5px}
-.input-outer {position:absolute;top:0px;left:0;width:100%;z-index:9999;background:url('../img/dot.png') top left repeat;display:none}
+.input-outer {position:absolute;top:0px;left:0;width:100%;z-index:9999!important;background:url('../img/dot.png') top left repeat;display:none}
 .input-outer div{margin:10px 5%}
-.clearAddress{display:block;width:27px;height:27px;line-height:25px;position:absolute;z-index:9;right:8%;top:15px;background-color:#fff;color:#8f8f8f;border:1px solid #c6c6c6;text-align:center;-webkit-border-radius:50px;-moz-border-radius:50px;border-radius:50px;}
+.clearAddress{display:block;width:27px;height:27px;line-height:25px;position:absolute;z-index:9!important;right:8%;top:15px;background-color:#fff;color:#8f8f8f;border:1px solid #c6c6c6;text-align:center;-webkit-border-radius:50px;-moz-border-radius:50px;border-radius:50px;}
 .clearAddress:active{background-color:#f3f3f3;color:#666}
 
 /* Smartphones (portrait and landscape) ----------- */

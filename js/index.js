@@ -423,7 +423,6 @@ var	warsztaty = [],
 			$(".footer_map").attr("href","#page4").click(function(){showPoint(id);});
 		}
 		function dial(number){
-			//window.location.href = 'tel:+48'+number;
 			window.open('tel:+48'+number,'_system','location=no');
 			window.history.back();
 		}

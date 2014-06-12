@@ -144,6 +144,7 @@ var	warsztaty = [],
 				var point = new google.maps.LatLng(mylat,mylong);
 				currentPosition = point;
 				window.plugins.toast.showShortBottom('Zapamiętano lokalizację.',function(a){},function(b){});
+				render = true;
 			}
 		}
 		if(render){

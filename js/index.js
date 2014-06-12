@@ -110,23 +110,28 @@ var	warsztaty = [],
 		var render = true;
 		$("#address2").remove();
 		if(type == 2){
-			$('#order').append('<input type="text" id="address2" placeholder="Wprowadź adres (autouzupełnianie)" style="margin:0px" />');
-			var input2 = $("#address2").get(0);
-			var autocomplete2 = new google.maps.places.Autocomplete(input2);
-			google.maps.event.addListener(autocomplete2, 'place_changed', function() {
-				var place2 = autocomplete2.getPlace();
-				if (!place2.geometry) {
-					use_warsztaty = sortByKey(use_warsztaty,'miasto');
-				} else {
-					var rLat = place2.geometry.location.lat();
-					var rLng = place2.geometry.location.lng();
-					var point = new google.maps.LatLng(rLat,rLng);
-					currentPosition = point;
-					return renderWarsztaty();
+			if(gotConnection()){
+				$('#order').append('<input type="text" id="address2" placeholder="Wprowadź adres (autouzupełnianie)" style="margin:0px" />');
+				var input2 = $("#address2").get(0);
+				var autocomplete2 = new google.maps.places.Autocomplete(input2);
+				google.maps.event.addListener(autocomplete2, 'place_changed', function() {
+					var place2 = autocomplete2.getPlace();
+					if (!place2.geometry) {
+						use_warsztaty = sortByKey(use_warsztaty,'miasto');
+					} else {
+						var rLat = place2.geometry.location.lat();
+						var rLng = place2.geometry.location.lng();
+						var point = new google.maps.LatLng(rLat,rLng);
+						currentPosition = point;
+						return renderWarsztaty();
+					}
+				});
+				if(navigator.geolocation){
+					navigator.geolocation.getCurrentPosition(setcurrentPosition,function(a){});
 				}
-			});
-			if(navigator.geolocation){
-				navigator.geolocation.getCurrentPosition(setcurrentPosition,function(a){});
+			} else {
+				render = false;
+				window.plugins.toast.showLongCenter('Brak połączenia z internetem.',function(a){},function(b){});
 			}
 			if(currentPosition){
 				if(typeof currentPosition.coords != 'undefined') {
@@ -138,6 +143,7 @@ var	warsztaty = [],
 				}
 				var point = new google.maps.LatLng(mylat,mylong);
 				currentPosition = point;
+				window.plugins.toast.showShortBottom('Zapamiętano lokalizację.',function(a){},function(b){});
 			}
 		}
 		if(render){

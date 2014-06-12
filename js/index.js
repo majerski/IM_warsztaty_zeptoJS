@@ -25,7 +25,7 @@ $(document).ready(function(){$(document.body).transition("init").show()}),functi
 ;(function happyJS($){function trim(el){return(''.trim)?el.val().trim():$.trim(el.val())}$.fn.isHappy=function isHappy(config){var fields=[],item;var pauseMessages=false;function isFunction(obj){return!!(obj&&obj.constructor&&obj.call&&obj.apply)}function defaultError(error){var msgErrorClass=config.classes&&config.classes.message||'unhappyMessage';return $('<span id="'+error.id+'" class="'+msgErrorClass+'" role="alert">'+error.message+'</span>')}function getError(error){if(isFunction(config.errorTemplate)){return config.errorTemplate(error)}return defaultError(error)}function handleSubmit(){var i,l;var errors=false;for(i=0,l=fields.length;i<l;i+=1){if(!fields[i].testValid(true)){errors=true}}if(errors){if(isFunction(config.unHappy))config.unHappy();return false}else if(config.testMode){if(isFunction(config.happy))config.happy();if(window.console)console.warn('would have submitted');return false}if(isFunction(config.happy))config.happy()}function handleMouseUp(){pauseMessages=false}function handleMouseDown(){pauseMessages=true;$(window).bind('mouseup',handleMouseUp)}function processField(opts,selector){var field=$(selector);var error={message:opts.message||'',id:selector.slice(1)+'_unhappy'};var errorEl=$(error.id).length>0?$(error.id):getError(error);var handleBlur=function handleBlur(){if(!pauseMessages){field.testValid()}else{$(window).bind('mouseup',field.testValid.bind(this))}};fields.push(field);field.testValid=function testValid(submit){var val,gotFunc,temp;var el=$(this);var error=false;var required=!!el.get(0).attributes.getNamedItem('required')||opts.required;var password=(field.attr('type')==='password');var arg=isFunction(opts.arg)?opts.arg():opts.arg;var fieldErrorClass=config.classes&&config.classes.field||'unhappy';if(isFunction(opts.clean)){val=opts.clean(el.val())}else if(!password&&typeof opts.trim==='undefined'||opts.trim){val=trim(el)}else{val=el.val()}el.val(val);gotFunc=((val.length>0||required==='sometimes')&&isFunction(opts.test));if(submit===true&&required===true&&val.length===0){error=true}else if(gotFunc){error=!opts.test(val,arg)}if(error){el.addClass(fieldErrorClass).after(errorEl);return false}else{temp=errorEl.get(0);if(temp.parentNode){temp.parentNode.removeChild(temp)}el.removeClass(fieldErrorClass);return true}};field.bind(opts.when||config.when||'blur',handleBlur)}for(item in config.fields){processField(config.fields[item],item)}$(config.submitButton||this).bind('mousedown',handleMouseDown);if(config.submitButton){$(config.submitButton).click(handleSubmit)}else{this.bind('submit',handleSubmit)}return this}})(this.Zepto);
 
 ;(function(e){"use strict";e.jqPagination=function(t,n){var r=this;r.$el=e(t);r.el=t;r.$input=r.$el.find("input");r.$el.data("jqPagination",r);r.init=function(){r.options=e.extend({},e.jqPagination.defaultOptions,n);r.options.max_page===null&&(r.$input.data("max-page")!==undefined?r.options.max_page=r.$input.data("max-page"):r.options.max_page=1);r.$input.data("current-page")!==undefined&&r.isNumber(r.$input.data("current-page"))&&(r.options.current_page=r.$input.data("current-page"));r.$input.removeAttr("readonly");r.updateInput(!0);r.$input.on("focus.jqPagination mouseup.jqPagination",function(t){if(t.type==="focus"){var n=parseInt(r.options.current_page,10);e(this).val(n).select()}if(t.type==="mouseup")return!1});r.$input.on("blur.jqPagination keydown.jqPagination",function(t){var n=e(this),i=parseInt(r.options.current_page,10);if(t.keyCode===27){n.val(i);n.blur()}t.keyCode===13&&n.blur();t.type==="blur"&&r.setPage(n.val())});r.$el.on("click.jqPagination","a",function(t){var n=e(this);if(n.hasClass("disabled"))return!1;if(!t.metaKey&&!t.ctrlKey){t.preventDefault();r.setPage(n.data("action"))}})};r.setPage=function(e,t){if(e===undefined)return r.options.current_page;var n=parseInt(r.options.current_page,10),i=parseInt(r.options.max_page,10);if(isNaN(parseInt(e,10)))switch(e){case"first":e=1;break;case"prev":case"previous":e=n-1;break;case"next":e=n+1;break;case"last":e=i}e=parseInt(e,10);if(isNaN(e)||e<1||e>i){r.setInputValue(n);return!1}r.options.current_page=e;r.$input.data("current-page",e);r.updateInput(t)};r.setMaxPage=function(e,t){if(e===undefined)return r.options.max_page;if(!r.isNumber(e)){console.error("jqPagination: max_page is not a number");return!1}if(e<r.options.current_page){console.error("jqPagination: max_page lower than current_page");return!1}r.options.max_page=e;r.$input.data("max-page",e);r.updateInput(t)};r.updateInput=function(e){var t=parseInt(r.options.current_page,10);r.setInputValue(t);r.setLinks(t);e!==!0&&r.options.paged(t)};r.setInputValue=function(e){var t=r.options.page_string,n=r.options.max_page;t=t.replace("{current_page}",e).replace("{max_page}",n);r.$input.val(t)};r.isNumber=function(e){return!isNaN(parseFloat(e))&&isFinite(e)};r.setLinks=function(e){var t=r.options.link_string,n=parseInt(r.options.current_page,10),i=parseInt(r.options.max_page,10);if(t!==""){var s=n-1;s<1&&(s=1);var o=n+1;o>i&&(o=i);r.$el.find("a.first").attr("href",t.replace("{page_number}","1"));r.$el.find("a.prev, a.previous").attr("href",t.replace("{page_number}",s));r.$el.find("a.next").attr("href",t.replace("{page_number}",o));r.$el.find("a.last").attr("href",t.replace("{page_number}",i))}r.$el.find("a").removeClass("disabled");n===i&&r.$el.find(".next, .last").addClass("disabled");n===1&&r.$el.find(".previous, .first").addClass("disabled")};r.callMethod=function(t,n,i){switch(t.toLowerCase()){case"option":if(i===undefined&&typeof n!="object")return r.options[n];var s={trigger:!0},o=!1;e.isPlainObject(n)&&!i?e.extend(s,n):s[n]=i;var u=s.trigger===!1;s.current_page!==undefined&&(o=r.setPage(s.current_page,u));s.max_page!==undefined&&(o=r.setMaxPage(s.max_page,u));o===!1&&console.error("jqPagination: cannot get / set option "+n);return o;case"destroy":r.$el.off(".jqPagination").find("*").off(".jqPagination");break;default:console.error('jqPagination: method "'+t+'" does not exist');return!1}};r.init()};e.jqPagination.defaultOptions={current_page:1,link_string:"",max_page:null,page_string:"Strona {current_page} z {max_page}",paged:function(){}};e.fn.jqPagination=function(){var t=this,n=e(t),r=Array.prototype.slice.call(arguments),i=!1;if(typeof r[0]=="string"){r[2]===undefined?i=n.first().data("jqPagination").callMethod(r[0],r[1]):n.each(function(){i=e(this).data("jqPagination").callMethod(r[0],r[1],r[2])});return i}t.each(function(){new e.jqPagination(this,r[0])})}})(Zepto);if(!console){var console={},func=function(){return!1};console.log=func;console.info=func;console.warn=func;console.error=func};
-$(document.body).transition('options', {defaultPageTransition : 'fade', domCache : true});
+$(document.body).transition('options', {defaultPageTransition : 'fade', domCache : false});
 
 var	warsztaty = [],
 	_warsztaty = [],
@@ -66,22 +66,22 @@ var	warsztaty = [],
 	};
 
 
-function supports_html5_storage() {
-			try {
-				return 'localStorage' in window && window['localStorage'] !== null;
-			} catch (e) {
-				return false;
-			}
+	function supports_html5_storage() {
+		try {
+			return 'localStorage' in window && window['localStorage'] !== null;
+		} catch (e) {
+			return false;
 		}
-		String.prototype.replaceArray = function(find, replace) {
-			var replaceString = this;
-			var regex; 
-			for (var i = 0; i < find.length; i++) {
-				regex = new RegExp(find[i], "g");
-				replaceString = replaceString.replace(regex, replace[i]);
-			}
-			return replaceString;
-		};
+	}
+	String.prototype.replaceArray = function(find, replace) {
+		var replaceString = this;
+		var regex; 
+		for (var i = 0; i < find.length; i++) {
+			regex = new RegExp(find[i], "g");
+			replaceString = replaceString.replace(regex, replace[i]);
+		}
+		return replaceString;
+	};
 		function filterValuePart(arr,part) {
 			var find = ["ą","ś","ż","ź","ć","ń","ł","ó","ę",'"',"'","`"];
 			var replace = ["a","s","z","z","c","n","l","o","e","","",""];
@@ -423,7 +423,8 @@ function supports_html5_storage() {
 			$(".footer_map").attr("href","#page4").click(function(){showPoint(id);});
 		}
 		function dial(number){
-			window.location.href = 'tel:+48'+number;
+			//window.location.href = 'tel:+48'+number;
+			window.open('tel:+48'+number,'_system','location=no');
 		}
 		function warsztatMail(id){
 			var	item = use_warsztaty[id],

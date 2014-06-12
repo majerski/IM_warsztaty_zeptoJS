@@ -591,37 +591,39 @@ var	warsztaty = [],
 			bounds.extend(LatLngList[i]);
 		}
 		map.fitBounds(bounds);
-		$('.input-outer').show();
-		var input = $("#address").get(0);
-		var autocomplete = new google.maps.places.Autocomplete(input);
-		autocomplete.bindTo('bounds', map);
-		google.maps.event.addListener(autocomplete, 'place_changed', function() {
-			clearOverlays();
-			var marker = new google.maps.Marker({
-				map: map
-			});
-			var pos = {
-				coords: {
-					latitude: startingLatitude,
-					longitude: startingLongitude,
+		google.maps.event.addListenerOnce(map, 'idle', function(){
+			$('.input-outer').show();
+			var input = $("#address").get(0);
+			var autocomplete = new google.maps.places.Autocomplete(input);
+			autocomplete.bindTo('bounds', map);
+			google.maps.event.addListener(autocomplete, 'place_changed', function() {
+				clearOverlays();
+				var marker = new google.maps.Marker({
+					map: map
+				});
+				var pos = {
+					coords: {
+						latitude: startingLatitude,
+						longitude: startingLongitude,
+					}
+				};
+				marker.setVisible(false);
+				var place = autocomplete.getPlace();
+				if (!place.geometry) {
+					return;
 				}
-			};
-			marker.setVisible(false);
-			var place = autocomplete.getPlace();
-			if (!place.geometry) {
-				return;
-			}
-			if (place.geometry.viewport) {
-				map.fitBounds(place.geometry.viewport);
-			} else {
-				map.setCenter(place.geometry.location);
-			}
-			marker.setPosition(place.geometry.location);
-			marker.setVisible(true);
-			pos.coords.latitude = place.geometry.location.lat();
-			pos.coords.longitude = place.geometry.location.lng();
-			warsztatShowPointId = warsztatShowPointIdCopy;
-			displayPosition(pos);
+				if (place.geometry.viewport) {
+					map.fitBounds(place.geometry.viewport);
+				} else {
+					map.setCenter(place.geometry.location);
+				}
+				marker.setPosition(place.geometry.location);
+				marker.setVisible(true);
+				pos.coords.latitude = place.geometry.location.lat();
+				pos.coords.longitude = place.geometry.location.lng();
+				warsztatShowPointId = warsztatShowPointIdCopy;
+				displayPosition(pos);
+			});
 		});
 		$("#map_canvas").addClass("loaded");
 	}
@@ -696,37 +698,39 @@ var	warsztaty = [],
 			warsztatShowPointIdCopy = warsztatShowPointId;
 			warsztatShowPointId = false;
 			
-			$('.input-outer').show();
-			var input = $("#address").get(0);
-			var autocomplete = new google.maps.places.Autocomplete(input);
-			autocomplete.bindTo('bounds', map);
-			google.maps.event.addListener(autocomplete, 'place_changed', function() {
-				clearOverlays();
-				var marker = new google.maps.Marker({
-					map: map
-				});
-				var pos = {
-					coords: {
-						latitude: startingLatitude,
-						longitude: startingLongitude,
+			google.maps.event.addListenerOnce(map, 'idle', function(){
+				$('.input-outer').show();
+				var input = $("#address").get(0);
+				var autocomplete = new google.maps.places.Autocomplete(input);
+				autocomplete.bindTo('bounds', map);
+				google.maps.event.addListener(autocomplete, 'place_changed', function() {
+					clearOverlays();
+					var marker = new google.maps.Marker({
+						map: map
+					});
+					var pos = {
+						coords: {
+							latitude: startingLatitude,
+							longitude: startingLongitude,
+						}
+					};
+					marker.setVisible(false);
+					var place = autocomplete.getPlace();
+					if (!place.geometry) {
+						return;
 					}
-				};
-				marker.setVisible(false);
-				var place = autocomplete.getPlace();
-				if (!place.geometry) {
-					return;
-				}
-				if (place.geometry.viewport) {
-					map.fitBounds(place.geometry.viewport);
-				} else {
-					map.setCenter(place.geometry.location);
-				}
-				marker.setPosition(place.geometry.location);
-				marker.setVisible(true);
-				pos.coords.latitude = place.geometry.location.lat();
-				pos.coords.longitude = place.geometry.location.lng();
-				warsztatShowPointId = warsztatShowPointIdCopy;
-				displayPosition(pos);
+					if (place.geometry.viewport) {
+						map.fitBounds(place.geometry.viewport);
+					} else {
+						map.setCenter(place.geometry.location);
+					}
+					marker.setPosition(place.geometry.location);
+					marker.setVisible(true);
+					pos.coords.latitude = place.geometry.location.lat();
+					pos.coords.longitude = place.geometry.location.lng();
+					warsztatShowPointId = warsztatShowPointIdCopy;
+					displayPosition(pos);
+				});
 			});
 			$("#map_canvas").addClass("loaded");
 	}

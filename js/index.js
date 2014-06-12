@@ -630,7 +630,6 @@ var	warsztaty = [],
 			if(typeof window.plugins != 'undefined' && typeof window.plugins.toast != 'undefined'){
 				window.plugins.toast.showLongCenter('Nie można ustalić pozycji.',function(a){},function(b){});
 			}
-			$('.input-outer').show();
 			if(currentPosition){
 				if(typeof currentPosition.coords != 'undefined'){
 					var mylat = currentPosition.coords.latitude;
@@ -697,6 +696,7 @@ var	warsztaty = [],
 			warsztatShowPointIdCopy = warsztatShowPointId;
 			warsztatShowPointId = false;
 			
+			$('.input-outer').show();
 			var input = $("#address").get(0);
 			var autocomplete = new google.maps.places.Autocomplete(input);
 			autocomplete.bindTo('bounds', map);

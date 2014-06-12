@@ -47,8 +47,8 @@ var	warsztaty = [],
 	fi_path = 'installed.dat',
 	warsztaty_path = 'warsztaty.txt',
 	warsztaty_from_file = false,
-	//artykulyUrl = 'http://www.q-service.com.pl/rss/',
-	artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
+	artykulyUrl = 'http://www.q-service.com.pl/rss/',
+	//artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
 	warsztatyUrl = 'http://arcontact.pl/warsztaty_inter_cars/feed.php',
 	form_email = 'mifdetal@intercars.eu',
 	map,
@@ -64,7 +64,6 @@ var	warsztaty = [],
 		qservice:"data:image/png;base64,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",
 		perfectservice:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAlCAYAAAAjt+tHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABM9JREFUeNq8V0tsG1UUPfNzxhP/4nwMcZofKAWiBkIQSoAUqSRQVUJIUKEK8VmwY1MqFkAXXXTNAkQ3bCqkqgt2iB1k0QqRZAGhpSqBps2vTRPbcRx/x+PxZ7gzHkdT4yR2G/tKV89jP79z3rn33XmX0TQNuk1OTvI0sOQ2c+RxsJYjL5Cr+jg1NaU/g9EJmOA6sGi6zSTAHhB4wSSggyumqzoJZmJiogQukbvMUayTAjqwTB43R7W0S9EE7yBWs6ijkdpjVlVYi/RSvcF1MzFKKttYS+KJaJyV8owtZTtfh5jvZTuYpSxn0XhjDwRYuXL1kaV4aNOyWaRTCiKbSTA8B5EEnb8bhb2Jx5OdLrgkoT4E5OlZxC5dhpBRoHzwMT789hp66RD/vhDGSiBpzPG12HFyvBdfnBqCx2HbOw7Vmrq0jMDpz7DxyWmkrvyKfEo2sujU+CH8dCOCm5s5JDkRWVFCDAJ+/HMTN1aitSuQW1mFpqT1Sm0cFJbnodGobWzAPXkMzrfeLH4v8MgsLuHYYSe+6t+Gt80FT7sHUqsHbo8Er6sJNi6N7J1FI1yM0wmhy78/gSTFNZuQwXIsUskM7m/JCKeyiOYFjPa0oaelKGmeE1CIRNCtJfH+uy9SUmjQ8lTg8nmqcylo0QS0QgGqnAZrtxNntjoFmL5+LK/Fkc3lsa4q8A6I8PAMcnEViQ4Jtv4WY16cyDHLq1CDYThGRyuHjRTaPnceXZe/rz4EAdpxb0cz/r0XxfzSFl4b7sQrz3Q8MGf+Xhxnv5vFxVEO2YVbD776YnHkQiEUZLn4HNkuhkAQqiMQjivG2OtzEjiDVoplua0GElgPxEhaH/LxBLa+uQD11m1kKX8KJDnTJIBrbUX7ubPwX7pYEbwigZm/Qzj+5S9gKP+Gn2jFQJcb7R4RPMfARmddN4edx8mjfTjxUh8KmSjywSCBL0AcOgLHieNoemoAgt8Pxi4aeWEsVu0pOHzIjfMfPY/Zf0JYDSbx280gcpRYHBGQqMA87pXQ7WvG3J0IPn/vOWgz05AufA2aUBlhD/CKBHS5z7wziDMYLGZ6QUOBdsHSQhxbYbFXx3cHP4hSrINy2GMXjwBesRLOUTn94eoyri9Gdr6Ly1n8/Md9RJNqsVDlNUQSGSO815ejxm+xlLozP6vXArK7oSTSat5QsWoFwvEM1sIpI/76MdT/nKFFUkoO4ZgCd7MNzZSEcwtb+PTtQUTpxMyvRo0kDUTSRvHkqeDo9V8n3izy9HLisE5Hu90t4vUR/94KCFTcx57uwNEhHxyiYIRgjGoAR1XRSW+34HbaWKjH5zCSc6DLhW6qGTPzIXS2SYTP4I0X/NggQK/ThttrMXiIdIwq6WP0gvpfjtKt2EtjG7m3EXdCy8VUj3GYtdxQG22FUghyFm+U7WCylnZJaSABpdSisRZw2dI01Dv+cokEbyqgmO2SPuFIWWvGmg3FdI1AL5flV3lrpn8uVNOc7tzhicRcleAjZbm1e3O6T3teGq3t27V9wIetEpcRqNye77Mgb4I7TNdJ/LXL3GdN8KTpSgnooW/F5gKKZVHZ3OVuO68avOpr+S4kRspiXjN4VSHYJRyS6aWOQzUJyLWA10zAQsJWdlRz1syuZb3/BBgAsgop9FmfDRMAAAAASUVORK5CYII="
 	};
-
 
 	function supports_html5_storage() {
 		try {
@@ -82,54 +81,250 @@ var	warsztaty = [],
 		}
 		return replaceString;
 	};
-		function filterValuePart(arr,part) {
-			var find = ["ą","ś","ż","ź","ć","ń","ł","ó","ę",'"',"'","`"];
-			var replace = ["a","s","z","z","c","n","l","o","e","","",""];
-			part = part.toLowerCase().trim();
-			partReplaced = part.replaceArray(find,replace);
-			var emptyArr = new Array();
-			$.each(arr,function(i,item){
-				if( (String(item.konto).toLowerCase().indexOf(part) > -1) || (String(item.miasto).toLowerCase().indexOf(part) > -1) || (String(item.ulica).toLowerCase().indexOf(part) > -1) || (String(item.konto).toLowerCase().replaceArray(find,replace).indexOf(partReplaced) > -1) || (String(item.miasto).toLowerCase().replaceArray(find,replace).indexOf(partReplaced) > -1) || (String(item.ulica).toLowerCase().replaceArray(find,replace).indexOf(partReplaced) > -1) ) {
-					emptyArr.push(item);
+	function filterValuePart(arr,part) {
+		var find = ["ą","ś","ż","ź","ć","ń","ł","ó","ę",'"',"'","`"];
+		var replace = ["a","s","z","z","c","n","l","o","e","","",""];
+		part = part.toLowerCase().trim();
+		partReplaced = part.replaceArray(find,replace);
+		var emptyArr = new Array();
+		$.each(arr,function(i,item){
+			if( (String(item.konto).toLowerCase().indexOf(part) > -1) || (String(item.miasto).toLowerCase().indexOf(part) > -1) || (String(item.ulica).toLowerCase().indexOf(part) > -1) || (String(item.konto).toLowerCase().replaceArray(find,replace).indexOf(partReplaced) > -1) || (String(item.miasto).toLowerCase().replaceArray(find,replace).indexOf(partReplaced) > -1) || (String(item.ulica).toLowerCase().replaceArray(find,replace).indexOf(partReplaced) > -1) ) {
+				emptyArr.push(item);
+			}
+		});
+		return emptyArr;
+	};
+	function sortByKey(array, key) {
+		return array.sort(function(a, b) {
+			var x = a[key]; var y = b[key];
+			return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+		});
+	};
+	function warsztaty_filter(value){
+		_warsztaty = filterValuePart(warsztaty,value);
+		_search = true;
+		renderWarsztaty(true);
+	}
+	function warsztaty_order(type){
+		_order = type;
+		var render = true;
+		$("#address2").remove();
+		if(type == 2){
+			$('#order').append('<input type="text" id="address2" placeholder="Wprowadź adres (autouzupełnianie)" style="margin:0px" />');
+			var input2 = $("#address2").get(0);
+			var autocomplete2 = new google.maps.places.Autocomplete(input2);
+			google.maps.event.addListener(autocomplete2, 'place_changed', function() {
+				var place2 = autocomplete2.getPlace();
+				if (!place2.geometry) {
+					use_warsztaty = sortByKey(use_warsztaty,'miasto');
+				} else {
+					var rLat = place2.geometry.location.lat();
+					var rLng = place2.geometry.location.lng();
+					var point = new google.maps.LatLng(rLat,rLng);
+					currentPosition = point;
+					return renderWarsztaty();
 				}
 			});
-			return emptyArr;
-		};
-		function sortByKey(array, key) {
-			return array.sort(function(a, b) {
-				var x = a[key]; var y = b[key];
-				return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-			});
-		};
-		function warsztaty_filter(value){
-			_warsztaty = filterValuePart(warsztaty,value);
-			_search = true;
-			renderWarsztaty(true);
+			if(navigator.geolocation){
+				navigator.geolocation.getCurrentPosition(setcurrentPosition,function(a){});
+			}
+			if(currentPosition){
+				if(typeof currentPosition.coords != 'undefined') {
+					var mylat = currentPosition.coords.latitude;
+					var mylong = currentPosition.coords.longitude;
+				} else {
+					var mylat = currentPosition.lat();
+					var mylong = currentPosition.lng();
+				}
+				var point = new google.maps.LatLng(mylat,mylong);
+				currentPosition = point;
+			}
 		}
-		function warsztaty_order(type){
-			_order = type;
-			var render = true;
-			$("#address2").remove();
-			if(type == 2){
-				$('#order').append('<input type="text" id="address2" placeholder="Wprowadź adres (autouzupełnianie)" />');
-				var input2 = $("#address2").get(0);
-				var autocomplete2 = new google.maps.places.Autocomplete(input2);
-				google.maps.event.addListener(autocomplete2, 'place_changed', function() {
-					var place2 = autocomplete2.getPlace();
-					if (!place2.geometry) {
-						use_warsztaty = sortByKey(use_warsztaty,'miasto');
+		if(render){
+			renderWarsztaty();
+		}
+	}
+	function setcurrentPosition(pos){
+		currentPosition = pos;
+	}
+	function checkConnection() {
+		if(typeof navigator.connection == 'undefined' || typeof navigator.connection.type == 'undefined') {
+			return 'fail';
+		}
+		var networkState = navigator.connection.type;
+		var states = {};
+		states[Connection.UNKNOWN]  = 'Unknown connection';
+		states[Connection.ETHERNET] = 'Ethernet connection';
+		states[Connection.WIFI]     = 'WiFi connection';
+		states[Connection.CELL_2G]  = 'Cell 2G connection';
+		states[Connection.CELL_3G]  = 'Cell 3G connection';
+		states[Connection.CELL_4G]  = 'Cell 4G connection';
+		states[Connection.CELL]     = 'Cell generic connection';
+		states[Connection.NONE]     = 'fail';
+		return states[networkState];
+	}
+	function gotConnection(){
+		var a = checkConnection();
+		if(a == 'fail'){return false;}
+		return true;
+	}
+	function feedArtykuly(){
+		if(gotConnection()){
+			$.ajax({
+				url: artykulyUrl,
+				type: 'GET',
+				async: false,
+				cache: false,
+				dataType: 'xml',
+				success: function(response){
+					if(typeof response != 'undefined'){
+						artykuly = response;
+						artykuly_loaded = true;
 					} else {
-						var rLat = place2.geometry.location.lat();
-						var rLng = place2.geometry.location.lng();
-						var point = new google.maps.LatLng(rLat,rLng);
-						currentPosition = point;
-						return renderWarsztaty();
+						artykuly_loaded = false;
+					}
+				},
+				error: function(){
+					artykuly_loaded = false;
+				}
+			});
+		} else {
+			window.plugins.toast.showLongCenter('Brak połączenia z internetem.',function(a){},function(b){});
+			artykuly_loaded = false;
+		}
+	}
+	function renderArtykuly(){
+		if(artykuly_loaded) {
+			var per_page = 10;
+			var list = document.createElement('ul');
+			var	xmlDoc = $(artykuly).children();
+			var c = $(xmlDoc).find('item');
+			var months = ["Stycznia", "Lutego", "Marca", "Kwietnia", "Maja", "Czerwca", "Lipca", "Sierpnia", "Września", "Października", "Listopada", "Grudnia"];
+			var page_count = 0;
+			var page_data = 0;
+			for(var i=0;i<c.length;i++){
+				var d = $(c[i]);
+				var title = $(d[0]).find('title').text();
+				var link = $(d[0]).find('link').text();
+				var pubDate = $(d[0]).find('pubDate').text();
+				var _date = new Date(Date.parse(pubDate));
+				var date_string = _date.getDate() + " " + months[_date.getMonth()] + " " + _date.getFullYear();
+				var li = document.createElement('li');
+				li.innerHTML = '<a onclick="window.open(\''+link+'\',\'_system\',\'location=no\')"><i class="fa fa-chevron-circle-right pull-right"></i><h6>'+title+'</h6><span>'+date_string+'</span></a>';
+				if(page_count<per_page){
+					li.style.display = 'block';
+				}
+				if(page_count%per_page==0){
+					page_data++;
+				}
+				li.setAttribute("data-page",page_data);
+				list.appendChild(li);
+				page_count++;
+			}
+			artykulyDiv.innerHTML = '<ul>'+list.innerHTML+'</ul>';
+			if(!articles_pagination_loaded){
+				$("body").prepend('<div class="text-center pagination_outer articles_pagination_outer"><div class="articles_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="'+Math.round((c.length/per_page))+'" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div></div>');
+				articles_pagination_loaded = true;
+				$('.articles_pagination').jqPagination({
+					paged:function(page) {
+						$('#artykuly ul li').hide();
+						$('#artykuly ul li[data-page="'+page+'"]').show();
 					}
 				});
-				if(navigator.geolocation){
-					navigator.geolocation.getCurrentPosition(setcurrentPosition,function(a){});
+			}
+		} else {
+			artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności.<br /><br /><a onclick="locationreload(\'page2\');"><i class="fa fa-refresh"></i> odśwież</a></div>';
+		}
+	}
+	function checkVersion(){
+		$.ajax({
+			url: warsztatyUrl,
+			type: 'GET',
+			async: false,
+			cache: false,
+			data: {type:"version"},
+			dataType: 'json',
+			success: function(response){
+				if(supports_html5_storage()){
+					if(typeof localStorage["version"] != 'undefined' ){
+						var _local_version = JSON.parse(localStorage["version"]);
+						if( parseInt(_local_version.version) != parseInt(response.version) ) {
+							localStorage["version"] = JSON.stringify(response);
+							new_version = true;
+						}
+					} else {
+						localStorage["version"] = JSON.stringify(response);
+						new_version = true;
+					}
 				}
-				if(currentPosition){
+			}
+		});
+	}
+	function feedWarsztaty(){
+		if(gotConnection()){
+			$.ajax({
+				url: warsztatyUrl,
+				type: 'GET',
+				async: false,
+				cache: false,
+				data: {type:"list"},
+				dataType: 'json',
+				success: function(response){
+					if(typeof response != 'undefined'){
+						warsztaty = response;
+						warsztaty_loaded = true;
+					} else {
+						warsztaty_loaded = false;
+					}
+				},
+				error: function(){
+					warsztaty_loaded = false;
+				}
+			});
+		} else {
+			warsztaty_loaded = false;
+		}
+	}
+	function renderWarsztaty(){
+		if(!warsztaty_pagination_loaded){
+			$("body").prepend('<div class="text-center pagination_outer warsztaty_pagination_outer"><div class="relative"><a class="toggleForm" data-state="0">&#x25B2;</a><div class="warsztaty_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div><input type="search" placeholder="nazwa, miasto lub ulica" id="warsztat_search" onchange="return warsztaty_filter(this.value);" /><div id="order"><select onchange="return warsztaty_order(this.value);"><option value="1">alfabetycznie wg miast</option><option value="2">najmniejsza odległość</option></select></div></div></div>');
+			if(!mapRenderWarsztaty){
+				$(".warsztaty_pagination_outer").fadeIn(200);
+			}
+			$(".toggleForm").on("click",function(){
+				var state = $(this).attr("data-state");
+				if(state == 0){
+					$(this).attr("data-state",1).html("&#x25BC;");
+					$(".warsztaty_pagination_outer").animate({
+						"bottom":0
+					},200,"easeInExpo");
+					$("#warsztaty ul").animate({
+						"margin-bottom":(_order==1 ? 130 : 167)
+					},200,"easeInExpo");
+				} else {
+					$(this).attr("data-state",0).html("&#x25B2;");
+					$(".warsztaty_pagination_outer").animate({
+						"bottom":(_order==1 ? -95 : -132)
+					},200,"easeOutExpo");
+					$("#warsztaty ul").animate({
+						"margin-bottom":35
+					},200,"easeOutExpo");
+				}
+			});
+			warsztaty_pagination_loaded = true;
+		}
+		if(_warsztaty.length <= 0 && !_search){
+			_warsztaty = warsztaty;
+		}
+		if(!_search){
+			_warsztaty = filterValuePart(_warsztaty,'');
+		}
+		var len = Object.keys(_warsztaty).length;
+		if( len > 0 ) {
+			if(_order == 1) {
+				use_warsztaty = sortByKey(_warsztaty,'miasto');
+			} else if(_order == 2) {
+				if(currentPosition) {
 					if(typeof currentPosition.coords != 'undefined') {
 						var mylat = currentPosition.coords.latitude;
 						var mylong = currentPosition.coords.longitude;
@@ -137,497 +332,293 @@ var	warsztaty = [],
 						var mylat = currentPosition.lat();
 						var mylong = currentPosition.lng();
 					}
-					var point = new google.maps.LatLng(mylat,mylong);
-					currentPosition = point;
-				}
-			}
-			if(render){
-				renderWarsztaty();
-			}
-		}
-		function setcurrentPosition(pos){
-			currentPosition = pos;
-		}
-		function checkConnection() {
-			if(typeof navigator.connection == 'undefined' || typeof navigator.connection.type == 'undefined') {
-				return 'fail';
-			}
-			var networkState = navigator.connection.type;
-			var states = {};
-			states[Connection.UNKNOWN]  = 'Unknown connection';
-			states[Connection.ETHERNET] = 'Ethernet connection';
-			states[Connection.WIFI]     = 'WiFi connection';
-			states[Connection.CELL_2G]  = 'Cell 2G connection';
-			states[Connection.CELL_3G]  = 'Cell 3G connection';
-			states[Connection.CELL_4G]  = 'Cell 4G connection';
-			states[Connection.CELL]     = 'Cell generic connection';
-			states[Connection.NONE]     = 'fail';
-			return states[networkState];
-		}
-		function gotConnection(){
-			var a = checkConnection();
-			if(a == 'fail'){return false;}
-			return true;
-		}
-		function feedArtykuly(){
-			if(gotConnection()){
-				$.ajax({
-					url: artykulyUrl,
-					type: 'GET',
-					async: false,
-					cache: false,
-					dataType: 'xml',
-					success: function(response){
-						if(typeof response != 'undefined'){
-							artykuly = response;
-							artykuly_loaded = true;
-						} else {
-							artykuly_loaded = false;
-						}
-					},
-					error: function(){
-						artykuly_loaded = false;
-					}
-				});
-			} else {
-				window.plugins.toast.showLongCenter('Brak połączenia z internetem.',function(a){},function(b){});
-				artykuly_loaded = false;
-			}
-		}
-		function renderArtykuly(){
-			if(artykuly_loaded) {
-				var per_page = 10;
-				var list = document.createElement('ul');
-				var	xmlDoc = $(artykuly).children();
-				var c = $(xmlDoc).find('item');
-				var months = ["Stycznia", "Lutego", "Marca", "Kwietnia", "Maja", "Czerwca", "Lipca", "Sierpnia", "Września", "Października", "Listopada", "Grudnia"];
-				var page_count = 0;
-				var page_data = 0;
-				for(var i=0;i<c.length;i++){
-					var d = $(c[i]);
-					var title = $(d[0]).find('title').text();
-					var link = $(d[0]).find('link').text();
-					var pubDate = $(d[0]).find('pubDate').text();
-					var _date = new Date(Date.parse(pubDate));
-					var date_string = _date.getDate() + " " + months[_date.getMonth()] + " " + _date.getFullYear();
-					var li = document.createElement('li');
-					li.innerHTML = '<a onclick="window.open(\''+link+'\',\'_system\',\'location=no\')"><i class="fa fa-chevron-circle-right pull-right"></i><h6>'+title+'</h6><span>'+date_string+'</span></a>';
-					if(page_count<per_page){
-						li.style.display = 'block';
-					}
-					if(page_count%per_page==0){
-						page_data++;
-					}
-					li.setAttribute("data-page",page_data);
-					list.appendChild(li);
-					page_count++;
-				}
-				artykulyDiv.innerHTML = '<ul>'+list.innerHTML+'</ul>';
-				if(!articles_pagination_loaded){
-					$("body").prepend('<div class="text-center pagination_outer articles_pagination_outer"><div class="articles_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" data-max-page="'+Math.round((c.length/per_page))+'" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div></div>');
-					articles_pagination_loaded = true;
-					$('.articles_pagination').jqPagination({
-						paged:function(page) {
-							$('#artykuly ul li').hide();
-							$('#artykuly ul li[data-page="'+page+'"]').show();
-						}
+					var latlng = new google.maps.LatLng(mylat,mylong);
+					$.each(_warsztaty,function(i,item){
+						var itemPos = new google.maps.LatLng(item.lat,item.lng);
+						var dist = google.maps.geometry.spherical.computeDistanceBetween(latlng, itemPos);
+						item.odleglosc = dist;
 					});
+					use_warsztaty = sortByKey(_warsztaty,'odleglosc');
 				}
-			} else {
-				artykulyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać najnowsze aktualności.<br /><br /><a onclick="locationreload(\'page2\');"><i class="fa fa-refresh"></i> odśwież</a></div>';
 			}
-		}
-		function checkVersion(){
-			$.ajax({
-				url: warsztatyUrl,
-				type: 'GET',
-				async: false,
-				cache: false,
-				data: {type:"version"},
-				dataType: 'json',
-				success: function(response){
-					if(supports_html5_storage()){
-						if(typeof localStorage["version"] != 'undefined' ){
-							var _local_version = JSON.parse(localStorage["version"]);
-							if( parseInt(_local_version.version) != parseInt(response.version) ) {
-								localStorage["version"] = JSON.stringify(response);
-								new_version = true;
-							}
-						} else {
-							localStorage["version"] = JSON.stringify(response);
-							new_version = true;
-						}
-					}
+			var per_page = 10;
+			var page_count = 0;
+			var page_data = 0;
+			var list = document.createElement('ul');
+			$.each(use_warsztaty,function(i,item){
+				var li = document.createElement('li');
+				li.innerHTML = '<a href="#warsztat" onclick="renderWarsztat('+i+')"><h6>'+item.miasto.toLowerCase()+', '+item.ulica.toLowerCase()+'</h6><span>'+item.konto.toUpperCase()+'</span></a>';
+				if(page_count<per_page){
+					li.style.display = 'block';
 				}
+				if(page_count%per_page==0){
+					page_data++;
+				}
+				li.setAttribute("data-page",page_data);
+				list.appendChild(li);
+				page_count++;
 			});
+			warsztatyDiv.innerHTML = '<ul>'+list.innerHTML+'</ul>';
+			$('.warsztaty_pagination').jqPagination({
+				paged:function(page) {
+					$('#warsztaty ul li').hide();
+					$('#warsztaty ul li[data-page="'+page+'"]').show();
+				},
+				max_page:Math.round((len/per_page))
+			});
+		} else {
+			$("#warsztaty").html('<div class="panel text-center">Brak warsztatów.</div>');
 		}
-		function feedWarsztaty(){
-			if(gotConnection()){
-				$.ajax({
-					url: warsztatyUrl,
-					type: 'GET',
-					async: false,
-					cache: false,
-					data: {type:"list"},
-					dataType: 'json',
-					success: function(response){
-						if(typeof response != 'undefined'){
-							warsztaty = response;
-							warsztaty_loaded = true;
-						} else {
+	}
+	function renderWarsztat(id){
+		var item = use_warsztaty[id];
+		$("#warsztat .content").empty();
+		$("#warsztat .content").append('<h2>'+item.konto+'</h2><p>'+item.ulica+'<br />'+item.kod.substr(0,2)+'-'+item.kod.substr(2)+' '+item.miasto+'</p><table><tr><td>otwarte </td><td>'+item.open+'</td></tr><tr><td>w soboty </td><td>'+item.opensob+'</td></tr></table>');
+		if(item.mechanika==1 || item.przeglad==1 || item.wulkanizacja==1 || item.klimatyzacja==1 || item.geometria==1 || item.diagnostyka==1 || item.elektryka==1 || item.spaliny==1 || item.blacharstwo==1 || item.lakiernictwo==1 || item.szyby==1) {
+			var list = document.createElement('ul');
+			list.style.marginTop = "15px";
+			list.style.marginLeft = "0px";
+			list.style.paddingLeft = "17px";
+			list.style.listStyleType = "square";
+			if(item.mechanika==1){
+				var li=document.createElement('li');li.innerHTML='mechanika';list.appendChild(li);
+			}
+			if(item.blacharstwo==1){
+				var li=document.createElement('li');li.innerHTML='blacharstwo';list.appendChild(li);
+			}
+			if(item.lakiernictwo==1){
+				var li=document.createElement('li');li.innerHTML='lakiernictwo';list.appendChild(li);
+			}
+			if(item.przeglad==1){
+				var li=document.createElement('li');li.innerHTML='przeglądy';list.appendChild(li);
+			}
+			if(item.diagnostyka==1){
+				var li=document.createElement('li');li.innerHTML='diagnostyka';list.appendChild(li);
+			}
+			if(item.wulkanizacja==1){
+				var li=document.createElement('li');li.innerHTML='wulkanizacja';list.appendChild(li);
+			}
+			if(item.geometria==1){
+				var li=document.createElement('li');li.innerHTML='geometria kół';list.appendChild(li);
+			}
+			if(item.spaliny==1){
+				var li=document.createElement('li');li.innerHTML='układy wydechowe';list.appendChild(li);
+			}
+			if(item.elektryka==1){
+				var li=document.createElement('li');li.innerHTML='elektryka';list.appendChild(li);
+			}
+			if(item.klimatyzacja==1){
+				var li=document.createElement('li');li.innerHTML='klimatyzacje';list.appendChild(li);
+			}
+			if(item.szyby==1){
+				var li=document.createElement('li');li.innerHTML='szyby';list.appendChild(li);
+			}
+			$("#warsztat .content").append(list);
+		}
+		$(".footer_phone .telnumber").html(''+item.kom.substr(0,3)+' '+item.kom.substr(3,3)+' '+item.kom.substr(6,3)+'');
+		$(".footer_phone").click(function(){dial(item.kom);});
+		$(".footer_paper_plane").attr("href","geo:0,0?q="+encodeURI(item.miasto+', '+item.ulica));
+		$(".footer_map").attr("href","#page4").click(function(){showPoint(id);});
+	}
+	function dial(number){
+		window.open('tel:+48'+number,'_system','location=no');
+		window.history.back();
+	}
+	function warsztatMail(id){
+		var	item = use_warsztaty[id],
+			mailbody = '<p>Warsztat:<br />'+item.konto+'<br />'+item.ulica+'<br />'+item.kod.substr(0,2)+'-'+item.kod.substr(2)+' '+item.miasto+'</p>';
+		window.plugin.email.isServiceAvailable(
+			function(isAvailable){
+				window.plugin.email.open({
+					to:[form_email],
+					subject:'Zapytanie z aplikacji mobilnej Inter Cars sieć warsztatów.',
+					body:mailbody,
+					isHtml:true
+				});
+			}
+		);
+	}
+	function warsztatyLoadError(){
+		if(gotConnection()) {
+			warsztatyDiv.innerHTML = '<div class="panel text-center">Nie udało się wgrać listy warsztatów.</div>';
+		} else {
+			warsztatyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać listę warsztatów.<br /><br /><a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
+		}
+	}
+	function fileExists(fe){
+		fe.file(function(file){
+			var reader = new FileReader();
+			reader.onloadend = function(e){
+				warsztaty = JSON.parse(this.result);
+				warsztaty_loaded = true;
+				renderWarsztaty();
+			};
+			reader.readAsText(file);
+		},warsztatyFailFS);
+	}
+	function fileNotExists(){
+		feedWarsztaty();
+		if(warsztaty_loaded){
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+				fs.root.getFile(warsztaty_path,{create:true,exclusive:true},function(fe){
+					fe.createWriter(function(fw){
+						fw.onerror = function(e){
 							warsztaty_loaded = false;
-						}
-					},
-					error: function(){
-						warsztaty_loaded = false;
-					}
-				});
-			} else {
-				warsztaty_loaded = false;
-			}
-		}
-		function renderWarsztaty(){
-			if(!warsztaty_pagination_loaded){
-				$("body").prepend('<div class="text-center pagination_outer warsztaty_pagination_outer"><div class="relative"><a class="toggleForm" data-state="0">&#x25B2;</a><div class="warsztaty_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div><input type="search" placeholder="nazwa, miasto lub ulica" id="warsztat_search" onchange="return warsztaty_filter(this.value);" /><div id="order"><select onchange="return warsztaty_order(this.value);"><option value="1">alfabetycznie wg miast</option><option value="2">najmniejsza odległość</option></select></div></div></div>');
-				if(!mapRenderWarsztaty){
-					$(".warsztaty_pagination_outer").fadeIn(200);
-				}
-				$(".toggleForm").on("click",function(){
-					var state = $(this).attr("data-state");
-					if(state == 0){
-						$(this).attr("data-state",1).html("&#x25BC;");
-						$(".warsztaty_pagination_outer").animate({
-							"bottom":0
-						},200,"easeInExpo");
-						$("#warsztaty ul").animate({
-							"margin-bottom":130
-						},200,"easeInExpo");
-					} else {
-						$(this).attr("data-state",0).html("&#x25B2;");
-						$(".warsztaty_pagination_outer").animate({
-							"bottom":-95
-						},200,"easeOutExpo");
-						$("#warsztaty ul").animate({
-							"margin-bottom":35
-						},200,"easeOutExpo");
-					}
-				});
-				warsztaty_pagination_loaded = true;
-			}
-			if(_warsztaty.length <= 0 && !_search){
-				_warsztaty = warsztaty;
-			}
-			if(!_search){
-				_warsztaty = filterValuePart(_warsztaty,'');
-			}
-			var len = Object.keys(_warsztaty).length;
-			if( len > 0 ) {
-				if(_order == 1) {
-					use_warsztaty = sortByKey(_warsztaty,'miasto');
-				} else if(_order == 2) {
-					if(currentPosition) {
-						if(typeof currentPosition.coords != 'undefined') {
-							var mylat = currentPosition.coords.latitude;
-							var mylong = currentPosition.coords.longitude;
-						} else {
-							var mylat = currentPosition.lat();
-							var mylong = currentPosition.lng();
-						}
-						var latlng = new google.maps.LatLng(mylat,mylong);
-						$.each(_warsztaty,function(i,item){
-							var itemPos = new google.maps.LatLng(item.lat,item.lng);
-							var dist = google.maps.geometry.spherical.computeDistanceBetween(latlng, itemPos);
-							item.odleglosc = dist;
-						});
-						use_warsztaty = sortByKey(_warsztaty,'odleglosc');
-					}
-				}
-				var per_page = 10;
-				var page_count = 0;
-				var page_data = 0;
-				var list = document.createElement('ul');
-				$.each(use_warsztaty,function(i,item){
-					var li = document.createElement('li');
-					li.innerHTML = '<a href="#warsztat" onclick="renderWarsztat('+i+')"><h6>'+item.miasto.toLowerCase()+', '+item.ulica.toLowerCase()+'</h6><span>'+item.konto.toUpperCase()+'</span></a>';
-					if(page_count<per_page){
-						li.style.display = 'block';
-					}
-					if(page_count%per_page==0){
-						page_data++;
-					}
-					li.setAttribute("data-page",page_data);
-					list.appendChild(li);
-					page_count++;
-				});
-				warsztatyDiv.innerHTML = '<ul>'+list.innerHTML+'</ul>';
-				$('.warsztaty_pagination').jqPagination({
-					paged:function(page) {
-						$('#warsztaty ul li').hide();
-						$('#warsztaty ul li[data-page="'+page+'"]').show();
-					},
-					max_page:Math.round((len/per_page))
-				});
-			} else {
-				$("#warsztaty").html('<div class="panel text-center">Brak warsztatów.</div>');
-			}
-		}
-		function renderWarsztat(id){
-			var item = use_warsztaty[id];
-			$("#warsztat .content").empty();
-			$("#warsztat .content").append('<h2>'+item.konto+'</h2><p>'+item.ulica+'<br />'+item.kod.substr(0,2)+'-'+item.kod.substr(2)+' '+item.miasto+'</p><table><tr><td>otwarte </td><td>'+item.open+'</td></tr><tr><td>w soboty </td><td>'+item.opensob+'</td></tr></table>');
-			if(item.mechanika==1 || item.przeglad==1 || item.wulkanizacja==1 || item.klimatyzacja==1 || item.geometria==1 || item.diagnostyka==1 || item.elektryka==1 || item.spaliny==1 || item.blacharstwo==1 || item.lakiernictwo==1 || item.szyby==1) {
-				var list = document.createElement('ul');
-				list.style.marginTop = "15px";
-				list.style.marginLeft = "0px";
-				list.style.paddingLeft = "17px";
-				list.style.listStyleType = "square";
-				if(item.mechanika==1){
-					var li=document.createElement('li');li.innerHTML='mechanika';list.appendChild(li);
-				}
-				if(item.blacharstwo==1){
-					var li=document.createElement('li');li.innerHTML='blacharstwo';list.appendChild(li);
-				}
-				if(item.lakiernictwo==1){
-					var li=document.createElement('li');li.innerHTML='lakiernictwo';list.appendChild(li);
-				}
-				
-				if(item.przeglad==1){
-					var li=document.createElement('li');li.innerHTML='przeglądy';list.appendChild(li);
-				}
-				if(item.diagnostyka==1){
-					var li=document.createElement('li');li.innerHTML='diagnostyka';list.appendChild(li);
-				}
-				if(item.wulkanizacja==1){
-					var li=document.createElement('li');li.innerHTML='wulkanizacja';list.appendChild(li);
-				}
-				if(item.geometria==1){
-					var li=document.createElement('li');li.innerHTML='geometria kół';list.appendChild(li);
-				}
-				if(item.spaliny==1){
-					var li=document.createElement('li');li.innerHTML='układy wydechowe';list.appendChild(li);
-				}
-				if(item.elektryka==1){
-					var li=document.createElement('li');li.innerHTML='elektryka';list.appendChild(li);
-				}
-				if(item.klimatyzacja==1){
-					var li=document.createElement('li');li.innerHTML='klimatyzacje';list.appendChild(li);
-				}
-				if(item.szyby==1){
-					var li=document.createElement('li');li.innerHTML='szyby';list.appendChild(li);
-				}
-				$("#warsztat .content").append(list);
-			}
-			$(".footer_phone .telnumber").html(''+item.kom.substr(0,3)+' '+item.kom.substr(3,3)+' '+item.kom.substr(6,3)+'');
-			$(".footer_phone").click(function(){dial(item.kom);});
-			$(".footer_paper_plane").attr("href","geo:0,0?q="+encodeURI(item.miasto+', '+item.ulica));
-			$(".footer_map").attr("href","#page4").click(function(){showPoint(id);});
-		}
-		function dial(number){
-			window.open('tel:+48'+number,'_system','location=no');
-			window.history.back();
-		}
-		function warsztatMail(id){
-			var	item = use_warsztaty[id],
-				mailbody = '<p>Warsztat:<br />'+item.konto+'<br />'+item.ulica+'<br />'+item.kod.substr(0,2)+'-'+item.kod.substr(2)+' '+item.miasto+'</p>';
-			window.plugin.email.isServiceAvailable(
-				function(isAvailable){
-					window.plugin.email.open({
-						to:[form_email],
-						subject:'Zapytanie z aplikacji mobilnej Inter Cars sieć warsztatów.',
-						body:mailbody,
-						isHtml:true
-					});
-				}
-			);
-		}
-		function warsztatyLoadError(){
-			if(gotConnection()) {
-				warsztatyDiv.innerHTML = '<div class="panel text-center">Nie udało się wgrać listy warsztatów.</div>';
-			} else {
-				warsztatyDiv.innerHTML = '<div class="panel text-center">Włącz internet aby pobrać listę warsztatów.<br /><br /><a onclick="location.reload();"><i class="fa fa-refresh"></i> odśwież</a></div>';
-			}
-		}
-		function fileExists(fe){
-			fe.file(function(file){
-				var reader = new FileReader();
-				reader.onloadend = function(e){
-					warsztaty = JSON.parse(this.result);
-					warsztaty_loaded = true;
-					renderWarsztaty();
-				};
-				reader.readAsText(file);
-			},warsztatyFailFS);
-		}
-		function fileNotExists(){
-			feedWarsztaty();
-			if(warsztaty_loaded){
-				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-					fs.root.getFile(warsztaty_path,{create:true,exclusive:true},function(fe){
-						fe.createWriter(function(fw){
-							fw.onerror = function(e){
-								warsztaty_loaded = false;
-							};
-							var inputData = JSON.stringify(warsztaty);
-							fw.write(inputData);
-							renderWarsztaty();
-						},warsztatyFailFS);
+						};
+						var inputData = JSON.stringify(warsztaty);
+						fw.write(inputData);
+						renderWarsztaty();
 					},warsztatyFailFS);
 				},warsztatyFailFS);
-			} else {
-				warsztatyLoadError();
-			}
-		}
-		function warsztatyFailFS(e){
-			warsztaty_loaded = false;
+			},warsztatyFailFS);
+		} else {
 			warsztatyLoadError();
 		}
-		
-		function clearOverlays(){
-			for(var i=0;i<markers.length;i++){
-				markers[i].setMap(null);
+	}
+	function warsztatyFailFS(e){
+		warsztaty_loaded = false;
+		warsztatyLoadError();
+	}
+	function clearOverlays(){
+		for(var i=0;i<markers.length;i++){
+			markers[i].setMap(null);
+		}
+		markers.length = 0;
+	}
+	function createMarker(location) {
+		var mapicon = $.trim(location.umowa).toLowerCase().replace(/ /g,'').replace(/-/g,'');
+		var latlng = new google.maps.LatLng(parseFloat(location.lat), parseFloat(location.lng));
+		var marker = new google.maps.Marker({
+			map: map,
+			position: latlng,
+			icon:icons[mapicon]
+		});
+		var infoWindowContent = '<div class="noscrollbar">' + location.konto + '<br /><br /><span class="capitalize">'+location.ulica.toLowerCase()+'<br />'+location.kod.substr(0,2)+'-'+location.kod.substr(2)+' '+location.miasto.toLowerCase()+'</span><div><a onclick="dial(\''+location.kom+'\')"><img src="img/phone.png" alt="" />'+location.kom+'</a><a href="geo:0,0?q='+encodeURI(location.miasto+', '+location.ulica)+'"><img src="img/paper_plane.png" alt="" />nawiguj</a></div></div>';
+		var infowindow = new google.maps.InfoWindow({
+			content: infoWindowContent
+		});
+		google.maps.event.addListener(marker, 'click', function() {
+			infowindow.open(map, this);
+		});
+		markers.push(marker);
+	}
+	function closestMarker(position,warsztatyArray){
+		var closestMarker = -1;
+		var closestDistance = Number.MAX_VALUE;
+		var len1 = Object.keys(warsztatyArray).length;
+		for(var i=0; i<len1; i++){
+			var locationLatLng = new google.maps.LatLng(parseFloat(warsztatyArray[i].lat), parseFloat(warsztatyArray[i].lng));
+			var dist = google.maps.geometry.spherical.computeDistanceBetween(position, locationLatLng);
+			if(dist < closestDistance){
+				closestMarker = i;
+				closestDistance = dist;
 			}
-			markers.length = 0;
 		}
-		function createMarker(location) {
-			var mapicon = $.trim(location.umowa).toLowerCase().replace(/ /g,'').replace(/-/g,'');
-			var latlng = new google.maps.LatLng(parseFloat(location.lat), parseFloat(location.lng));
-			var marker = new google.maps.Marker({
-				map: map,
-				position: latlng,
-				icon:icons[mapicon]
-			});
-			var infoWindowContent = '<div class="noscrollbar">' + location.konto + '<br /><br /><span class="capitalize">'+location.ulica.toLowerCase()+'<br />'+location.kod.substr(0,2)+'-'+location.kod.substr(2)+' '+location.miasto.toLowerCase()+'</span><div><a onclick="dial(\''+location.kom+'\')"><img src="img/phone.png" alt="" />'+location.kom+'</a><a href="geo:0,0?q='+encodeURI(location.miasto+', '+location.ulica)+'"><img src="img/paper_plane.png" alt="" />nawiguj</a></div></div>';
-			var infowindow = new google.maps.InfoWindow({
-				content: infoWindowContent
-			});
-			google.maps.event.addListener(marker, 'click', function() {
-				infowindow.open(map, this);
-			});
-			markers.push(marker);
+		return closestMarker;
+	}
+	function displayPosition(pos){
+		currentPosition = pos;
+		var mylat = pos.coords.latitude;
+		var mylong = pos.coords.longitude;
+		var latlng = new google.maps.LatLng(mylat,mylong);
+		var myOptions = {
+			zoom: 12,
+			center: latlng,
+			mapTypeId: google.maps.MapTypeId.ROADMAP,
+			mapTypeControl: false,
+			panControl: false,
+			zoomControl: true,
+			zoomControlOptions: {
+				style: google.maps.ZoomControlStyle.LARGE,
+				position: google.maps.ControlPosition.BOTTOM_RIGHT
+			},
+			scaleControl: true,
+			streetViewControl: false
+		};
+		map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+		clearOverlays();
+		if(use_warsztaty.length <= 0){
+			if(_warsztaty.length <= 0){
+				_warsztaty = warsztaty;
+			}
+			_warsztaty = filterValuePart(_warsztaty,'');
+			use_warsztaty = sortByKey(_warsztaty,'miasto');
 		}
-		function closestMarker(position,warsztatyArray){
-			var closestMarker = -1;
-			var closestDistance = Number.MAX_VALUE;
-			var len1 = Object.keys(warsztatyArray).length;
-			for(var i=0; i<len1; i++){
-				var locationLatLng = new google.maps.LatLng(parseFloat(warsztatyArray[i].lat), parseFloat(warsztatyArray[i].lng));
-				var dist = google.maps.geometry.spherical.computeDistanceBetween(position, locationLatLng);
-				if(dist < closestDistance){
-					closestMarker = i;
-					closestDistance = dist;
+		var l = Object.keys(use_warsztaty).length;
+		for(var i=0; i<l; i++){
+			createMarker(use_warsztaty[i]);
+		}
+		var markerCluster = new MarkerClusterer(map, markers);
+		if(typeof warsztatShowPointId !== 'undefined' && ((warsztatShowPointId && warsztatShowPointId > -1) || (parseInt(warsztatShowPointId)==0))) {
+			var closestMarker1 = warsztatShowPointId;
+		} else {
+			var closestMarker1 = closestMarker(latlng, use_warsztaty);
+		}
+		warsztatShowPointId = false;
+		var marker = new google.maps.Marker({
+			position: latlng,
+			map: map,
+			title: 'Twoja lokalizacja'
+		});
+		var path = new google.maps.MVCArray();
+		var service = new google.maps.DirectionsService();
+		var poly = new google.maps.Polyline({ map: map, strokeColor: '#FF8200' });
+		var src = latlng;
+		var des = new google.maps.LatLng(use_warsztaty[closestMarker1].lat,use_warsztaty[closestMarker1].lng);
+		path.push(src);
+		poly.setPath(path);
+		service.route({
+			origin: src,
+			destination: des,
+			travelMode: google.maps.DirectionsTravelMode.DRIVING
+		}, function (result, status) {
+			if (status == google.maps.DirectionsStatus.OK) {
+				for (var i = 0, len = result.routes[0].overview_path.length; i < len; i++) {
+					path.push(result.routes[0].overview_path[i]);
 				}
 			}
-			return closestMarker;
+		});
+		var LatLngList = new Array(src,des);
+		var bounds = new google.maps.LatLngBounds();
+		for (var i = 0, LtLgLen = LatLngList.length; i < LtLgLen; i++) {
+			bounds.extend(LatLngList[i]);
 		}
-		function displayPosition(pos){
-			currentPosition = pos;
-			var mylat = pos.coords.latitude;
-			var mylong = pos.coords.longitude;
-			var latlng = new google.maps.LatLng(mylat,mylong);
-			var myOptions = {
-				zoom: 12,
-				center: latlng,
-				mapTypeId: google.maps.MapTypeId.ROADMAP,
-				mapTypeControl: false,
-				panControl: false,
-				zoomControl: true,
-				zoomControlOptions: {
-					style: google.maps.ZoomControlStyle.LARGE,
-					position: google.maps.ControlPosition.BOTTOM_RIGHT
-				},
-				scaleControl: true,
-				streetViewControl: false
-			};
-			map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+		map.fitBounds(bounds);
+		$('.input-outer').show();
+		var input = $("#address").get(0);
+		var autocomplete = new google.maps.places.Autocomplete(input);
+		autocomplete.bindTo('bounds', map);
+		google.maps.event.addListener(autocomplete, 'place_changed', function() {
 			clearOverlays();
-			
-			if(use_warsztaty.length <= 0){
-				if(_warsztaty.length <= 0){
-					_warsztaty = warsztaty;
-				}
-				_warsztaty = filterValuePart(_warsztaty,'');
-				use_warsztaty = sortByKey(_warsztaty,'miasto');
-			}
-			
-			var l = Object.keys(use_warsztaty).length;
-			for(var i=0; i<l; i++){
-				createMarker(use_warsztaty[i]);
-			}
-			var markerCluster = new MarkerClusterer(map, markers);
-			if(typeof warsztatShowPointId !== 'undefined' && ((warsztatShowPointId && warsztatShowPointId > -1) || (parseInt(warsztatShowPointId)==0))) {
-				var closestMarker1 = warsztatShowPointId;
-			} else {
-				var closestMarker1 = closestMarker(latlng, use_warsztaty);
-			}
-			warsztatShowPointId = false;
-			
 			var marker = new google.maps.Marker({
-				position: latlng,
-				map: map,
-				title: 'Twoja lokalizacja'
+				map: map
 			});
-			
-			var path = new google.maps.MVCArray();
-			var service = new google.maps.DirectionsService();
-			var poly = new google.maps.Polyline({ map: map, strokeColor: '#FF8200' });
-			var src = latlng;
-			
-			var des = new google.maps.LatLng(use_warsztaty[closestMarker1].lat,use_warsztaty[closestMarker1].lng);
-			path.push(src);
-			poly.setPath(path);
-			service.route({
-				origin: src,
-				destination: des,
-				travelMode: google.maps.DirectionsTravelMode.DRIVING
-			}, function (result, status) {
-				if (status == google.maps.DirectionsStatus.OK) {
-					for (var i = 0, len = result.routes[0].overview_path.length; i < len; i++) {
-						path.push(result.routes[0].overview_path[i]);
-					}
+			var pos = {
+				coords: {
+					latitude: startingLatitude,
+					longitude: startingLongitude,
 				}
-			});
-			var LatLngList = new Array(src,des);
-			var bounds = new google.maps.LatLngBounds();
-			for (var i = 0, LtLgLen = LatLngList.length; i < LtLgLen; i++) {
-				bounds.extend(LatLngList[i]);
+			};
+			marker.setVisible(false);
+			var place = autocomplete.getPlace();
+			if (!place.geometry) {
+				return;
 			}
-			map.fitBounds(bounds);
-			
-			$('.input-outer').show();
-			var input = $("#address").get(0);
-			var autocomplete = new google.maps.places.Autocomplete(input);
-			autocomplete.bindTo('bounds', map);
-			google.maps.event.addListener(autocomplete, 'place_changed', function() {
-				clearOverlays();
-				var marker = new google.maps.Marker({
-					map: map
-				});
-				var pos = {
-					coords: {
-						latitude: startingLatitude,
-						longitude: startingLongitude,
-					}
-				};
-				marker.setVisible(false);
-				var place = autocomplete.getPlace();
-				if (!place.geometry) {
-					return;
-				}
-				if (place.geometry.viewport) {
-					map.fitBounds(place.geometry.viewport);
-				} else {
-					map.setCenter(place.geometry.location);
-				}
-				marker.setPosition(place.geometry.location);
-				marker.setVisible(true);
-				pos.coords.latitude = place.geometry.location.lat();
-				pos.coords.longitude = place.geometry.location.lng();
-				warsztatShowPointId = warsztatShowPointIdCopy;
-				displayPosition(pos);
-			});
-			$("#map_canvas").addClass("loaded");
-		}
-		function geolocationError() {
+			if (place.geometry.viewport) {
+				map.fitBounds(place.geometry.viewport);
+			} else {
+				map.setCenter(place.geometry.location);
+			}
+			marker.setPosition(place.geometry.location);
+			marker.setVisible(true);
+			pos.coords.latitude = place.geometry.location.lat();
+			pos.coords.longitude = place.geometry.location.lng();
+			warsztatShowPointId = warsztatShowPointIdCopy;
+			displayPosition(pos);
+		});
+		$("#map_canvas").addClass("loaded");
+	}
+	function geolocationError() {
 			clearOverlays();
 			if(typeof window.plugins != 'undefined' && typeof window.plugins.toast != 'undefined'){
 				window.plugins.toast.showLongCenter('Nie można ustalić pozycji.',function(a){},function(b){});
@@ -731,16 +722,16 @@ var	warsztaty = [],
 				displayPosition(pos);
 			});
 			$("#map_canvas").addClass("loaded");
-		}
-		function showPoint(id){
-			clearOverlays();
-			markers = [];
-			$("#map_canvas").empty();
-			$("#map_canvas").removeClass("loaded");
-			document.getElementById("map_canvas").innerHTML="";
-			warsztatShowPointId = id;
-		}
-		function locationreload(page){
+	}
+	function showPoint(id){
+		clearOverlays();
+		markers = [];
+		$("#map_canvas").empty();
+		$("#map_canvas").removeClass("loaded");
+		document.getElementById("map_canvas").innerHTML="";
+		warsztatShowPointId = id;
+	}
+	function locationreload(page){
 			var currentPage = $(".ui-page-active").attr('id');
 			switch(currentPage){
 				case "page2":
@@ -823,12 +814,12 @@ var	warsztaty = [],
 					break;
 			}
 			return false;
-		}
-		function mapNotLoaded(){
-			$("#map_canvas").addClass("loaded").html('<div class="panel text-center">Włącz internet aby załadować mapę.<br /><br /><a onclick="locationreload(\'page4\');"><i class="fa fa-refresh"></i> odśwież</a></div>');
-			$(".input-outer").hide();
-		}
-		function reloadScripts(){
+	}
+	function mapNotLoaded(){
+		$("#map_canvas").addClass("loaded").html('<div class="panel text-center">Włącz internet aby załadować mapę.<br /><br /><a onclick="locationreload(\'page4\');"><i class="fa fa-refresh"></i> odśwież</a></div>');
+		$(".input-outer").hide();
+	}
+	function reloadScripts(){
 			$("header ul li a").removeClass("active");
 			var targetID = $(".ui-page-active").attr('id');
 			$('header ul li a[href="'+targetID+'"]').addClass("active");
@@ -1011,9 +1002,7 @@ var	warsztaty = [],
 			$(document).on("pageshow","#warsztat",function(){
 				$("#warsztat footer").animate({"bottom":0},500,"easeOutExpo");
 			});
-		}
-	
-	
+	}
 
 var app = {
     initialize: function() {
@@ -1032,7 +1021,6 @@ var app = {
         },false);
     },
     onDeviceReady: function() {
-		// skrypt
 		reloadScripts();
     },
 	onLoad: function() {

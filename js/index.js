@@ -298,7 +298,7 @@ var	warsztaty = [],
 			if(!mapRenderWarsztaty){
 				$(".warsztaty_pagination_outer").fadeIn(200);
 			}
-			$(".toggleForm").on("click",function(){
+			/*$(".toggleForm").on("click",function(){
 				var state = $(this).attr("data-state");
 				if(state == 0){
 					$(this).attr("data-state",1).html("&#x25BC;");
@@ -317,7 +317,7 @@ var	warsztaty = [],
 						"margin-bottom":35
 					},200,"easeOutExpo");
 				}
-			});
+			});*/
 			warsztaty_pagination_loaded = true;
 		}
 		if(_warsztaty.length <= 0 && !_search){

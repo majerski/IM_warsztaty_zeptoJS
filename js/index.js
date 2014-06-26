@@ -294,7 +294,7 @@ var	warsztaty = [],
 	}
 	function renderWarsztaty(){
 		if(!warsztaty_pagination_loaded){
-			$("body").prepend('<div class="text-center pagination_outer warsztaty_pagination_outer"><div class="relative"><a class="toggleForm" data-state="0">&#x25B2;</a><div class="warsztaty_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div><input type="search" placeholder="nazwa, miasto lub ulica" id="warsztat_search" onchange="return warsztaty_filter(this.value);" /><div id="order"><select onchange="return warsztaty_order(this.value);"><option value="1">alfabetycznie wg miast</option><option value="2">najmniejsza odległość</option></select></div></div></div>');
+			$("body").prepend('<div class="text-center pagination_outer warsztaty_pagination_outer"><div class="relative"><!--<a class="toggleForm" data-state="0">&#x25B2;</a>--><div class="warsztaty_pagination pagination"><a href="#" class="first" data-action="first">&laquo;</a><a href="#" class="previous" data-action="previous">&lsaquo;</a><input type="text" readonly="readonly" /><a href="#" class="next" data-action="next">&rsaquo;</a><a href="#" class="last" data-action="last">&raquo;</a></div></div></div>');
 			if(!mapRenderWarsztaty){
 				$(".warsztaty_pagination_outer").fadeIn(200);
 			}
@@ -366,6 +366,7 @@ var	warsztaty = [],
 				page_count++;
 			});
 			warsztatyDiv.innerHTML = '<ul>'+list.innerHTML+'</ul>';
+			$(warsztatyDiv).prepend('<div id="zawezarka"><input type="search" placeholder="nazwa, miasto lub ulica" id="warsztat_search" onchange="return warsztaty_filter(this.value);" /><div id="order"><select onchange="return warsztaty_order(this.value);"><option value="1">alfabetycznie wg miast</option><option value="2">najmniejsza odległość</option></select></div></div>');
 			$('.warsztaty_pagination').jqPagination({
 				paged:function(page) {
 					$('#warsztaty ul li').hide();

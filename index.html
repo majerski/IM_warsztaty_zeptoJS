@@ -55,6 +55,15 @@
 	</div>
 	<div id="page3" data-role="page">
 		<div class="content">
+			<div id="zawezarka">
+				<input type="search" placeholder="nazwa, miasto lub ulica" id="warsztat_search" onchange="return warsztaty_filter(this.value);" />
+				<div id="order">
+					<select onchange="return warsztaty_order(this.value);">
+						<option value="1">alfabetycznie wg miast</option>
+						<option value="2">najmniejsza odległość</option>
+					</select>
+				</div>
+			</div>
 			<div id="warsztaty"></div>
 		</div>
 	</div>

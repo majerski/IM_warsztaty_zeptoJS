@@ -47,8 +47,8 @@ var	warsztaty = [],
 	fi_path = 'installed.dat',
 	warsztaty_path = 'warsztaty.txt',
 	warsztaty_from_file = false,
-	artykulyUrl = 'http://www.q-service.com.pl/rss/',
-	//artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
+	//artykulyUrl = 'http://www.q-service.com.pl/rss/',
+	artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
 	warsztatyUrl = 'http://arcontact.pl/warsztaty_inter_cars/feed.php',
 	form_email = 'mifdetal@intercars.eu',
 	map,
@@ -111,7 +111,7 @@ var	warsztaty = [],
 		$("#address2").remove();
 		if(type == 2){
 			if(gotConnection()){
-				$('#order').append('<input type="text" id="address2" placeholder="Wprowadź adres (autouzupełnianie)" style="margin:0px" />');
+				$('#order').append('<input type="text" id="address2" placeholder="Wprowadź adres (autouzupełnianie)" />');
 				var input2 = $("#address2").get(0);
 				var autocomplete2 = new google.maps.places.Autocomplete(input2);
 				google.maps.event.addListener(autocomplete2, 'place_changed', function() {
@@ -171,6 +171,9 @@ var	warsztaty = [],
 		return states[networkState];
 	}
 	function gotConnection(){
+		//
+		return true;
+		//
 		var a = checkConnection();
 		if(a == 'fail'){return false;}
 		return true;
@@ -908,6 +911,9 @@ var	warsztaty = [],
 			if(gotConnection()){
 				feedArtykuly();
 				checkVersion();
+				//
+				new_version = true;
+				//
 				if(new_version) {
 					feedWarsztaty();
 				} else {
@@ -1015,6 +1021,8 @@ var	warsztaty = [],
 			});
 	}
 
+	reloadScripts();
+	
 var app = {
     initialize: function() {
         this.bindEvents();
@@ -1032,7 +1040,7 @@ var app = {
         },false);
     },
     onDeviceReady: function() {
-		reloadScripts();
+		//reloadScripts();
     },
 	onLoad: function() {
 		

@@ -47,8 +47,8 @@ var	warsztaty = [],
 	fi_path = 'installed.dat',
 	warsztaty_path = 'warsztaty.txt',
 	warsztaty_from_file = false,
-	//artykulyUrl = 'http://www.q-service.com.pl/rss/',
-	artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
+	artykulyUrl = 'http://www.q-service.com.pl/rss/',
+	//artykulyUrl = 'http://arcontact.pl/warsztaty_inter_cars/rss.php',
 	warsztatyUrl = 'http://arcontact.pl/warsztaty_inter_cars/feed.php',
 	form_email = 'mifdetal@intercars.eu',
 	map,
@@ -171,9 +171,6 @@ var	warsztaty = [],
 		return states[networkState];
 	}
 	function gotConnection(){
-		//
-		return true;
-		//
 		var a = checkConnection();
 		if(a == 'fail'){return false;}
 		return true;
@@ -301,26 +298,6 @@ var	warsztaty = [],
 			if(!mapRenderWarsztaty){
 				$(".warsztaty_pagination_outer").fadeIn(200);
 			}
-			/*$(".toggleForm").on("click",function(){
-				var state = $(this).attr("data-state");
-				if(state == 0){
-					$(this).attr("data-state",1).html("&#x25BC;");
-					$(".warsztaty_pagination_outer").animate({
-						"bottom":0
-					},200,"easeInExpo");
-					$("#warsztaty ul").animate({
-						"margin-bottom":(_order==1 ? 130 : 167)
-					},200,"easeInExpo");
-				} else {
-					$(this).attr("data-state",0).html("&#x25B2;");
-					$(".warsztaty_pagination_outer").animate({
-						"bottom":(_order==1 ? -95 : -132)
-					},200,"easeOutExpo");
-					$("#warsztaty ul").animate({
-						"margin-bottom":35
-					},200,"easeOutExpo");
-				}
-			});*/
 			warsztaty_pagination_loaded = true;
 		}
 		if(_warsztaty.length <= 0 && !_search){
@@ -911,9 +888,6 @@ var	warsztaty = [],
 			if(gotConnection()){
 				feedArtykuly();
 				checkVersion();
-				//
-				new_version = true;
-				//
 				if(new_version) {
 					feedWarsztaty();
 				} else {
@@ -1021,8 +995,6 @@ var	warsztaty = [],
 			});
 	}
 
-	reloadScripts();
-	
 var app = {
     initialize: function() {
         this.bindEvents();
@@ -1040,7 +1012,7 @@ var app = {
         },false);
     },
     onDeviceReady: function() {
-		//reloadScripts();
+		reloadScripts();
     },
 	onLoad: function() {
 		
